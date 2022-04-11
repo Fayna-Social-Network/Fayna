@@ -4,7 +4,7 @@
     <button @click="Login">Login</button>
   </div>
    <div class="loadingPage" v-else-if="!isLoading">
-        Loading...
+    <Loader />
   </div>
 </template>
 
@@ -14,6 +14,7 @@ import { defineComponent } from "vue";
 import loadData from "src/services/bootstrap";
 import { mapState } from 'pinia'
 import { useMainStore } from 'src/stores/Main'
+import Loader from 'src/components/UI/Loader.vue'
 
 export default defineComponent({
 
@@ -40,15 +41,16 @@ export default defineComponent({
         }
       }
     },
+    components:{
+      Loader
+    }
 
 })
 </script>
 
 <style scoped>
 .loadingPage{
-
-    height: 100vh;
-    background-image: linear-gradient(to right, #141e30, #243b55);
-
+  height: 100vh;
+  background: linear-gradient(to right, #004ff9, #fff94c);
 }
 </style>

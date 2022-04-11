@@ -1,7 +1,9 @@
-// This is just an example,
-// so you can safely delete all default props below
+import MainNavBar from 'src/i18n/en-US/mainNavBar'
+import leftSideBarHeader from './leftSideBarHeader';
+import contactList from './contactList'
 
 export default {
-  failed: 'Action failed',
-  success: 'Action was successful'
+  ...MainNavBar,
+  ...leftSideBarHeader,
+  ...contactList
 };

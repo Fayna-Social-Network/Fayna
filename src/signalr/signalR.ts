@@ -1,13 +1,11 @@
-import { Notify } from 'quasar'
-import { IContact } from './../types/contact';
-import Message from './messages/message.service';
+import { Notify } from 'quasar';
+import { IContact } from 'src/types/contact';
+import Message from 'src/services/messages/message.service';
 import { v4 as uuid } from 'uuid';
-import { IMessage } from '../types/message';
-import { useUserContactsStore } from 'src/stores/UserContacts';
-import { useUserMessagesStore } from 'src/stores/UserMessages';
-import { useMainStore } from 'src/stores/Main';
-
-
+import { IMessage } from 'src/types/message';
+import { useUserContactsStore } from 'stores/UserContacts';
+import { useUserMessagesStore } from 'stores/UserMessages';
+import { useMainStore } from 'stores/Main';
 
 export  function InitializeResponseSignalRCommands(contacts: Array<IContact>, nickname: string, signalR: any) {
 
@@ -50,7 +48,7 @@ export  function InitializeResponseSignalRCommands(contacts: Array<IContact>, ni
 
     signalR.on('youAreBlocked', (userId: string) =>{
       contactsStore.delUserFromContactByUserId(userId)
-       Notify.create('You are blocked by user')
+      Notify.create('You are blocked by user')
     })
 
 }
