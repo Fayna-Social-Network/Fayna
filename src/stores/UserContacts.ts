@@ -27,7 +27,28 @@ export const useUserContactsStore = defineStore('userContacts', {
 
       getContactByUserId: (state) => (id: string) =>{
           return state.contacts.find(c => c.userId === id)
+      },
+
+      getContactNameById: (state) => (id: string) => {
+        return state.contacts.find(c => c.contactId === id)?.name
+      },
+
+      getContactIsOnline: (state) => (id: string) => {
+        return state.contacts.find(c => c.contactId === id)?.isOnline
+      },
+
+      getContactAvatar: (state) => (id: string) => {
+        const contact = state.contacts.find(c => c.contactId === id)
+        if(contact){
+          if(contact.avatar){
+            return import.meta.env.VITE_APP_BACKEND_PATH + contact.avatar
+          } else{
+              return import.meta.env.VITE_APP_BACKEND_PATH +
+              'Resources/Images/user-profile.png'
+            }
+        }
       }
+
 
   },
 

@@ -9,7 +9,14 @@
         <div class="header-button">
            <q-btn round color="primary" icon="search"
             @click="searchActivateHandler(true)"
-           />
+           >
+            <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
+              transition-show="flip-right"
+              transition-hide="flip-left"
+            >
+              {{$t('SearchUsers')}}
+            </q-tooltip>
+           </q-btn>
         </div>
       </div>
       <transition
@@ -74,7 +81,7 @@ export default defineComponent({
      async searchUser(){
 
           if(this.searchInputText != ''){
-          const res = await User.findByNickName(this.searchInputText)
+            const res = await User.findByNickName(this.searchInputText)
             this.setSearchUsers(res.data)
           }else{
               const res = await User.getUsersByCountAndPage(20, 1)
@@ -128,8 +135,8 @@ export default defineComponent({
 .search-form{
   position: absolute;
   top: 10px;
-  left: 0;
-  width: 100%;
+  left: 6px;
+  width: 96%;
   padding: 10px;
   background: $primary;
   border-radius: 10px;

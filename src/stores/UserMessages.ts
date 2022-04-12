@@ -1,3 +1,4 @@
+import { IContact } from 'src/types/contact';
 import { useMainStore } from './Main';
 import { defineStore } from "pinia";
 import { DeleteMessageDto } from "src/dtos/deleteMessage.dto";
@@ -41,6 +42,28 @@ export const useUserMessagesStore = defineStore('userMessages', {
 
     getAllCorrespondence(state){
         return state.Correspondences
+    },
+
+    getNumberOfUnreadMessage: (state) => (contact: IContact) =>{
+      const messages = state.Correspondences
+            .find(c => c.contact === contact.contactId)?.messages.correspondences
+      if(messages){
+       return messages.filter(c => c.seller === contact.userId
+            && c.isRead === false).length
+      }
+      return 0
+    },
+
+    getLastContactMessage: (state) => (contactId: string) => {
+      const messages = state.Correspondences
+            .find(c => c.contact === contactId)?.messages.correspondences
+      if(messages){
+        const len = messages.length
+        if(len > 0){
+          return getMessageText(messages[len - 1].text)
+        }
+      }
+      return 'No Messages'
     }
 
   },
@@ -125,3 +148,25 @@ export const useUserMessagesStore = defineStore('userMessages', {
   }
 })
 
+function getMessageText(text: string){
+  if(text.startsWith('$[]:')){
+    return '(Sticker Message)'
+  }
+  if(text == '[:audio_message:]'){
+    return '(Audio Message)'
+  }
+  if(text == '[:image_message:]'){
+    return '(Image Message)'
+  }
+  if(text == '[:video_message:]'){
+    return '(Video Message)'
+  }
+  if(text == '[:file_message:]'){
+    return '(File Message)'
+  }
+  if(text.startsWith('<code>')){
+    return '(Code Message)'
+  }
+
+  return text
+}

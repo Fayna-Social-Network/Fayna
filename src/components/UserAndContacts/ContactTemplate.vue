@@ -1,5 +1,5 @@
 <template>
-<div class="chat-box">
+<div class="contact-box">
     <div class="profile">
        <slot name="profile">
        </slot>
@@ -18,28 +18,20 @@
 
 
 <style scoped>
-.chat-box{
+.contact-box{
   display: flex;
-  margin: 10px 0px 0 0;
   cursor: pointer;
   position: relative;
+  padding-left: 10px;
+  width: 100%;
 }
 .details{
-  color: var(--text-color);
   display: flex;
-    flex-direction: column;
-    justify-content: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .profile{
- overflow: hidden;
- 
-  width: 60px;
-  height: 60px;
-  border-radius: 20px;
-  margin-right: 8px;
+  margin-right: 10px;
 }
-
-
-
 </style>

@@ -9,5 +9,6 @@ export default {
   DocumentsSub: "This is where your files and documents will be stored",
   Notifications : "Notifications",
   NotificationsSub : "Here you won't miss anything",
-  SearchPlaceholder: "Search..."
+  SearchPlaceholder: "Search...",
+  SearchUsers: 'Search Users'
 }

@@ -1,45 +1,43 @@
 <template>
-    <Loader v-if="isLoading" />
+  <Loader v-if="isLoading" />
   <div v-else class="chat-main">
-    <ul v-if="isSearchisOpen">
-        <li v-for="userlist in getSearchUsers"
-          :key="userlist.id"
-          @click="clickToUserHandle(userlist.id)"
-          :class="{'active': activeContact == userlist.id}"
-        >
+    <ul v-if="isSearchisOpen" class="search-users">
+      <li v-for="userItem in getSearchUsers"
+        :key="userItem.id"
+        @click="clickToUserHandle(userItem.id)"
+        :class="{'active': activeContact == userItem.id}"
+      >
         <UserComponent
           @userClick='userClick'
-          :userlist='userlist'/>
-        </li>
+          :userItem='userItem'/>
+      </li>
     </ul>
+
     <div v-else>
       <div class="contact-groups">
         <ContactGroups />
       </div>
-      <ul>
-            <li v-for="contact in getSortedContacts"
-              :key="contact.contactId"
-              @click="clickToContactHandle(contact.userId)"
-              :class="{'active': activeContact == contact.userId}"
-              >
-                <Contact
-                @contactClick='contactClick'
-                :contact = 'contact'  />
-            </li>
+      <ul class="contact-list">
+        <li v-for="contact in getSortedContacts"
+         :key="contact.contactId"
+         @click="clickToContactHandle(contact.userId)"
+         :class="{'active': activeContact == contact.userId}"
+        >
+          <Contact
+           @contactClick='contactClick'
+           :contact = 'contact'/>
+        </li>
       </ul>
     </div>
 
- <div v-if="contacts.length == 0 && !isSearchisOpen" class="no-contacts">
- {{$t('NoFoundContactsMain')}}
- <p>{{$t('NoFoundContacts')}}</p>
+  <div v-if="contacts.length == 0 && !isSearchisOpen" class="no-contacts">
+    {{$t('NoFoundContactsMain')}}
+    <p>{{$t('NoFoundContacts')}}</p>
+  </div>
+  <div class="no-search"
+    v-if="isSearchisOpen && getSearchUsers.length === 0">
+      {{$t('NoResult')}}
  </div>
- <div class="no-search"
- v-if="isSearchisOpen && getSearchUsers.length === 0">
-
- {{$t('NoResult')}}
-
- </div>
-
 </div>
 </template>
 
@@ -85,7 +83,7 @@ export default defineComponent({
   computed: {
       ...mapState(useUserContactsStore, ['sortedContacts', 'contacts']),
       ...mapState(useMainStore, ['mainLayout']),
-      ...mapState(useUserStore, ['searchUsers']),
+      ...mapState(useUserStore, ['searchUsers', 'user']),
 
       isSearchisOpen(){
         return this.mainLayout.isSearchOpenInLeftNav
@@ -96,7 +94,8 @@ export default defineComponent({
       },
 
       getSearchUsers(){
-        return this.searchUsers.users
+        const users = this.searchUsers.users
+        return users.filter(u => u.id != this.user?.id)
       }
   },
 
@@ -112,25 +111,27 @@ export default defineComponent({
 
 
 
-<style scoped>
+<style scoped lang="scss">
 .contact-groups{
   margin-left: 5px;
-
 }
 
-ul{
-  padding: 0;
+.search-users{
+  margin-top: 30px;
+}
+.contact-list{
+  margin-top: 20px;
 }
 
 li{
-    padding: 1px 3px 0px 5px;
-    height: 80px;
+    display: flex;
+    align-items: center;
+    height: 70px;
 }
 
 .active{
-    background-color: var(--contact-list-active-bg);
-    border-left: 4px solid var(--contact-list-active-border);
-
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    border-left: 4px solid $primary;
     transition: all 0.3s ease;
 }
 

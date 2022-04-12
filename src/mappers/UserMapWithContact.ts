@@ -1,8 +1,8 @@
-import { ContactGroup } from '@/types/ContactGroup';
+import { ContactGroup } from 'src/types/ContactGroup';
 import { IContact } from '../types/contact';
 import {IUser} from '../types/user'
 
-export default function (contactId: string, user: IUser, 
+export default function (contactId: string, user: IUser,
       contactName :string, Group: ContactGroup): IContact {
     const Contact: IContact = {
         contactId: contactId,

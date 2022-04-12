@@ -1,66 +1,72 @@
 <template>
-
-<Loader v-if="loading"/>
-
+  <Loader v-if="loading"/>
     <Contact
       @click="userClickHandle"
       v-else
     >
-        <template #profile>
-             <img
-                class="bg-img"
-                :src="avatar"
-                alt="Avatar"
-                />
-            <div v-if="isOnline" class="user-online"></div>
-        </template>
-        <template #details>
-            <h4>{{nickName}}</h4>
-            <h5>{{username}}</h5>
-        </template>
-        <template #content>
-            <div v-if="!itsNoMe"
-             class="add-friend-button"
-             @click.stop="clickToMeHandle()"
-            >
-                 <span class="material-icons-outlined">insert_emoticon</span>
-            </div>
-
-        <div v-else-if="checkBlockUsers"
+     <template #profile>
+        <q-avatar rounded size="50px">
+          <img :src="avatar">
+        </q-avatar>
+        <isOnlineBadge v-if="userItem.isOnline"/>
+     </template>
+     <template #details>
+       <div class="nickname">{{nickName}}</div>
+       <div class="username">{{username}}</div>
+     </template>
+     <template #content>
+      <div class="action-buttons">
+        <q-btn v-if="checkBlockUsers"
+          round color="primary" size="12px" class="glossy" icon="block"
           @click.stop="UnBlockUserHandler"
-        class="del-friend-button">
-        <span class="material-icons-outlined">block</span>
-        </div>
-
-        <div v-else-if="blockMe"
-        class="block-friend">
-        <span class="material-icons-outlined">remove_circle_outline</span>
-      </div>
-
-
-        <div v-else-if="userContact == undefined"
-        class="add-friend-button"
-        @click.stop="addUserToContactHandler()"
-
         >
-            <span class="material-icons-outlined">
-                person_add_alt</span>
-        </div>
-
-    <div v-else
-     @click.stop="removeUserFromContactHandler()"
-     class="del-friend-button"
-
-    >
-       <span class="material-icons-outlined">person_remove</span>
-    </div>
-        </template>
-    </Contact>
+           <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
+                transition-show="flip-right"
+                transition-hide="flip-left"
+            >
+                {{$t('UnBlock')}}
+            </q-tooltip>
+        </q-btn>
+        <q-btn v-else-if="blockMe"
+          round color="primary" size="12px" class="glossy" icon="remove_circle_outline"
+        >
+            <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
+              transition-show="flip-right"
+              transition-hide="flip-left"
+            >
+                {{$t('YouAreBlocked')}}
+            </q-tooltip>
+        </q-btn>
+        <q-btn v-else-if="userContact == undefined"
+          round color="primary" size="12px" class="glossy" icon="person_add_alt"
+          @click.stop="addUserToContactHandler()"
+        >
+          <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
+              transition-show="flip-right"
+              transition-hide="flip-left"
+            >
+                {{$t('AddContact')}}
+          </q-tooltip>
+        </q-btn>
+        <q-btn v-else
+          round color="negative" class="glossy" size="12px" icon="person_remove"
+          @click.stop="removeUserFromContactHandler()"
+        >
+          <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
+              transition-show="flip-right"
+              transition-hide="flip-left"
+          >
+              {{$t('DelContact')}}
+          </q-tooltip>
+        </q-btn>
+      </div>
+    </template>
+  </Contact>
 </template>
 
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import Contact from './ContactTemplate.vue'
 import { mapState, mapActions } from 'pinia'
 import { useMainStore } from "stores/Main";
@@ -70,61 +76,56 @@ import Contacts from 'src/services/users/contacts.service'
 import { Open } from "src/functions/modals";
 import User from "src/services/users/user.service";
 import Loader from "components/UI/Loader.vue";
-
-
+import { IUser } from "src/types/user";
+import IsOnlineBadge from "components/UI/badges/IsOnline.vue";
 
 export default defineComponent({
-    props: ['userlist'],
+    props:{
+      userItem:{
+        required: true,
+        type: Object as PropType<IUser>
+      }
+    },
     data:() =>({
         nickName: '',
         username: '',
         isOnline: false,
-        itsNoMe: true,
         blockMe: false,
         loading: true
     }),
     methods:{
-    userClickHandle(){
-      if(this.mainLayout.isMainNavMayHide){
-        this.mainLayout.mainNavHide = false
-      }
-     this.$emit('userClick', this.userlist.id)
-    },
+      userClickHandle(){
+        this.$emit('userClick', this.userItem.id)
+      },
 
-    clickToMeHandle(){
-      this.$q.notify(`${this.$t('Hello')}, ${this.user!.nickName}!!!`)
-    },
-    addUserToContactHandler(){
-      Open('AddContactToUser', this.userlist)
+      addUserToContactHandler(){
+        Open('AddContactToUser', this.userItem)
+      },
 
-    },
-     async removeUserFromContactHandler(){
+      async removeUserFromContactHandler(){
         const name = this.userContact!.nickName
-       await Contacts.delContactFromUser(this.userContact!.contactId)
-        this.$alert(`${name} ${this.$translate('UserSuccessDel')}`, false)
-     },
+        await Contacts.delContactFromUser(this.userContact!.contactId)
+        this.$q.notify({message: this.$t('UserSuccessDel')})
+      },
 
       async UnBlockUserHandler(){
-        const blockUser = this.user!.userBlackLists.find(b => b.blockedUser === this.userlist.id)
+        const blockUser = this.user!.userBlackLists.find(b => b.blockedUser === this.userItem.id)
         await User.unBlockUser(blockUser!.id)
-        this.$alert(this.$translate('UnBlockUser'), false)
+        this.$q.notify({message: this.$t('UnBlockUser')})
       }
 
     },
-   async mounted() {
-        if(this.userlist.firstName || this.userlist.lastName){
-            this.username =  this.userlist.firstName+' '
-                 +this.userlist.lastName
-        }
-         this.nickName =  '@' +  this.userlist.nickName
+    async mounted() {
+          if(this.userItem.firstName || this.userItem.lastName){
+              this.username =  this.userItem.firstName+' '
+                  +this.userItem.lastName
+          }
+          this.nickName =  '@' +  this.userItem.nickName
+        const res = await User.isUserBlockMe(this.userItem.id)
+        this.blockMe = res.data.isBlocked
+        this.loading = false
 
-        if(this.currentUser!.id == this.userlist.id){
-            this.itsNoMe = false
-    }
-      const res = await User.isUserBlockMe(this.userlist.id)
-      this.blockMe = res.data.isBlocked
-      this.loading = false
-   },
+    },
     computed: {
    ...mapState(useUserStore, ['user']),
    ...mapState(useMainStore, ['mainLayout']),
@@ -135,13 +136,13 @@ export default defineComponent({
     },
 
     userContact(){
-      return this.getContactByUserId(this.userlist.id)
+      return this.getContactByUserId(this.userItem.id)
     },
 
      avatar(){
-      if(this.userlist.avatar){
+      if(this.userItem.avatar){
          return  import.meta.env.VITE_APP_BACKEND_PATH +
-            this.userlist.avatar
+            this.userItem.avatar
       }else{
          return import.meta.env.VITE_APP_BACKEND_PATH +
               'Resources/Images/user-profile.png'
@@ -151,7 +152,7 @@ export default defineComponent({
     checkBlockUsers(){
       let temp = 0
       this.user!.userBlackLists.forEach(blocked => {
-        if(blocked.blockedUser === this.userlist.id){
+        if(blocked.blockedUser === this.userItem.id){
           temp++
         }
       });
@@ -163,67 +164,29 @@ export default defineComponent({
   },
     components:{
         Contact,
-        Loader
+        Loader,
+        IsOnlineBadge
     }
 })
 </script>
 
 <style scoped>
-h5{
- font-family: 'Roboto, sans serif';
+.nickname{
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
 }
 
-.bg-img{
-  width: 60px;
-
+.username{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
 }
 
-.add-friend-button{
+.action-buttons{
   position: absolute;
+  top: 50%;
   right: 10px;
-  top: 17px;
-  color: var(--add-friend-left-sidebar-button-color);
-  transition: all 0.4s ease;
+  transform: translate(0, -50%);
 }
-
-.add-friend-button:hover{
-  transform: scale(1.2);
-}
-
-.del-friend-button{
-  position: absolute;
-  right: 10px;
-  top: 17px;
-  color: var(--del-friend-left-sidebar-button-color);
-  transition: all 0.4s ease;
-}
-
-.block-friend{
-  position: absolute;
-  right: 10px;
-  top: 17px;
-  color: var(--del-friend-left-sidebar-button-color);
-}
-
-.del-friend-button:hover{
-  transform: scale(1.2);
-}
-
-.user-online{
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  top: 0;
-  left: 0;
-  border-radius: 100%;
-  background: var(--user-online-badge-bg);
-   box-shadow: 0 0 0 0 var(--user-online-badge-bg-shadow);
-  animation: pl1 1s infinite;
-}
-
-@keyframes pl1 {
-    100% {box-shadow: 0 0 0 10px #0000}
-}
-
 
 </style>

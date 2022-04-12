@@ -91,7 +91,7 @@ import { useUserNotificationsStore } from "stores/UserNotification"
 import { useMainStore } from "stores/Main"
 import { Menu } from 'src/menus/leftNavBar.menu'
 import logo from 'src/assets/image/logo-icon.png'
-import NotifyRedIcon from "components/UI/NotifyRedIcon.vue"
+import NotifyRedIcon from "components/UI/badges/NotifyRedIcon.vue"
 import { Open } from 'src/functions/modals'
 
 export default defineComponent({

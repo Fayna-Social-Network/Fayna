@@ -1,5 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" style="overflow: hidden;">
+    <MainLayotModals />
     <q-drawer
       show-if-above
       bordered
@@ -11,7 +12,9 @@
           enter-active-class="animated fadeInLeft"
           leave-active-class="animated fadeOutLeft"
         >
-        <div class="nav-menu" v-show="navMenuVisible">
+        <div class="nav-menu" v-show="navMenuVisible"
+          :class="{'bg-dark' : $q.dark.isActive}"
+        >
           <NavBar />
         </div>
       </transition>
@@ -19,7 +22,7 @@
         <LeftSideBar />
       </div>
     </div>
-      <div class="absolute" style="top: 15px; right: -17px" v-if="navBarToggleButtonVisible">
+      <div class="absolute" style="bottom: 80px; right: -17px" v-if="navBarToggleButtonVisible">
           <q-btn
             dense
             round
@@ -55,6 +58,7 @@ import { useUserContactsStore } from 'src/stores/UserContacts';
 import NavBar from 'components/MainLayout/NavBar.component.vue'
 import AppsNav from 'components/MainLayout/AppsNavBar.component.vue'
 import LeftSideBar from 'components/MainLayout/LeftSideBar.component.vue'
+import MainLayotModals from 'src/components/modals/MainLayotModals.vue';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -116,7 +120,8 @@ export default defineComponent({
   components:{
     NavBar,
     AppsNav,
-    LeftSideBar
+    LeftSideBar,
+    MainLayotModals
   }
 });
 </script>
@@ -126,6 +131,11 @@ export default defineComponent({
     height: 100vh;
     width: 80px;
     border-right: 1px solid $border;
+    background: white;
+  }
+
+  .bg-dark{
+    background: #1D1D1D;
   }
 
   .drawer-body{
@@ -137,11 +147,12 @@ export default defineComponent({
     width: 300px;
   }
 
-  @media screen and (max-widht: 1024px){
+  @media screen and (max-width: 1024px){
     .nav-menu{
       position: absolute;
       top: 0;
       left: 0;
+      z-index: 2000;
     }
 
   }
