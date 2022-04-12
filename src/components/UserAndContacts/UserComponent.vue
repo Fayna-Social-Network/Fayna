@@ -17,7 +17,7 @@
      <template #content>
       <div class="action-buttons">
         <q-btn v-if="checkBlockUsers"
-          round color="primary" size="12px" class="glossy" icon="block"
+          round color="accent" size="12px" class="glossy" icon="block"
           @click.stop="UnBlockUserHandler"
         >
            <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
@@ -28,7 +28,7 @@
             </q-tooltip>
         </q-btn>
         <q-btn v-else-if="blockMe"
-          round color="primary" size="12px" class="glossy" icon="remove_circle_outline"
+          round color="negative" size="12px" class="glossy" icon="remove_circle_outline"
         >
             <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
               transition-show="flip-right"

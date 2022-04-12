@@ -1,6 +1,8 @@
-import { Open } from "@/functions/modals"
-import { IContact } from "@/types/contact"
-import { MenuItem } from "../types/menu"
+import { Open } from "src/functions/modals"
+import { IContact } from "src/types/contact"
+import { MenuItem } from "src/types/menu"
+
+export type IAction = 'addImage' | 'openCamera' | 'openCodeEditor'
 
 export const Menu: Array<MenuItem> = [
     {
@@ -9,14 +11,14 @@ export const Menu: Array<MenuItem> = [
         text:  'MessageComponentMenu_Image',
         action: 'addImage'
     },
-    
+
     {
         id: 1,
         icon: 'photo_camera',
         text:  'MessageComponentMenu_Camera',
         action: 'openCamera'
     },
-    
+
     {
         id: 2,
         icon: 'code',
@@ -38,7 +40,7 @@ export const Menu: Array<MenuItem> = [
     //     action: ''
     // },
 
-  
+
     // {
     //     id: 5,
     //     icon: 'description',
@@ -49,7 +51,7 @@ export const Menu: Array<MenuItem> = [
 ]
 
 export const MenuActions = {
-  
+
   addImage(contact: IContact){
     Open('AddImage', contact)
   },

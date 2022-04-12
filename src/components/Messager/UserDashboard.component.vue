@@ -17,21 +17,51 @@
     </div>
     <div class="action-panel">
       <ul class="option-group">
-       <li><q-btn round color="primary" icon="volume_up" /></li>
-       <li><q-btn round color="primary" icon="search" /></li>
+       <li><q-btn round color="primary" icon="volume_up" >
+              <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
+                transition-show="flip-right"
+                transition-hide="flip-left"
+              >
+                {{$t('DisableNotification')}}
+              </q-tooltip>
+           </q-btn></li>
+       <li><q-btn round color="primary" icon="search" >
+           <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
+                transition-show="flip-right"
+                transition-hide="flip-left"
+              >
+                {{$t('Search')}}
+              </q-tooltip>
+       </q-btn></li>
       </ul>
         <ul class="option-group">
-          <li><q-btn round color="primary" icon="call" /></li>
-          <li><q-btn round color="primary" icon="video_camera_front" /></li>
+          <li><q-btn round color="primary" icon="call" >
+               <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
+                transition-show="flip-right"
+                transition-hide="flip-left"
+              >
+                {{$t('CallUser')}}
+              </q-tooltip>
+          </q-btn></li>
+          <li><q-btn round color="primary" icon="video_camera_front" >
+             <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
+                transition-show="flip-right"
+                transition-hide="flip-left"
+              >
+                {{$t('VideoCall')}}
+              </q-tooltip>
+          </q-btn></li>
           <li>
             <q-btn round color="primary" icon="more_vert">
               <q-menu :offset="[-10, 10]"
+                auto-close
                 transition-show="flip-right"
                 transition-hide="flip-left"
               >
                 <q-list style="min-width: 100px">
                   <q-item clickable
                     v-for="item in menu" :key="item.id"
+                    @click="menuClickHandle(item)"
                   >
                     <q-item-section>
                       <div class="row" style="gap: 15px; align-items: center;">
@@ -57,14 +87,22 @@ import { mapState } from "pinia"
 import { useUserContactsStore } from "stores/UserContacts"
 import { useUserMessagesStore } from "stores/UserMessages"
 import IsOnlineBadge from "components/UI/badges/IsOnline.vue"
-import { Menu } from 'src/menus/userDashboard.menu'
-// import UserDashBoardMenu from "./menu/UserDashBoardMenu.vue"
+import { Menu, MenuActions, IActions } from 'src/menus/userDashboard.menu'
+import { MenuItem } from "src/types/menu"
+import { IContact } from "src/types/contact"
+
 
 export default defineComponent({
     data:() => ({
       isMenuActive: false,
-      menu: Menu
+      menu: Menu,
+      actions: MenuActions
     }),
+    methods:{
+      menuClickHandle(item: MenuItem){
+        this.actions[item.action as IActions](this.getContactById(this.currentCorrespondenceId!) as IContact)
+      }
+    },
     computed:{
         ...mapState(useUserContactsStore, ['getContactById', 'getContactAvatar', 'getContactNameById']),
         ...mapState(useUserMessagesStore, ['currentCorrespondenceId']),
@@ -81,7 +119,6 @@ export default defineComponent({
     },
     components:{
       IsOnlineBadge
-      // UserDashBoardMenu
     }
 })
 </script>

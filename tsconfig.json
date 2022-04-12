@@ -34,5 +34,5 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
-  ]
+, "src/lib/recorder/mp3-encoder.js", "src/lib/recorder/utils.js"  ]
 }

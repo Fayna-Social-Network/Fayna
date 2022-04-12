@@ -4,6 +4,7 @@ import contactList from './contactList'
 import userList from './userList';
 import modalAddContact from './modalAddContact';
 import userDashboard from './userDashboard';
+import sendMessageComponent from './sendMessageComponent';
 import common from './common';
 
 export default {
@@ -13,5 +14,6 @@ export default {
   ...userList,
   ...modalAddContact,
   ...userDashboard,
+  ...sendMessageComponent,
   ...common
 };

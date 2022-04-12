@@ -3,7 +3,9 @@
   <LeftSideHeader  />
     <div class="list">
         <div class="content">
-        <transition appear enter-active-class="animate__animated animate__fadeInLeft" mode="out-in">
+        <transition
+          appear
+          enter-active-class="animated fadeInLeft">
           <component :is="componentList[mainMenuNumber]" />
         </transition>
         </div>

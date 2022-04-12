@@ -1,11 +1,11 @@
 import { MenuItem } from "src/types/menu";
 import { IContact } from 'src/types/contact';
-import router from 'src/router'
+import { Router } from 'src/router/index'
 import Contacts from 'src/services/users/contacts.service';
 import User from 'src/services/users/user.service';
 import { Notify } from "quasar";
-// import { saveCorrespondenceToPDF } from "@/functions/pdf.functions";
-// import { Open } from "@/functions/modals";
+import { saveCorrespondenceToPDF } from "src/functions/pdf.functions";
+import { Open } from "src/functions/modals";
 
 
 export const Menu: Array<MenuItem> = [
@@ -45,29 +45,31 @@ export const Menu: Array<MenuItem> = [
   },
 ]
 
+export type IActions = 'blockUser' | 'deleteContact' | 'saveCorrespondences' |
+                        'editContact' | 'getUserProfile'
 
-// export const MenuActions = {
+export const MenuActions = {
 
-//   getUserProfile(contact :IContact){
-//     router.push({name: 'userProfile', params:{id: contact.userId}})
-//   },
+  getUserProfile(contact :IContact){
+    Router.push({name: 'userProfile', params:{id: contact.userId}})
+  },
 
-//   editContact(contact :IContact){
-//     Open('EditContact', contact)
-//   },
+  editContact(contact :IContact){
+    Open('EditContact', contact)
+  },
 
-//   saveCorrespondences(contact: IContact){
-//     saveCorrespondenceToPDF(contact)
-//   },
+  saveCorrespondences(contact: IContact){
+    saveCorrespondenceToPDF(contact)
+  },
 
-//   async deleteContact(contact: IContact){
-//     router.push({name: 'Start'})
-//     await Contacts.delContactFromUser(contact.contactId)
-//   },
+  async deleteContact(contact: IContact){
+    Router.push({name: 'Start'})
+    await Contacts.delContactFromUser(contact.contactId)
+  },
 
-//   blockUser(contact: IContact){
-//     router.push({name: 'Start'})
-//     User.blockUser(contact.userId)
-//     $alert($translate('UserSuccessBlocked'), false)
-//   }
-//  }
+  blockUser(contact: IContact){
+    Router.push({name: 'Start'})
+    User.blockUser(contact.userId)
+    Notify.create({message: 'User Success Blocked'})
+  }
+ }

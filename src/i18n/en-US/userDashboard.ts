@@ -3,5 +3,8 @@ export default {
   Edit: "Edit",
   SaveCorrespondence: 'Save Messages',
   DeleteContact: 'Delete Contact',
-  BlockUser: 'Block User'
+  BlockUser: 'Block User',
+  DisableNotification: 'Disable Notification',
+  CallUser: "Voice Call",
+  VideoCall: 'Video Call'
 }

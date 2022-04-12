@@ -1,23 +1,30 @@
 <template>
-    <div class="window">
-        <ul class="menu-list">
-            <li class="menu-link"
-            v-for="item in menu.menu"
-            :key="item.id"
-            @click="menuClickHandle(item)"
-            >
-                <span class="material-icons-outlined">{{item.icon}}</span>
-                <span class="link-text">{{$translate(item.text)}}</span>
-            </li>
-        </ul>
-    </div>
+  <q-menu :offset="[-10, 30]"
+    auto-close
+    transition-show="flip-right"
+    transition-hide="flip-left"
+  >
+    <q-list style="min-width: 100px">
+      <q-item clickable
+        v-for="item in menu.menu" :key="item.id"
+        @click="menuClickHandle(item)"
+      >
+        <q-item-section>
+          <div class="row" style="gap: 15px; align-items: center;">
+            <q-icon :name="item.icon" size="25px" color="primary" />
+                {{$t(item.text)}}
+          </div>
+        </q-item-section>
+        </q-item>
+        </q-list>
+      </q-menu>
 </template>
 
 <script lang="ts">
-import { MenuItem } from "@/types/menu";
+import { MenuItem } from "src/types/menu";
 import { defineComponent, PropType } from "vue";
-import {Menu, MenuActions} from '../../../menus/messageComponent.menu'
-import { IContact } from "../../../types/contact";
+import {Menu, MenuActions, IAction } from 'src/menus/messageComponent.menu'
+import { IContact } from "src/types/contact";
 
 export default defineComponent({
     props:{
@@ -34,54 +41,9 @@ export default defineComponent({
     }),
     methods:{
         menuClickHandle(item: MenuItem){
-          this.menu.menuActions[item.action](this.companion)
+          this.menu.menuActions[item.action as IAction](this.companion)
         }
     }
 })
 </script>
 
-<style scoped>
-.window{
-    position: absolute;
-    bottom: 115px;
-    left: 118px;
-    padding: 15px;
-    z-index: 666;
-    background: var(--stickers-box-bg);
-    border-radius: 10px;
-    transition: all 0.6s ease;
-}
-
-.window::before{
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-top: 12px solid var(--stickers-box-bg);
-    bottom: -12px;
-    left: 40px;
-    z-index: 1;
-}
-.menu-link{
-    color: var(--text-color);
-    display: flex;
-    align-items: center;
-    padding-bottom: 10px;
-    cursor: pointer;
-    transition: all 0.5s ease;
-}
-
-.menu-link:last-child{
-     padding-bottom: 0px;
-}
-
-.menu-link:hover {
-    color: indigo;
-}
-
-.link-text{
-    padding-left: 10px;
-}
-</style>

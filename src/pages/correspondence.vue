@@ -5,7 +5,7 @@
         <UserDashboard />
       </div>
       <div class="chat-messages">
-       
+        <Chat />
       </div>
       <div class="send-message-component">
          <SendMessageComponent/>
@@ -18,14 +18,14 @@
 import { defineComponent } from 'vue';
 import UserDashboard from 'components/Messager/UserDashboard.component.vue'
 import SendMessageComponent from 'components/Messager/SendMessage.component.vue'
-import Messages from 'components/Messager/Message.component.vue'
+import Chat from 'src/components/Messager/Chat.vue';
 
 
 export default defineComponent({
     components:{
         UserDashboard,
         SendMessageComponent,
-        Messages
+        Chat
     }
 })
 </script>

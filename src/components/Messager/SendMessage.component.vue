@@ -1,59 +1,39 @@
 <template>
-<div class="main">
-<div class="content">
-    <div class="left-buttons">
-        <ul>
-                <li
-                @mouseover="isStickersActive"
-                >
-                <a class="icon-btn mobile" >
-                <span class="material-icons-outlined">sentiment_satisfied</span></a></li>
-                <li
-                @mouseover="messageMenuOver"
-                ><a class="icon-btn"><span class="material-icons-outlined">add</span>
-</a></li>
-        </ul>
+  <div class="send-message-panel"
+    :class="{'bg-dark' : $q.dark.isActive}"
+  >
+    <div class="button-contol">
+      <q-btn round color="primary" icon="mood">
+        <StickerBox
+          @onSelectSticker="onSelectSticker"
+          @selectEmoji="selectEmoji"
+        />
+      </q-btn>
+      <q-btn round color="primary" icon="add">
+        <MenuMessage :companion="companion!"/>
+      </q-btn>
     </div>
-    <div class="input-message">
-        <input @keydown.enter="sendMessageHandle" v-model="message"
-         @input="inputTextChange"
-         type="text" :placeholder="$t('SendMessageInputPlaceholder')">
+    <div class="message-input">
+      <q-input filled v-model="message"
+        @input="changeHandler()"
+        :placeholder="$t('SendMessageInputPlaceholder')"/>
     </div>
-    <div class="rigth-buttons">
-        <ul>
-            <li>
-            <MicButton
-            :companion="companion"
-            />
-            </li>
-
-            <li><a class="icon-btn send" @click="sendMessageHandle" ><span class="material-icons-outlined">send</span></a></li>
-        </ul>
+    <div class="button-contol">
+      <MicButton :companion="companion!"/>
+      <q-btn round color="primary" icon="send" size="17px"
+        @click="sendMessageHandle"
+      />
     </div>
-</div>
-<StickerBox :class="{'stickersV': !stickersActive}"
-class="stick"
-@mouseleave="stickersActive = false"
-@onSelectSticker="onSelectSticker"
-@selectEmoji="selectEmoji"
-/>
-<MenuMessage
-:companion="companion!"
-@mouseleave="messageMenu = false"
-v-if="messageMenu"
-/>
-
-</div>
-
+  </div>
 </template>
 
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useSignalR } from '@quangdao/vue-signalr';
-// import MicButton from "../UI/buttons/MicButton.vue";
-// import MenuMessage from './menu/MessageComponentMenu.vue'
-// import StickerBox from '../UI/Stikers&Emojis/StickersBoxComponent.vue'
+import MicButton from "components/Messager/MicButton.vue";
+import MenuMessage from 'components/Messager/menu/MessageComponentMenu.vue'
+import StickerBox from 'components/Stikers&Emojis/StickersBoxComponent.vue'
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "stores/User";
 import { useUserMessagesStore } from "stores/UserMessages";
@@ -61,31 +41,23 @@ import { useUserContactsStore } from "stores/UserContacts";
 import { v4 as uuid } from 'uuid';
 import { IMessage } from "src/types/message";
 
+
 export default defineComponent({
     data:() =>({
         message: '',
-        stickersActive: false,
-        messageMenu: false,
         signalR: useSignalR(),
     }),
 
     methods: {
       ...mapActions(useUserMessagesStore, ['sendMessage']),
 
-        isStickersActive(){
-            this.stickersActive = true
-            this.messageMenu = false
-        },
-        messageMenuOver(){
-            this.stickersActive = false
-            this.messageMenu = true
-        },
-
         inputTextChange(){
            this.signalR.invoke('UserTypingMessage',
                     {user: this.companion!.userId, fromWho: this.user!.id})
         },
-
+        changeHandler(){
+          console.log('ijgfggg')
+        },
         sendMessageHandle(){
             if(this.message === ''){
                 return
@@ -95,18 +67,17 @@ export default defineComponent({
             this.message = ''
 
         },
-        selectEmoji(emoji){
+        selectEmoji(emoji: string){
             this.message = this.message + emoji
         },
-        onSelectSticker(mess){
+        onSelectSticker(mess : string){
            this.sendMessageTo(mess)
-             this.stickersActive = false
         },
 
 
 
 
-      sendMessageTo(message){
+      sendMessageTo(message : string){
         const newMess: IMessage = {
             id: uuid(),
             text: message,
@@ -115,7 +86,7 @@ export default defineComponent({
             seller: this.user!.id,
             userId: this.companion!.userId
         }
-          this.sendMessage({message: newMess, contactId: this.currentCorrespondenceId})
+          this.sendMessage({message: newMess, contactId: this.currentCorrespondenceId!})
       }
     },
 
@@ -125,136 +96,55 @@ export default defineComponent({
         ...mapState(useUserContactsStore, ['getContactById']),
 
         companion(){
-          return this.getContactById(this.currentCorrespondenceId)
+          return this.getContactById(this.currentCorrespondenceId!)
         }
     },
 
+    watch:{
+      message(){
+        this.inputTextChange()
+      }
+    },
+
     components:{
-
-        // StickerBox,
-        // MenuMessage,
-        // MicButton,
-
+      MicButton,
+      MenuMessage,
+      StickerBox
     }
 })
 </script>
 
 
-<style scoped>
-
-.main{
-    width: 100%;
-    background: var(--send-message-component-bg);
-    transition: all 0.5s;
-    padding: 5px 45px;
-    z-index: 9;
-    position: relative;
-
-}
-.content{
-    display: flex;
-}
-.input-message{
-    width: 100%;
-    margin-left: 10px;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
-}
-li{
-    list-style: none;
-    padding-right: 10px;
+<style scoped lang="scss">
+.send-message-panel{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 20px;
+  background: $secondary;
 }
 
-a{
-    text-decoration: none;
-    color: var(--send-message-component-icon);
-
+.bg-dark{
+  background: $dark;
 }
 
-input{
-    width: 100%;
-    height: 50px;
-    color: var(--send-message-component-text-color);
-    padding-left: 20px;
-    padding-right: 20px;
-    background: var(--send-message-component-input-bg);
-    border-radius: 20px;
-    border: none;
+.button-contol{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.message-input{
+  flex: 1 1 auto;
+  padding: 0px 10px 0px 10px;
 }
 
-ul{
-    display: flex;
-}
+@media screen and (max-width: 500px){
+  .send-message-panel{
+    padding: 10px 5px 10px 5px;
+  }
 
-
-
-.icon-btn {
-    height: 45px;
-    width: 45px;
-    cursor: pointer;
-    border-radius: 100%;
-    font-weight: 800;
-    align-items: center;
-    justify-content: center;
-    display: inline-flex;
-   background: var(--send-message-component-icon-bg);
-   transition: all 0.6s ease;
-
-}
-
-.stick{
-    opacity: 1;
-    transition: all 0.6s ease;
-
-}
-.stickersV{
-    opacity: 0;
-    visibility: hidden;
-}
-
-
-.icon-btn:hover{
-    background: var(--send-message-component-icon-hover);
-}
-
-.send{
-    background: var(--send-message-component-icon-send-bg);
-    color: var(--send-message-component-icon-send);
-}
-
-.send:hover{
-    transform: scale(1.1);
-    background: var(--send-message-component-icon-send-bg);
-}
-
-@media (max-width: 1340px){
-    .main{
-        position: absolute;
-        bottom: 0;
-        left: 0;
-    }
-
-    .icon-btn{
-        height: 40px;
-        width: 40px;
-    }
-}
-
-@media (max-width: 960px){
-    .main{
-        padding: 0px 0px;
-    }
-    ul{
-        padding-left: 10px;
-    }
-
-    input{
-         height: 40px;
-         font-size: 14px;
-    }
-    .mobile{
-        display: none;
-    }
+  .button-contol{
+    gap: 8px;
+  }
 }
 </style>
