@@ -1,7 +1,10 @@
 <template>
- <transition appear enter-active-class="animate__animated animate__tada" leave-active-class="animate__animated animate__tada" mode="out-in">
+ <transition
+ appear
+ enter-active-class="animated tada"
+ leave-active-class="animated tada">
   <div class="message-is-read" v-if="message.isRead && message.seller === user!.id">
-    <span class="material-icons-outlined">done_all</span>
+    <q-icon name="done_all" color="info"/>
   </div>
 </transition>
 </template>
@@ -29,11 +32,7 @@ export default defineComponent({
 .message-is-read{
   position: absolute;
   bottom: -20px;
-  right: 0;
+  right: -60px;
 }
 
-.message-is-read span{
-  color: var(--text-color);
-  font-size: 15px;
-}
 </style>

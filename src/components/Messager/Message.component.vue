@@ -1,8 +1,8 @@
 <template>
   <div class="message">
-      <!-- <Reaction :message='message'/>
+      <Reaction :message='message'/>
       <MessageIsRead :message="message" />
-      <component :is="messageType[messageFilter(message.text)]" :message="message"/> -->
+      <component :is="messageType[messageFilter(message.text)]" :message="message"/>
   </div>
 </template>
 
@@ -32,3 +32,6 @@ export default defineComponent({
 })
 </script>
 
+<style scoped>
+
+</style>

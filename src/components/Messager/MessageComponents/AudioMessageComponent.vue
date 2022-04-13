@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import AudioMessage from "@/services/messages/audioMessageService";
-import AudioPlayer from '../../MediaComponents/AudioPlayerComponent.vue'
+import AudioMessage from "src/services/messages/audioMessage.service";
+import AudioPlayer from 'components/modals/MediaComponents/AudioPlayerComponent.vue'
 
 export default defineComponent({
     props: ['message'],

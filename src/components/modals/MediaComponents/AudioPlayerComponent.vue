@@ -5,8 +5,8 @@
     <div class="player">
         <div class="controls">
             <div class="play">
-                <span v-if="!playing" @click="play" class="material-icons-outlined">play_arrow</span>
-                <span v-else @click="pause" class="material-icons-outlined">pause</span>
+              <q-btn round icon="play_arrow" color="primary" v-if="!playing" @click="play" size="10px"/>
+              <q-btn round icon="pause" color="primary" v-else @click="pause" size="10px"/>
             </div>  
             <div class="seek">
                 <input type="range"
@@ -46,7 +46,7 @@ export default defineComponent({
             audioPlayer.pause();
             audioPlayer.currentTime = 0;
         },
-        setSpeed(speed) {
+        setSpeed(speed: any) {
             this.$refs.audioPlayer.playbackRate = speed;
         },
         onPlaying() {
@@ -75,12 +75,9 @@ export default defineComponent({
 .controls{
     display: flex;
     justify-content: center;
+    align-items: center;
     
 }
-.player{
-    padding: 20px;
-}
-
 .play{
     padding-right: 10px;
     transition: all 0.3s ease;
@@ -103,7 +100,7 @@ input[type="range"] {
 }
 
 ::-webkit-slider-runnable-track {
-    background: #ddd;
+    background: rgb(184, 168, 168);
 }
 
 /*
@@ -154,7 +151,7 @@ input[type="range"] {
 }
 
 ::-ms-track { 
-    background: #ddd;
+    background: rgb(0, 0, 0);
     color: transparent;
     height: 40px;
     border: none;

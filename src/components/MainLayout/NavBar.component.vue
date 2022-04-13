@@ -6,7 +6,7 @@
       </div>
       <div class="user-avatar">
         <q-avatar size="57px">
-          <img :src="getImgUrl()">
+          <img :src="getUserAvatar">
         </q-avatar>
       </div>
       <ul class="menu-list">
@@ -106,7 +106,7 @@ export default defineComponent({
     },
 
    computed:{
-       ...mapState(useUserStore, ['user']),
+       ...mapState(useUserStore, ['user', 'getUserAvatar']),
        ...mapState(useUserMessagesStore, ['Correspondences']),
        ...mapState(useUserNotificationsStore, ['Notifications']),
 

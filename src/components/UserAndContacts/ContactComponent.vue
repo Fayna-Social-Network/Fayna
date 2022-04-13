@@ -3,15 +3,17 @@
     @click="contactClickHandle"
   >
     <template #profile>
+    <div class="profile-content">
       <q-avatar rounded size="50px">
         <img :src="getContactAvatar(contact.contactId)">
       </q-avatar>
       <isOnlineBadge v-if="getContactIsOnline(contact.contactId)"/>
       <Typing class="user-typing" v-if="typingMessage && contact.userId == typingMessage" />
+    </div>
     </template>
     <template #details>
       <div class="username">{{getContactNameById(contact.contactId)}}</div>
-      <div class="message">{{getLastContactMessage(contact.contactId).substring(0, 40)}}...</div>
+      <div class="message">{{getLastContactMessage(contact.contactId).substr(0, 25)}}...</div>
     </template>
     <template #content>
       <CountBadge :number='getNumberOfUnreadMessage(contact)'/>
@@ -81,6 +83,10 @@ export default defineComponent({
   position: absolute;
   top: 33px;
   left: 33px;
+}
+
+.profile-content{
+  position: relative;
 }
 
 </style>

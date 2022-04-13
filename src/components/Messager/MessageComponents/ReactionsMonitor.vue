@@ -1,11 +1,16 @@
 <template>
- <transition appear enter-active-class="animate__animated animate__pulse" leave-active-class="animate__animated animate__pulse" mode="out-in">
+ <transition
+  appear
+  enter-active-class="animated pulse"
+ >
 
-<div class="reactions" v-if="reactions.length > 0">
-    <span v-for="reaction in reactions"
-    :key="reaction.id"
-    >{{reaction.reactionName}}</span>
-</div>
+  <div class="reactions" v-if="reactions.length > 0"
+  :class="{'recip': message.seller != user.id}"
+  >
+      <span v-for="reaction in reactions"
+      :key="reaction.id"
+      >{{reaction.reactionName}}</span>
+  </div>
 </transition>
 </template>
 
@@ -16,6 +21,7 @@ import Reaction from 'src/services/messages/reactions.service'
 import { mapState } from "pinia";
 import { useMainStore } from "stores/Main";
 import { IMessage } from "src/types/message";
+import { useUserStore } from "src/stores/User";
 
 export default defineComponent({
    props: {
@@ -29,6 +35,7 @@ export default defineComponent({
    }),
    computed:{
      ...mapState(useMainStore, ['reaction']),
+     ...mapState(useUserStore, ['user']),
 
        onReaction(){
            return this.reaction
@@ -51,11 +58,16 @@ export default defineComponent({
 <style scoped>
 .reactions{
     position: absolute;
-    top: -9px;
-    left: 0;
-    padding: 0 5px 0 5px;
+    top: 2px;
+    left: -35px;
+    padding: 3px 5px 2px 5px;
     background: grey;
     border: solid 1px wheat;
     border-radius: 10px;
+}
+
+.recip{
+  left: unset;
+  right: -35px;
 }
 </style>

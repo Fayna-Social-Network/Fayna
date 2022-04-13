@@ -20,6 +20,22 @@ export const useUserStore = defineStore('userStore', {
     }
   }),
 
+  getters:{
+    getUserAvatar(state){
+      const path = state.user!.avatar
+      if(path != null){
+        return import.meta.env.VITE_APP_BACKEND_PATH + path
+      }
+      return import.meta.env.VITE_APP_BACKEND_PATH + 'Resources/Images/user-profile.png'
+    },
+
+    getUserFullName(state){
+      if(state.user!.firstName!.trim() === ''){
+        return state.user?.nickName
+      }
+      return state.user?.firstName! + ' ' + state.user?.lastName
+    }
+  },
   actions:{
 
     setUser: function(user: IUser){

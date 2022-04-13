@@ -1,21 +1,22 @@
 <template>
-  <div class="loading" v-if="!isReady">
+  <div class="loader" v-if="loading">
     <Loader />
   </div>
   <div class="sticker" v-else>
-    <img :src="getFullPath(sticker!.path)" alt="" loading="lazy">
+    <q-img :src="getFullPath(sticker!.path)" loading="lazy"/>
   </div>
 </template>
 
 <script lang="ts">
-import Stickers from "@/services/messages/sticker.service"
-import { IMessage } from "@/types/message"
-import { ISticker } from "@/types/sticker"
-import Loader from "../../UI/Loader.vue"
+import Stickers from "src/services/messages/sticker.service"
+import { IMessage } from "src/types/message"
+import { ISticker } from "src/types/sticker"
+import Loader from "components/UI/Loader.vue"
+
 import { defineComponent, PropType } from "vue"
 
 interface StickerData{
-  isReady: boolean
+  loading: boolean,
   sticker: ISticker | null
 }
 
@@ -27,36 +28,31 @@ export default defineComponent({
     }
   },
   data:(): StickerData => ({
-    isReady: false,
-    sticker: null
+    sticker: null,
+    loading: true
   }),
   methods:{
-    getFullPath(path: string): string{
+    getFullPath(path : string): string{
       return import.meta.env.VITE_APP_BACKEND_PATH + path
     }
   },
 
-  async created(){
+  async mounted(){
     const stickerId = this.message.text.slice(4)
     const result = await Stickers.getStickerById(stickerId)
     this.sticker = result.data
-    this.isReady = true
+    this.loading = false
   },
   components:{
     Loader
   }
+
 })
 </script>
 
 
 <style scoped>
 .sticker{
-  /* height: 200px; */
-  padding: 20px;
-}
-
-.loading{
-  height: 200px;
-  width: 200px;
+  width: 150px;
 }
 </style>

@@ -4,7 +4,7 @@
       <a :href="openGraph.urlTag" target="_blank">{{openGraph.title}}</a>
     </div>
     <div class="image" v-if="openGraph.image != ''">
-      <img :src="openGraph.image" alt="">
+      <q-img :src="openGraph.image" />
     </div>
     <div class="description" v-if="openGraph.description != ''">{{openGraph.description}}</div>
   </div>
@@ -13,9 +13,9 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
 import isURL from 'validator/es/lib/isUrl'
-import { IMessage } from "@/types/message"
-import { OpenGraph } from "@/types/OpenGraph"
-import { openGraphScrap } from "@/services/common"
+import { IMessage } from "src/types/message"
+import { OpenGraph } from "src/types/OpenGraph"
+import { openGraphScrap } from "src/services/common"
 
 export default defineComponent({
   props:{
@@ -50,7 +50,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+.content{
+  max-width: 350px;
+}
 .title{
+  font-weight: 700;
   padding: 15px 10px 10px 10px;
 }
 

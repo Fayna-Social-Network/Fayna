@@ -74,9 +74,6 @@ export default defineComponent({
            this.sendMessageTo(mess)
         },
 
-
-
-
       sendMessageTo(message : string){
         const newMess: IMessage = {
             id: uuid(),
