@@ -8,10 +8,10 @@
 </template>
 
 <script lang="ts">
-import { IMessage } from "@/types/message"
+import { IMessage } from "src/types/message"
 import { defineComponent, PropType } from "vue"
 import Loader from '../../UI/Loader.vue'
-import VideoMessage from "@/services/messages/videoMessage.service"
+import VideoMessage from "src/services/messages/videoMessage.service"
 
 export default defineComponent({
   props:{
@@ -27,7 +27,7 @@ export default defineComponent({
   methods:{
     async getVideoSource(){
       const result = await VideoMessage.Get(this.message.id)
-      const path = result.data.path 
+      const path = result.data.path
       return import.meta.env.VITE_APP_BACKEND_PATH + path
     }
   },
@@ -44,7 +44,7 @@ export default defineComponent({
 <style scoped>
 
 .video-player{
-  padding: 25px 20px 15px 30px;
+  padding: 10px 10px 0px 10px;
 }
 video{
   width: 300px;

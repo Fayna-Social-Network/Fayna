@@ -20,8 +20,8 @@ export default defineComponent({
       //     import('./UserContacts/ContactChecker.vue'))),
       // MessageReaction:  markRaw(defineAsyncComponent(() =>
       //     import('./MessageModals/ReactionModalComponent.vue'))),
-      // AddImage : markRaw(defineAsyncComponent(() =>
-      //     import('./MessageModals/AddImage.vue'))),
+      AddImage : markRaw(defineAsyncComponent(() =>
+          import('components/modals/MessageModals/AddImagesToMessage.vue'))),
       // ImageViewer: markRaw(defineAsyncComponent(() =>
       //     import('../MediaComponents/ImagesViewer.vue'))),
       // CodeEditor: markRaw(defineAsyncComponent(() =>

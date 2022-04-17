@@ -58,7 +58,7 @@ import { useUserContactsStore } from 'src/stores/UserContacts';
 import NavBar from 'components/MainLayout/NavBar.component.vue'
 import AppsNav from 'components/MainLayout/AppsNavBar.component.vue'
 import LeftSideBar from 'components/MainLayout/LeftSideBar.component.vue'
-import MainLayotModals from 'src/components/modals/MainLayotModals.vue';
+import MainLayotModals from 'src/components/modals/MainLayoutModals.vue';
 
 export default defineComponent({
   name: 'MainLayout',

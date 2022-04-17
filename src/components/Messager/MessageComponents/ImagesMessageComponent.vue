@@ -6,7 +6,7 @@
         <div class="album-header">{{albumHeader}}</div>
         <div class="main-image" @click.stop="imageClickHandle()">
             <div class="badge" v-if="images.length > 1"><span>+{{images.length - 1}}</span></div>
-            <img class="image" :src="getImage" alt="" loading="lazy">
+            <q-img width="300px" :src="getImage" alt="" loading="lazy" />
         </div>
         <div class="album-desc">{{albumDesc}}</div>
     </div>
@@ -14,18 +14,18 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
-import { IMessage } from "@/types/message"
-import ImageMessage from "@/services/messages/imageMessageService"
-import Images from "@/types/Images"
-import Loader from '../../UI/Loader.vue'
-import { Open } from "@/functions/modals"
+import { IMessage } from "src/types/message"
+import ImageMessage from "src/services/messages/imageMessage.service"
+import Images from "src/types/Images"
+import Loader from 'components/UI/Loader.vue'
+import { Open } from "src/functions/modals"
 
 interface ImageComponentData{
     albumHeader: string,
     albumDesc: string,
     images: Array<Images>
     loading: boolean
-} 
+}
 
 
 export default defineComponent({
@@ -39,7 +39,7 @@ export default defineComponent({
         albumHeader: '',
         albumDesc: '',
         images: [],
-        loading: true     
+        loading: true
     }),
     methods:{
        async getAlbum(){
@@ -47,7 +47,7 @@ export default defineComponent({
            this.albumHeader = result.data.header
            this.albumDesc = result.data.description
            this.images = result.data.imageMessages
-           this.loading = false  
+           this.loading = false
         },
         imageClickHandle(){
           Open('ImageViewer', this.images)
@@ -62,22 +62,16 @@ export default defineComponent({
         }
     },
     mounted(){
-       this.getAlbum() 
+       this.getAlbum()
     },
     components:{
       Loader
     }
- 
+
 })
 </script>
 
-<style scoped>
-.image{
-    display: block;
-    position: relative;
-    max-width: 300px;
-    min-height: 200px;
-}
+<style scoped lang="scss">
 
 .loading{
   height: 300px;
@@ -85,7 +79,7 @@ export default defineComponent({
 }
 
 .images-prewiev{
-    padding: 20px;
+    padding: 10px 10px 0px 10px;
 }
 .main-image{
     position: relative;
@@ -93,9 +87,12 @@ export default defineComponent({
 
 .album-header{
     margin-bottom: 10px;
+    font-family: $oswald;
+    font-size: 16px;;
 }
 
 .album-desc{
+    font-family: $roboto;
     margin-top: 10px;
     font-size: 13px;
     font-style: italic;
@@ -108,6 +105,7 @@ export default defineComponent({
   width: 30px;
   height: 30px;
   display:flex;
+  color: white;
   justify-content: center;
   align-items: center;
   z-index: 999;

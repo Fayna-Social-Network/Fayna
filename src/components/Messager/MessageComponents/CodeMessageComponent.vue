@@ -3,18 +3,18 @@
        <div class="text-code">
           {{text}}
        </div>
-      
-       <div class="message">{{$translate('CodeMessage')}}</div>
+
+       <div class="message">{{$t('CodeMessage')}}</div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { Open } from "@/functions/modals";
-import { IContact } from "@/types/contact";
-import { IMessage } from "@/types/message";
+import { Open } from "src/functions/modals";
+import { IContact } from "src/types/contact";
+import { IMessage } from "src/types/message";
 import { mapState } from "pinia";
-import { useUserMessagesStore } from "@/store/UserMessages";
+import { useUserMessagesStore } from "stores/UserMessages";
 
 export default defineComponent({
     props:{
@@ -51,7 +51,7 @@ export default defineComponent({
     justify-content: center;
     align-items:center;
     width: 300px;
-    height: 100px;
+   
 }
 .text-code{
     font-size: 28px;

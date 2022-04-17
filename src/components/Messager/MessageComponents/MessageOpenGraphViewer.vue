@@ -32,7 +32,7 @@ export default defineComponent({
     if(isURL(this.message.text)){
       this.isActive = true
       const result = await openGraphScrap({url: this.message.text})
-      this.openGraph = result.data 
+      this.openGraph = result.data
       if(this.openGraph.urlTag == ''){
         this.openGraph.urlTag = this.message.text
       }
@@ -43,7 +43,7 @@ export default defineComponent({
   },
   methods:{
     clickHandle(){
-     
+
     }
   }
 })

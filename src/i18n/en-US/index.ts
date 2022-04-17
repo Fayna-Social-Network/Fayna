@@ -5,6 +5,7 @@ import userList from './userList';
 import modalAddContact from './modalAddContact';
 import userDashboard from './userDashboard';
 import sendMessageComponent from './sendMessageComponent';
+import chat from './chat';
 import common from './common';
 
 export default {
@@ -15,5 +16,6 @@ export default {
   ...modalAddContact,
   ...userDashboard,
   ...sendMessageComponent,
-  ...common
+  ...common,
+  ...chat
 };

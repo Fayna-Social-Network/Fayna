@@ -55,9 +55,7 @@ export default defineComponent({
            this.signalR.invoke('UserTypingMessage',
                     {user: this.companion!.userId, fromWho: this.user!.id})
         },
-        changeHandler(){
-          console.log('ijgfggg')
-        },
+      
         sendMessageHandle(){
             if(this.message === ''){
                 return

@@ -1,15 +1,15 @@
 <template>
-   <div class="del-mess-text" 
+   <div class="del-mess-text"
     @click="delMessageTextHandler(message, currentCorrespondenceId)">
-        {{$translate('MessageDeleteByUser')}}
+        {{$t('MessageDeleteByUser')}}
     </div>
 </template>
 
 <script lang="ts">
-import { IMessage } from '@/types/message'
+import { IMessage } from 'src/types/message'
 import { defineComponent, PropType } from 'vue'
 import { mapActions, mapState  } from 'pinia'
-import { useUserMessagesStore } from '@/store/UserMessages'
+import { useUserMessagesStore } from 'stores/UserMessages'
 
 export default defineComponent({
   props:{
