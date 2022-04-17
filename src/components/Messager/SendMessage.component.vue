@@ -3,24 +3,23 @@
     :class="{'bg-dark' : $q.dark.isActive}"
   >
     <div class="button-contol">
-      <q-btn round color="primary" icon="mood">
+      <q-btn round color="primary" icon="mood" :size="iconSize">
         <StickerBox
           @onSelectSticker="onSelectSticker"
           @selectEmoji="selectEmoji"
         />
       </q-btn>
-      <q-btn round color="primary" icon="add">
+      <q-btn round color="primary" icon="add" :size="iconSize">
         <MenuMessage :companion="companion!"/>
       </q-btn>
     </div>
     <div class="message-input">
       <q-input filled v-model="message"
-        @input="changeHandler()"
         :placeholder="$t('SendMessageInputPlaceholder')"/>
     </div>
     <div class="button-contol">
-      <MicButton :companion="companion!"/>
-      <q-btn round color="primary" icon="send" size="17px"
+      <MicButton :companion="companion!" :size="iconSize"/>
+      <q-btn round color="primary" icon="send" :size="$q.platform.is.mobile ? '15px' : '17px'"
         @click="sendMessageHandle"
       />
     </div>
@@ -46,6 +45,7 @@ export default defineComponent({
     data:() =>({
         message: '',
         signalR: useSignalR(),
+        iconSize: '14px'
     }),
 
     methods: {
@@ -55,7 +55,7 @@ export default defineComponent({
            this.signalR.invoke('UserTypingMessage',
                     {user: this.companion!.userId, fromWho: this.user!.id})
         },
-      
+
         sendMessageHandle(){
             if(this.message === ''){
                 return
@@ -98,6 +98,12 @@ export default defineComponent({
     watch:{
       message(){
         this.inputTextChange()
+      }
+    },
+
+    mounted(){
+      if(this.$q.platform.is.mobile){
+        this.iconSize = '12px'
       }
     },
 

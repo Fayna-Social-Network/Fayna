@@ -8,7 +8,7 @@
         </div>
         <div class="header-button">
            <q-btn round color="primary" icon="search"
-            @click="searchActivateHandler(true)"
+            @click.stop="searchActivateHandler(true)"
            >
             <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
               transition-show="flip-right"

@@ -47,6 +47,12 @@ export default defineComponent({
   padding: 10px 10px 0px 10px;
 }
 video{
-  width: 300px;
+  width: 250px;
+}
+
+@media screen and (max-width: 500px){
+  .video-player{
+    padding: 0;
+  }
 }
 </style>

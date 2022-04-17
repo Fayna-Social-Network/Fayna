@@ -4,11 +4,15 @@
       {{$t('AddImages')}}
     </template>
     <template #body>
-    <div class="content">
+    <div class="in-procces" v-if="inprocces">
+      <Loader />
+    </div>
+    <div class="content" v-else>
        <q-uploader
         :label="$t('UploadImages')"
         multiple
         hide-upload-btn
+        :no-thumbnails="$q.platform.is.mobile"
         @added="addedImagesHandle"
         @removed="removedImagesHandle"
         style="max-width: 300px"
@@ -30,10 +34,11 @@
     </template>
     <template #actions>
        <q-btn color="primary" :label="$t('Send')"
-       :disable="files.length === 0"
+       :disable="files.length === 0 || inprocces"
         @click="SendImageHandle()"
       />
       <q-btn color="negative" :label="$t('Cancel')"
+        :disable="inprocces"
         @click="closeHandle()"
       />
     </template>
@@ -53,7 +58,7 @@ import { useUserMessagesStore } from "src/stores/UserMessages"
 import { IMessage } from "src/types/message"
 import { useMainStore } from "src/stores/Main"
 import { v4 as uuid } from "uuid"
-
+import Loader from "src/components/UI/Loader.vue"
 
 export default defineComponent({
   props:{
@@ -67,7 +72,8 @@ export default defineComponent({
     addHeader: false,
     addDesc: false,
     header: '',
-    description: ''
+    description: '',
+    inprocces: false,
   }),
   methods:{
     ...mapActions(useUserMessagesStore, ['addMessageToCorrespondence']),
@@ -75,7 +81,6 @@ export default defineComponent({
 
     addedImagesHandle(files: Array<File>){
       this.files = Array.from(files)
-      console.log(this.files)
     },
 
     removedImagesHandle(files: Array<File>){
@@ -89,6 +94,7 @@ export default defineComponent({
     },
 
     async SendImageHandle(){
+      this.inprocces = true
        const imagesPath: string[] = []
             for(let file of this.files){
              let imagePath = await Files.upload(file, 'images')
@@ -124,7 +130,8 @@ export default defineComponent({
     ...mapState(useUserStore, ['user'])
   },
   components:{
-    DialogModal
+    DialogModal,
+    Loader
   }
 })
 </script>
@@ -135,6 +142,8 @@ export default defineComponent({
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  max-height: 450px;
+  overflow-y: auto;
 }
 .album-addition{
   margin-top: 10px;
@@ -149,6 +158,14 @@ export default defineComponent({
 }
 .inputs{
   margin-top: 10px;
+}
+
+.in-procces{
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .list-item {

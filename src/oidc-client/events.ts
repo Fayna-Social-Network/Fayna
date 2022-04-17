@@ -18,7 +18,6 @@ export default function OidcEvents(client : any) {
   })
 
   client.events.addUserLoaded(function(user: User) {
-    console.log('Unklnnsnncsanc')
     localStorage.setItem('token', user.access_token)
   })
 

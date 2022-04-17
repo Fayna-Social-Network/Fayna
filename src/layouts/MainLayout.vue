@@ -143,7 +143,7 @@ export default defineComponent({
   }
 
   .left-side-bar{
-    overflow-y: auto;
+    overflow-y: hidden;
     width: 300px;
   }
 

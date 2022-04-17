@@ -6,7 +6,7 @@
         <div class="album-header">{{albumHeader}}</div>
         <div class="main-image" @click.stop="imageClickHandle()">
             <div class="badge" v-if="images.length > 1"><span>+{{images.length - 1}}</span></div>
-            <q-img width="300px" :src="getImage" alt="" loading="lazy" />
+            <q-img width="250px" :src="getImage" alt="" loading="lazy" />
         </div>
         <div class="album-desc">{{albumDesc}}</div>
     </div>
@@ -74,8 +74,8 @@ export default defineComponent({
 <style scoped lang="scss">
 
 .loading{
-  height: 300px;
-  width: 300px;
+  height: 250px;
+  width: 250px;
 }
 
 .images-prewiev{
@@ -118,6 +118,12 @@ export default defineComponent({
 
 @keyframes pl1 {
     100% {box-shadow: 0 0 0 10px #0000}
+}
+
+@media screen and (max-width: 500px){
+  .images-prewiev{
+    padding: 0;
+  }
 }
 
 </style>

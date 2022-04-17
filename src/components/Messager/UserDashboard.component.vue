@@ -17,7 +17,7 @@
     </div>
     <div class="action-panel">
       <ul class="option-group">
-       <li><q-btn round color="primary" icon="volume_up" >
+       <li><q-btn round color="primary" icon="volume_up" :size="iconSize">
               <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
                 transition-show="flip-right"
                 transition-hide="flip-left"
@@ -25,7 +25,7 @@
                 {{$t('DisableNotification')}}
               </q-tooltip>
            </q-btn></li>
-       <li><q-btn round color="primary" icon="search" >
+       <li><q-btn round color="primary" icon="search" :size="iconSize">
            <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
                 transition-show="flip-right"
                 transition-hide="flip-left"
@@ -35,7 +35,7 @@
        </q-btn></li>
       </ul>
         <ul class="option-group">
-          <li><q-btn round color="primary" icon="call" >
+          <li><q-btn round color="primary" icon="call" :size="iconSize">
                <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
                 transition-show="flip-right"
                 transition-hide="flip-left"
@@ -43,7 +43,7 @@
                 {{$t('CallUser')}}
               </q-tooltip>
           </q-btn></li>
-          <li><q-btn round color="primary" icon="video_camera_front" >
+          <li><q-btn round color="primary" icon="video_camera_front" :size="iconSize">
              <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
                 transition-show="flip-right"
                 transition-hide="flip-left"
@@ -52,7 +52,7 @@
               </q-tooltip>
           </q-btn></li>
           <li>
-            <q-btn round color="primary" icon="more_vert">
+            <q-btn round color="primary" icon="more_vert" :size="iconSize">
               <q-menu :offset="[-10, 10]"
                 auto-close
                 transition-show="flip-right"
@@ -96,7 +96,8 @@ export default defineComponent({
     data:() => ({
       isMenuActive: false,
       menu: Menu,
-      actions: MenuActions
+      actions: MenuActions,
+      iconSize: '14px'
     }),
     methods:{
       menuClickHandle(item: MenuItem){
@@ -116,6 +117,11 @@ export default defineComponent({
         },
 
 
+    },
+    mounted(){
+      if(this.$q.platform.is.mobile){
+        this.iconSize = '12px'
+      }
     },
     components:{
       IsOnlineBadge
@@ -154,6 +160,7 @@ export default defineComponent({
   font-family: 'Yanone Kaffeesatz', sans-serif;
   font-weight: 400;
   font-size: 18px;
+  width: 100px;
 }
 
 .status{
@@ -162,6 +169,7 @@ export default defineComponent({
   background: grey;
   padding: 1px 10px 1px 10px;
   border-radius: 20px;
+  display: inline;
 }
 
 .online{
@@ -174,6 +182,7 @@ export default defineComponent({
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .option-group{

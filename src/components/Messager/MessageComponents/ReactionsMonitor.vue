@@ -58,8 +58,8 @@ export default defineComponent({
 <style scoped>
 .reactions{
     position: absolute;
-    top: 2px;
-    left: -35px;
+    bottom: 2px;
+    right: 2px;
     padding: 3px 5px 2px 5px;
     background: grey;
     border: solid 1px wheat;
@@ -67,7 +67,6 @@ export default defineComponent({
 }
 
 .recip{
-  left: unset;
-  right: -35px;
+  right: 2px;
 }
 </style>

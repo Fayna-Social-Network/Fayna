@@ -16,9 +16,9 @@
         >
         <q-btn round
         :color="isActive === item.id ? 'blue-7' : 'blue-grey-12'"
-         size="16px"
+         :size="iconSize"
         :icon="item.icon"
-        @click="menuClickHandler(item.id)"
+        @click.stop="menuClickHandler(item.id)"
         :class="{'active': isActive === item.id}"
         >
         <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
@@ -35,10 +35,10 @@
     <div class="nav-bar-content">
       <ul class="menu-list">
         <li class="menu-item">
-          <q-btn round size="16px"
+          <q-btn round  :size="iconSize"
           :icon="$q.dark.isActive ? 'wb_sunny' : 'nightlight'"
           color="grey-7"
-          @click="themeChangeHandler()"
+          @click.stop="themeChangeHandler()"
           >
             <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
                 transition-show="flip-right"
@@ -49,10 +49,10 @@
           </q-btn>
         </li>
         <li class="menu-item">
-          <q-btn round size="16px"
+          <q-btn round :size="iconSize"
           icon="settings"
           color="orange-8"
-          @click="setupMenuHandle()"
+          @click.stop="setupMenuHandle()"
           >
             <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
               transition-show="flip-right"
@@ -63,10 +63,10 @@
           </q-btn>
         </li>
          <li class="menu-item">
-          <q-btn round size="16px"
+          <q-btn round  :size="iconSize"
           icon="power_settings_new"
           color="red-8"
-          @click="$oidc.signOut()"
+          @click.stop="$oidc.signOut()"
           >
             <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
               transition-show="flip-right"
@@ -101,6 +101,7 @@ export default defineComponent({
             isActive: 0,
             userAvatar: '',
             logo,
+            iconSize: '16px'
 
         }
     },
@@ -188,6 +189,9 @@ export default defineComponent({
       if(this.checkNotifications > 0){
         this.menuList[4].isNotify = true
       }
+      if(this.$q.platform.is.mobile){
+        this.iconSize = '13px'
+      }
     },
     components:{
       NotifyRedIcon
@@ -236,5 +240,17 @@ img{
 }
 .active{
   box-shadow: 0 0 3px 2px #eff1f2;
+}
+
+@media screen and (max-height: 750px){
+  .menu-item{
+    padding-top: 15px;
+
+  }
+
+  .nav-bar-logo{
+   padding: 10px 0px 10px 0px;
+
+  }
 }
 </style>

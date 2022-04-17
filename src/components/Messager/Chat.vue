@@ -131,9 +131,9 @@ export default defineComponent({
 
   },
   mounted(){
-   setTimeout(() => {
-     this.corrTrigger()
-  }, 200);
+    setTimeout(() => {
+      this.corrTrigger()
+    }, 200);
   },
   components:{
     UserTyping,

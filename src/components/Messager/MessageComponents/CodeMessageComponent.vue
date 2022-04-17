@@ -50,8 +50,8 @@ export default defineComponent({
     flex-direction: column;
     justify-content: center;
     align-items:center;
-    width: 300px;
-   
+    width: 250px;
+
 }
 .text-code{
     font-size: 28px;
