@@ -1,4 +1,4 @@
-# Faina (faina)
+# Fayna (fayna frontend)
 
 Ukrainian Social Network
 
