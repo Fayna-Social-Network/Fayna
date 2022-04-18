@@ -12,12 +12,14 @@
             <q-img class="group-image" :src="getFullPath(group.stickers[0].path)" />
           </li>
         </ul>
-        <q-btn round size="10px"
-          icon="add"
-          color="orange-8"
-          @click="addGroupHandle()"
-          >
+        <div class="add-button">
+           <q-btn round size="10px"
+              icon="add"
+              color="orange-8"
+              @click="addGroupHandle()"
+            >
         </q-btn>
+        </div>
       </div>
       <div class="stickers-items">
         <ul class="sticker-list" v-if="stickerGroups.length > 0">
@@ -91,12 +93,12 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .stickers{
-    height: 100%;
+    // height: 400px;
     width: 350px;
 }
 
 .content{
-  /* height: 400px; */
+  height: 400px;
   display: grid;
   grid-template-columns: 65px 1fr;
 }
@@ -131,31 +133,21 @@ export default defineComponent({
 }
 
 .sticker-group-list{
-  height: 360px;
+  height: 90%;
   /* overflow-y: auto; */
 }
 
 .no-stickers{
-  padding-top: 10px;
+  padding: 10px;
   color: grey;
   font-style: italic;
   line-height: 1.1;
   text-align: center;
   font-size: 12px;
 }
-.button-add{
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  color: var(--text-color);
-  transition: all 0.5s ease;
-}
 
-.button-add:hover{
-  color:rgba(0, 4, 255, 0.582);
-}
+
+
 .active{
   position: relative;
   border-left: solid 3px #1C9DEA;
@@ -185,5 +177,11 @@ export default defineComponent({
 }
 .sticker:hover{
     background: grey;
+}
+
+.add-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

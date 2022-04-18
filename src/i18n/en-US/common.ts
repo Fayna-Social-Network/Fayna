@@ -1,4 +1,5 @@
 export default {
   Add: "Add",
-  Cancel: "Cancel"
+  Cancel: "Cancel",
+  Save: "Save"
 }

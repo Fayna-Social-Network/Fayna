@@ -80,6 +80,7 @@ export default defineComponent({
 
 .images-prewiev{
     padding: 10px 10px 0px 10px;
+    cursor: pointer;
 }
 .main-image{
     position: relative;

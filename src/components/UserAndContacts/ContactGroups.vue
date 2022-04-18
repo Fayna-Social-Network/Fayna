@@ -7,15 +7,24 @@
       @click="groupClickHandle(group)"
       >{{group.groupName}}
       <div class="delete" v-if="group.groupName != 'All'">
-        <div class="del-button" @click="delGroupHandle(group.id)">
+        <div class="del-button" @click.stop="delGroupHandle(group.id)">
           <span>x</span>
         </div>
       </div>
       </li>
     </ul>
-    <div class="add-group" @click="addGroupHandle">
-      <q-icon name='add' size='25px'/>
-    </div>
+    <q-btn round icon="add" size="8px"
+    color="primary"
+    class="add-group"
+    @click="addGroupHandle"
+    >
+      <q-tooltip anchor="center right" self="center left" :offset="[10, 10]"
+        transition-show="flip-right"
+        transition-hide="flip-left"
+      >
+        {{$t('CreateContactGroup')}}
+      </q-tooltip>
+    </q-btn>
   </div>
 </template>
 
@@ -119,8 +128,6 @@ export default defineComponent({
 
 .add-group{
   position: absolute;
-  color: var(--text-color);
-  cursor: pointer;
   top: 0;
   right: 5px;
   opacity: 0;
@@ -128,7 +135,7 @@ export default defineComponent({
 }
 
 .content:hover .add-group{
-  opacity: .7;
+  opacity: 1;
 }
 
 </style>

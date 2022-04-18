@@ -1,44 +1,34 @@
 <template>
-  <Overlay>
-    <template #content>
-      <div class="window">
-        <CloseModal @closeModal="closeModalHandler"/>
-        <div class="header">
-          <div class="header-text">{{$translate('Edit')}}</div>
-        </div>
-        <div class="name-contact group">
-          <label for="name">{{$translate('Name')}}</label>
-          <input type="text" id="name" v-model="contactName">
-        </div>
-        <div class="select-group group">
-          <label for="group">{{$translate('ChangeContactGroup')}}</label>
-          <select name="group" id="group" v-model="selectedGroup">
-            <option 
-              v-for="group in user!.contactGroups"
-              :key="group.id"
-              :value="group"
-              >{{group.groupName}}</option>
-          </select>
-        </div>
-        <div class="button" @click="saveHandle">
-          {{$translate("Save")}}
-        </div> 
+  <DialogModal>
+    <template #header-text>
+      {{$t('EditContact')}}
+    </template>
+    <template #body>
+      <div class="content">
+        <q-input v-model="contactName" :label="$t('ContactName')" />
+        <q-select v-model="selectedGroupName"
+          transition-show="jump-up"
+          transition-hide="jump-up"
+          :options="user.contactGroups.map(g => g.groupName)"
+          :label="$t('SelectContactGroup')" />
       </div>
     </template>
-  </Overlay>
+    <template #actions>
+      <q-btn color="primary" :label="$t('Save')" @click="saveHandle"/>
+      <q-btn color="negative" :label="$t('Cancel')" @click="closeModalHandler" />
+    </template>
+  </DialogModal>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
-import Overlay from "../OverlayComponent.vue"
-import CloseModal from "@/components/UI/buttons/CloseModalButton.vue"
+import DialogModal from "../DialogModalTemplate.vue"
 import { mapState, mapActions } from "pinia"
-import { useUserContactsStore } from "@/store/UserContacts"
-import { useUserStore } from "@/store/User"
-import { IContact } from "@/types/contact"
-import { Close } from "@/functions/modals"
-import Contacts from "@/services/users/ContactsService"
-import { ContactGroup } from "@/types/ContactGroup"
+import { useUserContactsStore } from "stores/UserContacts"
+import { useUserStore } from "stores/User"
+import { IContact } from "src/types/contact"
+import { Close } from "src/functions/modals"
+import Contacts from "src/services/users/contacts.service"
 
 export default defineComponent({
   props:{
@@ -48,7 +38,7 @@ export default defineComponent({
     }
   },
   data:() => ({
-    selectedGroup: {} as ContactGroup,
+    selectedGroupName: '',
     contactName: ''
   }),
   methods:{
@@ -58,20 +48,23 @@ export default defineComponent({
       Close()
     },
     async saveHandle(){
-      await Contacts.UpdateUserContact({
-        contactId: this.modalData.contactId,
-        groupId: this.selectedGroup.id,
-        contactName: this.contactName
-      })
-      const update = {
-        contactId: this.modalData.contactId,
-        groupId: this.selectedGroup.id,
-        groupName: this.selectedGroup.groupName,
-        name: this.contactName
+      const selectedGroup = this.user?.contactGroups.find(g => g.groupName === this.selectedGroupName)
+      if(selectedGroup){
+        await Contacts.UpdateUserContact({
+          contactId: this.modalData.contactId,
+          groupId: selectedGroup.id,
+          contactName: this.contactName
+        })
+        const update = {
+          contactId: this.modalData.contactId,
+          groupId: selectedGroup.id,
+          groupName: selectedGroup.groupName,
+          name: this.contactName
+        }
+        this.updateContact(update)
+        this.$q.notify({message: this.$t('ContactUpdatedSuccessfully')})
+        Close()
       }
-      this.updateContact(update)
-      this.$alert(this.$translate('ContactUpdatedSuccessfully'), false)
-      Close()
     }
   },
   computed:{
@@ -79,52 +72,18 @@ export default defineComponent({
   },
   mounted(){
     this.contactName = this.modalData.name
-    this.selectedGroup = this.user!.contactGroups[0]
+    this.selectedGroupName = this.user!.contactGroups[0].groupName
   },
   components:{
-    Overlay,
-    CloseModal
+    DialogModal
   }
 })
 </script>
 
 <style scoped>
-.window{
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  padding: 20px;
-  background: rgb(8, 8, 8);
-  border-radius: 20px;
+.content{
+  width: 250px;
 }
-
-.header{
-  color: antiquewhite;
-  font-size: 21px;
-  font-weight: bold;
-  border-bottom: solid 1px;
-}
-
-.group{
-  display: flex;
-  margin-top: 10px;
-  flex-direction: column;
-  color: #fff;
-}
-
-.button{
-  display: flex;
-  background: rgb(21, 155, 21);
-  color: #fff;
-  justify-content: center;
-  padding: 5px 0px 5px 0px;
-  margin-top: 10px;
-  transition: all 0.5s ease;
-}
-
-.button:hover{
-  background: rgb(89, 185, 89);
-  cursor: pointer;
-}
-
 </style>
+
+

@@ -101,8 +101,7 @@ export default defineComponent({
             isActive: 0,
             userAvatar: '',
             logo,
-            iconSize: '16px'
-
+            iconSize: '14px'
         }
     },
 

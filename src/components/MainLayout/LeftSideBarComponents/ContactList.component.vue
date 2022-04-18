@@ -1,33 +1,35 @@
 <template>
   <Loader v-if="isLoading" />
   <div v-else class="chat-main">
-    <ul v-if="isSearchisOpen" class="search-users">
-      <li v-for="userItem in getSearchUsers"
+    <q-list v-if="isSearchisOpen" class="search-users">
+      <q-item clickable  v-for="userItem in getSearchUsers"
         :key="userItem.id"
         @click="clickToUserHandle(userItem.id)"
+        class="list-item"
         :class="{'active': activeContact == userItem.id}"
       >
-        <UserComponent
-          @userClick='userClick'
-          :userItem='userItem'/>
-      </li>
-    </ul>
+          <UserComponent
+            @userClick='userClick'
+            :userItem='userItem'/>
+      </q-item>
+    </q-list>
 
     <div v-else>
       <div class="contact-groups">
         <ContactGroups />
       </div>
-      <ul class="contact-list">
-        <li v-for="contact in getSortedContacts"
+      <q-list class="contact-list">
+        <q-item clickable v-for="contact in getSortedContacts"
          :key="contact.contactId"
          @click="clickToContactHandle(contact.userId)"
+         class="list-item"
          :class="{'active': activeContact == contact.userId}"
         >
           <Contact
            @contactClick='contactClick'
            :contact = 'contact'/>
-        </li>
-      </ul>
+        </q-item>
+      </q-list>
     </div>
 
   <div v-if="contacts.length == 0 && !isSearchisOpen" class="no-contacts">
@@ -123,10 +125,9 @@ export default defineComponent({
   margin-top: 20px;
 }
 
-li{
-    display: flex;
-    align-items: center;
-    height: 70px;
+
+.list-item{
+  padding: 10px 0px 10px 0px;
 }
 
 .active{
@@ -134,6 +135,8 @@ li{
     border-left: 4px solid $primary;
     transition: all 0.3s ease;
 }
+
+
 
 .no-contacts{
   padding: 5px;

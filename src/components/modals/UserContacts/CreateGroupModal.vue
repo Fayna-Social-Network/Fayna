@@ -1,29 +1,28 @@
 <template>
-  <Overlay>
-    <template #content>
-      <div class="window">
-        <CloseButton @closeModal="closeModal"/>
-        <div class="content">
-          <div class="name-field">
-            <label for="name">{{$translate('Name')}}</label>
-            <input type="text" id="name" v-model="groupName" @keydown.enter="addGroupHandle">
-          </div>
-          <button class="add-button" @click="addGroupHandle">{{$translate("Add")}}</button>
-        </div>
-      </div>
+  <DialogModal>
+    <template #header-text>
+      {{$t('CreateContactGroup')}}
     </template>
-  </Overlay>
+    <template #body>
+        <div class="content">
+          <q-input v-model="groupName" :label="$t('ContactGroupName')" @keydown.enter="addGroupHandle"/>
+        </div>
+    </template>
+      <template #actions>
+        <q-btn color="primary" :label="$t('Add')"  @click="addGroupHandle"/>
+        <q-btn color="negative" :label="$t('Cancel')"  @click="closeModal"/>
+      </template>
+  </DialogModal>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
+import DialogModal from "../DialogModalTemplate.vue"
 import { mapActions } from "pinia"
-import { useUserStore } from "@/store/User"
-import Overlay from "../OverlayComponent.vue"
-import CloseButton from "@/components/UI/buttons/CloseModalButton.vue"
-import { Close } from "@/functions/modals"
-import ContactGroups from "@/services/users/contactGroupsService"
-import { ContactGroup } from "@/types/ContactGroup"
+import { useUserStore } from "stores/User"
+import { Close } from "src/functions/modals"
+import ContactGroups from "src/services/users/contactGroups.service"
+import { ContactGroup } from "src/types/ContactGroup"
 
 export default defineComponent({
   data:() => ({
@@ -40,48 +39,25 @@ export default defineComponent({
           groupName: this.groupName
         }
         this.addContactGroupToUser(Group)
-        this.$alert(this.$translate('GroupSuccesAdd'), false)
+        this.$q.notify({message: this.$t('ContactGroupSuccessAdd')})
        Close()
        return
       }
-      this.$alert(this.$translate('NameOfGroupError'), true)
+      this.$q.notify({message: this.$t('NameOfGroupError'), type: 'negative'})
     },
     closeModal(){
       Close()
     }
   },
   components:{
-    Overlay,
-    CloseButton
+    DialogModal
   }
 })
 </script>
 
 <style scoped>
-.window{
-  position: relative;
-  width: 250px;
-  background: var(--modal-window-bg);
-  color: var(--text-color);
-  border-radius: 10px;
-}
-
 .content{
-  padding: 10px 10px 10px 10px;
-}
-button{
-  margin-top: 5px;
-  width: 100%;
-  color: #fff;
-  background: rgb(89, 163, 89);
-  border: none;
-  transition: all 0.5s ease;
-  cursor: pointer;
-}
-button:hover{
-  background: rgb(127, 182, 127);
-}
-input{
-  width: 100%;
+  width: 250px;
 }
 </style>
+

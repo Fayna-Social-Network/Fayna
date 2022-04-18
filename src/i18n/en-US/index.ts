@@ -6,7 +6,10 @@ import modalAddContact from './modalAddContact';
 import userDashboard from './userDashboard';
 import sendMessageComponent from './sendMessageComponent';
 import chat from './chat';
+import contactGroupsModal from './createContactGroupModal'
 import common from './common';
+import modalEditContact from './modalEditContact';
+import modalAddNewStickers from './modalAddNewStickers';
 
 export default {
   ...MainNavBar,
@@ -17,5 +20,8 @@ export default {
   ...userDashboard,
   ...sendMessageComponent,
   ...common,
+  ...contactGroupsModal,
+  ...modalEditContact,
+  ...modalAddNewStickers,
   ...chat
 };

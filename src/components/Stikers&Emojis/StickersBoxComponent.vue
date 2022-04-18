@@ -1,14 +1,15 @@
 <template>
   <q-menu :offset="[-10, 30]"
+    style="height: 482px;"
     transition-show="flip-right"
     transition-hide="flip-left"
   >
-    <q-card>
+    <q-card style="height: 100%;">
       <q-tabs
         v-model="tab"
         class="bg-teal text-yellow shadow-2"
       >
-        <q-tab name="stickers" icon="gif_box" />
+        <q-tab name="stickers" icon="gif_box"/>
         <q-tab name="emoji" icon="emoji_emotions" />
       </q-tabs>
       <q-separator />
@@ -67,7 +68,7 @@ export default defineComponent({
     position: absolute;
     top: -480px;
     left: 20px;
-    width: 370px;
+    width: 300px;
     /* height: 350px; */
     z-index: 666;
     background: var(--stickers-box-bg);
@@ -94,5 +95,6 @@ export default defineComponent({
 .scroll{
   overflow: hidden;
 }
+
 
 </style>

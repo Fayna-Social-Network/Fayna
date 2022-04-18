@@ -13,9 +13,10 @@
         <MenuMessage :companion="companion!"/>
       </q-btn>
     </div>
-    <div class="message-input">
+    <div class="message-input" @keydown.enter="sendMessageHandle">
       <q-input filled v-model="message"
-        :placeholder="$t('SendMessageInputPlaceholder')"/>
+        :placeholder="$t('SendMessageInputPlaceholder')"
+        />
     </div>
     <div class="button-contol">
       <MicButton :companion="companion!" :size="iconSize"/>
@@ -72,16 +73,20 @@ export default defineComponent({
            this.sendMessageTo(mess)
         },
 
-      sendMessageTo(message : string){
-        const newMess: IMessage = {
-            id: uuid(),
-            text: message,
-            isRead: false,
-            timestamp: new Date(),
-            seller: this.user!.id,
-            userId: this.companion!.userId
-        }
-          this.sendMessage({message: newMess, contactId: this.currentCorrespondenceId!})
+        enterHandler(){
+          console.log('enter')
+        },
+
+        sendMessageTo(message : string){
+          const newMess: IMessage = {
+              id: uuid(),
+              text: message,
+              isRead: false,
+              timestamp: new Date(),
+              seller: this.user!.id,
+              userId: this.companion!.userId
+          }
+            this.sendMessage({message: newMess, contactId: this.currentCorrespondenceId!})
       }
     },
 
