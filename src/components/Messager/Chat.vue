@@ -5,25 +5,60 @@
       <q-chat-message
         v-for="message in getCorrespondenceNoParams"
         :key="message.id"
-        :label="isDisplayDate(message.timestamp) ? getDate(message.timestamp) : undefined"
-        :name="message.seller === user?.id ? getUserFullName
-        : getContactNameById(currentCorrespondenceId)"
         :avatar="message.seller === user?.id ? getUserAvatar
         : getContactAvatar(currentCorrespondenceId)"
         :stamp="getTime(message.timestamp)"
         :sent="message.seller === user?.id"
         :size="getSize(message.text)"
-
       >
-        <div ref="messageBlock"
-          :class="{'replies': message.seller != user.id}"
-          :data-isread="message.isRead"
-        >
-          <Message :message="message"/>
 
-          <Observer :rootselector="'.chat-content'"
-          @handleIntersect="messageHandle(message)"/>
-        </div>
+        <template #label>
+          <div class="message-date" v-if="isDisplayDate(message.timestamp)">
+            <span>{{getDate(message.timestamp)}}</span>
+          </div>
+        </template>
+
+        <template #name>
+          <div class="user-name">
+            <span>{{message.seller === user?.id ? getUserFullName
+          : getContactNameById(currentCorrespondenceId)}}</span>
+          </div>
+        </template>
+
+
+          <div ref="messageBlock" id="message-block"
+            :class="{'replies': message.seller != user.id}"
+            :data-isread="message.isRead"
+          >
+            <Message :message="message"/>
+
+            <Observer :rootselector="'.chat-content'"
+            @handleIntersect="messageHandle(message)"/>
+            <div class="menu-button"
+            :class="{'friend-menu': message.seller != user.id}"
+            >
+              <q-fab
+                v-model="fabMenu"
+                :label="$t('MessageContextMenu')"
+                label-position="top"
+                external-label
+                color="positive"
+                :icon="message.seller != user.id ? 'keyboard_arrow_left' : 'keyboard_arrow_right'"
+                :direction="message.seller != user.id ? 'left' : 'right'"
+                padding="2px"
+              >
+                <q-fab-action v-for="(menuItem, i) in Menu"
+                :key="menuItem.id"
+                padding="5px"
+                :color="`blue-${9 - i}`"
+                :icon="menuItem.icon"
+                @click.stop="menuItemClickHandle(menuItem, message!)"
+                 />
+
+              </q-fab>
+            </div>
+          </div>
+
        </q-chat-message>
       <UserTyping v-if="typingMessage &&
           getContactById(currentCorrespondenceId)!.userId == typingMessage"/>
@@ -52,10 +87,15 @@ import MessageService from "src/services/messages/message.service"
 import Observer from 'components/Observer.vue'
 import Message from 'components/Messager/Message.component.vue'
 import ScrollBottom from "components/UI/Buttons/ScrollBottom.vue"
+import { Menu, MenuActions, IAction } from 'src/menus/messageContext.menu'
+import { MenuItem } from "src/types/menu"
 
 export default defineComponent({
   data: () => ({
-    isDisplayDate
+    isDisplayDate,
+    fabMenu: false,
+    Menu,
+    MenuActions
   }),
   computed:{
     ...mapState(useUserMessagesStore, ['getCorrespondenceNoParams' ,
@@ -74,6 +114,13 @@ export default defineComponent({
 
     getDate(time : any){
       return dateFilter(time)
+    },
+
+    menuItemClickHandle(item : MenuItem, message: IMessage){
+      this.MenuActions[item.action as IAction]({
+        message,
+        contactId: this.currentCorrespondenceId!
+      })
     },
 
     getSize(text: string){
@@ -145,7 +192,7 @@ export default defineComponent({
 </script>
 
 
-<style scoped>
+<style scoped lang="scss">
 .chat{
   height: 75vh;
   width: 100%;
@@ -163,6 +210,42 @@ export default defineComponent({
 
 }
 
+.message-date span{
+  background: #81C784;
+  border: solid 1px rgb(57, 71, 28);
+  border-radius: 20px;
+  padding: 1px 7px 1px 7px;
+  font-weight: 700;
+  color: rgb(51, 51, 51);
+}
+
+.user-name span{
+  display: inline-block;
+  font-family: $yanone;
+  font-size: 16px;
+  min-width: 120px;
+}
+
+
+#message-block{
+  position: relative;
+}
+
+#message-block:hover .menu-button{
+  opacity: 1;
+}
+.menu-button{
+  position: absolute;
+  top: -42px;
+  left: -15px;
+  opacity: 0;
+  transition: all 400ms ease;
+}
+
+.friend-menu{
+  left: unset;
+  right: -15px;
+}
 .list-item {
   display: inline-block;
   margin-right: 10px;

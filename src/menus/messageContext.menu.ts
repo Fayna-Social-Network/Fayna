@@ -1,16 +1,18 @@
-import { $translate } from '@/plugins/localize.plugin';
-import { useUserStore } from '@/store/User';
-import { useUserMessagesStore } from '@/store/UserMessages';
-import { IMessage } from './../types/message';
-import { MenuItem } from '../types/menu';
-import { Open } from '@/functions/modals';
-import Reaction from '@/services/messages/ReactionsService';
-import { $alert } from '@/plugins/alert.plugin';
+import { IReaction } from './../types/Reaction';
+import { Notify } from 'quasar';
+import { useUserStore } from 'stores/User';
+import { useUserMessagesStore } from 'stores/UserMessages';
+import { IMessage } from 'src/types/message';
+import { MenuItem } from 'src/types/menu';
+import { Open } from 'src/functions/modals';
+import Reaction from 'src/services/messages/reactions.service';
 
+
+export type IAction = 'messageDelete' | 'contactChecker' | 'addReaction'
 
 interface MenuActionData{
   message: IMessage
-  contactId: string 
+  contactId: string
 }
 
 export const Menu: Array<MenuItem> = [
@@ -52,9 +54,9 @@ export const MenuActions = {
    const userStore = useUserStore()
     const reaction = await Reaction.Get(data.message.id)
     if(reaction.data.reactions.length > 0){
-      reaction.data.reactions.forEach(reaction => {
+      reaction.data.reactions.forEach((reaction: IReaction ) => {
         if(reaction.userId === userStore.user?.id){
-          $alert($translate('ReactionError'), true)
+          Notify.create({type: 'negative', message: 'ReactionError'})
           tmp++
         }
       });

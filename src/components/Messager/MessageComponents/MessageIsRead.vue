@@ -31,7 +31,7 @@ export default defineComponent({
 <style scoped>
 .message-is-read{
   position: absolute;
-  bottom: -20px;
+  bottom: -45px;
   right: -60px;
 }
 

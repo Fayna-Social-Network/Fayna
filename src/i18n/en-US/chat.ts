@@ -6,5 +6,9 @@ export default {
   AddDesc: "Add Description",
   AddAlbumHeader: 'Header text',
   AddAlbumDesc: 'Description',
-  Send: 'Send'
+  Send: 'Send',
+  MessageContextMenu: "Menu",
+  DeleteMessage: "Delete",
+  ForwardMessage: 'Forward',
+  ReactionMessage: 'Reaction'
 }

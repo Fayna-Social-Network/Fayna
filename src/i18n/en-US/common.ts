@@ -1,5 +1,6 @@
 export default {
   Add: "Add",
   Cancel: "Cancel",
-  Save: "Save"
+  Save: "Save",
+  Search: "Search"
 }

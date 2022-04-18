@@ -1,27 +1,25 @@
 <template>
-  <DefineModal @closeModal="closeHandle">
-    <template #content>
-      <div class="carusel" v-if="isReady">
-        <q-carousel
-          swipeable
-          animated
-          v-model="slide"
-          v-model:fullscreen="fullscreen"
-          thumbnails
-          infinite
-        >
-          <q-carousel-slide v-for="(image, key) in modalData" :key="image.id"
-            :name="key" :img-src="imagesPath[key].replaceAll('\\', '/')" />
-       </q-carousel>
+  <div class="carusel" v-if="isReady">
+    <q-carousel
+      swipeable
+      animated
+      v-model="slide"
+      v-model:fullscreen="fullscreen"
+      thumbnails
+      infinite
+    >
+      <q-carousel-slide v-for="(image, key) in modalData" :key="image.id"
+        :name="key" :img-src="imagesPath[key].replaceAll('\\', '/')" />
+      </q-carousel>
+      <div class="close-button">
+        <q-btn round icon="close" color="secondary" @click="closeHandle"/>
       </div>
-    </template>
-  </DefineModal>
+  </div>
 </template>
 
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
-import DefineModal from "../DefineModalTemplate.vue";
 import Images from "src/types/Images";
 import { Close } from "src/functions/modals";
 
@@ -53,9 +51,6 @@ export default defineComponent({
           import.meta.env.VITE_APP_BACKEND_PATH + image.path)
       this.isReady = true
     },
-    components: {
-      DefineModal
-    },
 })
 </script>
 
@@ -63,5 +58,13 @@ export default defineComponent({
   .carusel{
     width: 100vw;
     height: 100vh;
+    position: relative;
+  }
+
+  .close-button{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 9999;
   }
 </style>
