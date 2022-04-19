@@ -1,29 +1,25 @@
 <template>
-    <Contact>
-        <template #profile>
-             <img
-                class="bg-img"
-                :src="avatar"
-                alt="Avatar"
-                />
-            <div v-if="isOnline" class="user-online"></div>
-        </template>
-        <template #details>
-            <h4>{{nickName}}</h4>
-            <h5>{{username}}</h5>
-        </template>
-        <template #content>
-        <div class="check-box">
-             <Check  @isCheck='isUserChecked'/>
-        </div>
-        </template>
-    </Contact>
+  <div class="contact-checker">
+    <div class="contact-info">
+      <div class="contact-avatar">
+        <q-avatar rounded>
+          <img :src="avatar">
+        </q-avatar>
+      </div>
+      <div class="contact-details">
+        <div class="nickname">{{nickName}}</div>
+        <div class="username">{{username}}</div>
+      </div>
+    </div>
+
+    <div class="contact-check">
+       <q-checkbox v-model="checked" @click="isUserChecked"/>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Contact from './ContactTemplate.vue'
-
 
 export default defineComponent({
     props: ['user'],
@@ -31,11 +27,12 @@ export default defineComponent({
         nickName: '',
         username: '',
         isOnline: false,
+        checked: false
 
     }),
     methods:{
-        isUserChecked(value: boolean){
-            this.$emit('checkUser', {user: this.user, checked: value})
+        isUserChecked(){
+            this.$emit('checkUser', {user: this.user, checked: this.checked})
         }
     },
     computed:{
@@ -57,42 +54,34 @@ export default defineComponent({
          this.nickName =  '@' +  this.user.nickName
 
    },
-    components:{
-        Contact,
-
-    }
 })
 </script>
 
-<style scoped>
-h5{
- font-family: 'Roboto, sans serif';
+<style scoped lang="scss">
+.contact-checker{
+  display: flex;
+  justify-content: space-between;
+  width: 250px;
 }
 
-.bg-img{
-  width: 60px;
-
+.contact-info{
+  display: flex;
+  gap: 10px;
 }
 
-.check-box{
-    position: absolute;
-    right: 0;
-    top: 8px;
+.contact-details{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.user-online{
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  top: 0;
-  left: 0;
-  border-radius: 100%;
-  background: var(--user-online-badge-bg);
-   box-shadow: 0 0 0 0 var(--user-online-badge-bg-shadow);
-  animation: pl1 1s infinite;
+.contact-check{
+  display: flex;
+  align-items: center;
 }
 
-@keyframes pl1 {
-    100% {box-shadow: 0 0 0 10px #0000}
+.nickname{
+  font-family: $yanone;
+  font-size: 18px;
 }
 
 </style>

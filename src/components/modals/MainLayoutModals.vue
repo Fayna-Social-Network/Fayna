@@ -16,18 +16,18 @@ import { useModalWindowStore } from "stores/ModalWindow";
 export default defineComponent({
   data:() => ({
     modals:{
-      // ContactChecker :  markRaw(defineAsyncComponent(() =>
-      //     import('./UserContacts/ContactChecker.vue'))),
-      // MessageReaction:  markRaw(defineAsyncComponent(() =>
-      //     import('./MessageModals/ReactionModalComponent.vue'))),
+      ContactChecker :  markRaw(defineAsyncComponent(() =>
+          import('./UserContacts/ContactChecker.vue'))),
+      MessageReaction:  markRaw(defineAsyncComponent(() =>
+          import('./MessageModals/ReactionModalComponent.vue'))),
       AddImage : markRaw(defineAsyncComponent(() =>
           import('components/modals/MessageModals/AddImagesToMessage.vue'))),
       ImageViewer: markRaw(defineAsyncComponent(() =>
           import('components/modals/MediaComponents/ImagesViewer.vue'))),
-      // CodeEditor: markRaw(defineAsyncComponent(() =>
-      //     import('../MediaComponents/PrismCodeEditor.vue'))),
-      // Camera : markRaw(defineAsyncComponent(() =>
-      //     import('./MessageModals/CameraComponent.vue'))),
+      CodeEditor: markRaw(defineAsyncComponent(() =>
+          import('components/modals/MediaComponents/PrismCodeEditor.vue'))),
+      Camera : markRaw(defineAsyncComponent(() =>
+          import('components/modals/MessageModals/CameraComponent.vue'))),
       AddContactToUser: markRaw(defineAsyncComponent(() =>
           import('components/modals/UserContacts/AddContactToUser.vue'))),
       CreateContactGroup: markRaw(defineAsyncComponent(() =>

@@ -1,7 +1,7 @@
 import  MessageService  from 'src/services/messages/message.service';
 import User from 'src/services/users/user.service';
 import { INotification } from 'src/types/notification';
-import router from 'src/router/index'
+import { Router } from 'src/router/index'
 import { useMainStore } from 'stores/Main';
 import { useUserNotificationsStore } from 'stores/UserNotification';
 
@@ -31,7 +31,7 @@ export async function redirectToViewNotification(notification: INotification){
 
   switch(notification.type){
     case 'message':
-     router.push({name: 'messageNotify'})
+     Router.push({name: 'messageNotify'})
       break;
 
       default:
@@ -44,7 +44,7 @@ export async function deleteNotification(notification: INotification){
 
   switch(notification.type){
     case 'message':
-      router.push({name: 'Start'})
+      Router.push({name: 'Start'})
       await MessageService.setRead(notification.messageId)
       notifyStore.delNotification(notification.messageId)
       break;

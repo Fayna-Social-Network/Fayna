@@ -22,26 +22,26 @@
             </div>
             <div class="user-mail">
              <span class="material-icons-outlined">email</span>
-              <a :href="`mailto:${author?.email}`">{{author?.email}}</a> 
+              <a :href="`mailto:${author?.email}`">{{author?.email}}</a>
             </div>
           </div>
         </div>
           <div class="user-message">
             <div class="message-content">
-              <div class="message">{{$translate("Message")}}:</div>
+              <div class="message">{{$t("Message")}}:</div>
               <div class="message-body">
                  <component :is="messageComponents[messageComponent]" :message="message"/>
               </div>
-            </div> 
+            </div>
           </div>
           <div class="buttons">
             <div class="btn add"
               :class="{'disable': isUserInContacts(author!.id)}"
               @click="addContactHandle($event)">
-              {{$translate('AddContact')}}
+              {{$t('AddContact')}}
             </div>
             <div class="btn block" @click="blockContactHandle">
-              {{$translate('BlockUser')}}
+              {{$t('BlockUser')}}
             </div>
           </div>
           <div class="info">
@@ -49,13 +49,13 @@
               <div class="info-icon">
                 <span class="material-icons-outlined">info</span>
               </div>
-              <div class="info-text">{{$translate('WantSpeak')}}</div>
+              <div class="info-text">{{$t('WantSpeak')}}</div>
             </div>
               <div class="info-content">
               <div class="info-icon">
                 <span class="material-icons-outlined">info</span>
               </div>
-              <div class="info-text">{{$translate('WantBlock')}}</div>
+              <div class="info-text">{{$t('WantBlock')}}</div>
             </div>
           </div>
         </div>
@@ -66,26 +66,25 @@
 <script lang="ts">
 import { defineComponent} from 'vue'
 import { mapState, mapActions } from 'pinia'
-import { useMainStore } from '@/store/Main' 
-import User from '@/services/users/UserService'
-import { IUser } from '@/types/user'
-import Loader from '@/components/UI/Loader.vue'
-import { dateTimeFilter } from '@/filters/time.filter'
-import { Open } from '@/functions/modals'
-import { useUserContactsStore } from '@/store/UserContacts'
-import UserService from '@/services/users/UserService'
-import MessageService from '@/services/messages/MessageService'
-import { useUserNotificationsStore } from '@/store/UserNotification'
-import { chatMessageComponents } from '@/constants/chatMessageComponents'
-import messageFilter from '@/filters/message.filter'
-import { IMessage } from '@/types/message'
+import { useMainStore } from 'stores/Main'
+import { IUser } from 'src/types/user'
+import Loader from 'components/UI/Loader.vue'
+import { dateTimeFilter } from 'src/filters/time.filter'
+import { Open } from 'src/functions/modals'
+import { useUserContactsStore } from 'stores/UserContacts'
+import UserService from 'src/services/users/user.service'
+import MessageService from 'src/services/messages/message.service'
+import { useUserNotificationsStore } from 'stores/UserNotification'
+import { chatMessageComponents }  from 'src/constants/chatMessageComponents'
+import messageFilter from 'src/filters/message.filter'
+import { IMessage } from 'src/types/message'
 
 interface messageNotifyData{
   author: IUser | null
   message: IMessage | null
   loading: boolean
   dateTimeFilter: Function
-  messageComponents
+  messageComponents: any
 }
 
 export default defineComponent({
@@ -99,7 +98,7 @@ export default defineComponent({
   methods:{
     ...mapActions(useUserContactsStore, ['isUserInContacts']),
 
-    addContactHandle(e){
+    addContactHandle(e: any){
       if(!e.srcElement.classList.contains('disable')){
          Open('AddContactToUser', this.author)
       }
@@ -111,11 +110,11 @@ export default defineComponent({
       await UserService.blockUser(this.notifyObject!.author)
       await MessageService.delete(this.notifyObject!.messageId)
       notifyStore.delNotification(this.notifyObject!.messageId)
-      this.$alert(this.$translate('UserSuccessBlocked'), false)
-    }, 
+      this.$q.notify({message: this.$t('UserSuccessBlocked')})
+    },
 
     async Initialization(){
-      const result = await User.getUserById(this.notifyObject!.author)
+      const result = await UserService.getUserById(this.notifyObject!.author)
       this.author = result
       const messResult = await MessageService.getMessageById(this.notifyObject!.messageId)
       this.message = messResult
@@ -129,11 +128,11 @@ export default defineComponent({
       if(this.author?.avatar){
           return import.meta.env.VITE_APP_BACKEND_PATH + this.author.avatar
         } else{
-            return import.meta.env.VITE_APP_BACKEND_PATH + 
+            return import.meta.env.VITE_APP_BACKEND_PATH +
               'Resources/Images/user-profile.png'
         }
     },
-    
+
     messageId(){
       return this.notifyObject?.messageId
     },
@@ -239,7 +238,7 @@ export default defineComponent({
   padding: 10px 20px 10px 20px;
   border-radius: 10px;
   cursor: pointer;
-  transition: all 400ms ease; 
+  transition: all 400ms ease;
 }
 
 .add{
@@ -277,7 +276,7 @@ export default defineComponent({
    font-family: 'Roboto', sans-serif;
    line-height: 1;
    font-style: italic;
-  
+
 }
 
 .disable{

@@ -1,52 +1,49 @@
 <template>
-  <Overlay>
-    <template #content>
-        <div class="window">
-        <div class="header">
-          <h1>{{$translate('CodeEditorHeader')}}</h1>
-        </div>
-            <div class="editor">
-            <CloseButton @closeModal="closeModal"/>
-               <prism-editor class="my-editor" v-model="code" 
-                  :highlight="highlighter" line-numbers>
-              </prism-editor>
-            </div>
-           
-            <div class="controls-buttons">
-                <CircleButton :icon="'send'"
-                @click="sendHandler"
-                v-if='currentCorrespondenceId != null'/>
-            </div>
-        </div>
+  <DialogModal close-button
+  @closeModal="closeModal"
+  >
+    <template #header-text>
+      {{$t('CodeEditorHeader')}}
     </template>
-  </Overlay>
+    <template #body>
+      <div class="editor">
+        <prism-editor class="my-editor" v-model="code"
+          :highlight="highlighter" line-numbers>
+        </prism-editor>
+      </div>
+    </template>
+    <template #actions>
+      <q-btn round icon='send' v-if='currentCorrespondenceId != null'
+        color="primary"
+        @click="sendHandler"
+      />
+    </template>
+  </DialogModal>
 </template>
 
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
 import { mapState, mapActions } from "pinia";
-import { useUserStore } from "@/store/User";
-import { useUserMessagesStore } from "@/store/UserMessages";
-import { useUserContactsStore } from "@/store/UserContacts";
-import Overlay from '../ModalWindows/OverlayComponent.vue'
-import CloseButton from '../UI/buttons/CloseModalButton.vue'
+import { useUserStore } from "stores/User";
+import { useUserMessagesStore } from "stores/UserMessages";
+import { useUserContactsStore } from "stores/UserContacts";
+import DialogModal from "../DialogModalTemplate.vue";
 import { PrismEditor } from 'vue-prism-editor';
-import 'vue-prism-editor/dist/prismeditor.min.css'; 
-import CircleButton from "../UI/buttons/CircleButton.vue";
-import { v4 as uuid } from 'uuid';  
+import 'vue-prism-editor/dist/prismeditor.min.css';
+import { v4 as uuid } from 'uuid';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
-import 'prismjs/themes/prism-tomorrow.css'; 
-import { IMessage } from "../../types/message";
-import { Close } from "../../functions/modals";
-import { IContact } from "@/types/contact";
+import 'prismjs/themes/prism-tomorrow.css';
+import { IMessage } from "src/types/message";
+import { Close } from "src/functions/modals";
+import { IContact } from "src/types/contact";
 
 
 interface PrismEditorData{
   code: string
-  userContact: IContact | null  
+  userContact: IContact | null
 }
 
 export default defineComponent({
@@ -57,14 +54,14 @@ export default defineComponent({
     },
   },
     data:(): PrismEditorData => ({
-        code: '//Write code here!!!', 
+        code: '//Write code here!!!',
         userContact: null
     }),
     methods:{
       ...mapActions(useUserMessagesStore, ['sendMessage']),
-    
-      highlighter(code) {
-        return highlight(code, languages.js); 
+
+      highlighter(code: string) {
+        return highlight(code, languages.js);
       },
 
       closeModal(){
@@ -80,11 +77,11 @@ export default defineComponent({
             timestamp: new Date(),
             seller: this.user!.id,
             userId: this.modalData.userId
-          } 
+          }
           if(this.currentCorrespondenceId != null){
              this.sendMessage({message: newMessage, contactId: this.currentCorrespondenceId})
           }
-         
+
         }else{
           const newMessage: IMessage ={
             id: uuid(),
@@ -101,14 +98,14 @@ export default defineComponent({
           Close()
       }
     },
-    
+
     mounted(){
       if(this.modalData.code){
         this.code = this.modalData.code
       }
       if(this.currentCorrespondenceId != null){
         this.userContact = this.getContactById(this.currentCorrespondenceId) as IContact
-      } 
+      }
     },
     computed:{
       ...mapState(useUserStore, ['user']),
@@ -116,10 +113,8 @@ export default defineComponent({
       ...mapState(useUserContactsStore, ['getContactById'])
     },
     components:{
-        Overlay,
+       DialogModal,
        PrismEditor,
-       CloseButton,
-       CircleButton
     }
 })
 </script>
@@ -131,6 +126,7 @@ export default defineComponent({
 }
 .editor{
   position: relative;
+  width: 50vw;
 }
 .header{
   color:rgb(175, 170, 164);
@@ -145,7 +141,7 @@ export default defineComponent({
 }
  .my-editor {
     background: #2d2d2d;
-    color: #ccc; 
+    color: #ccc;
     font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
     font-size: 14px;
     line-height: 1.5;
@@ -157,6 +153,12 @@ export default defineComponent({
   .prism-editor__textarea:focus {
     outline: none;
   }
-  
+
+  @media screen and (max-width: 500px){
+    .editor{
+      width: 90vw;
+    }
+  }
+
 </style>
 

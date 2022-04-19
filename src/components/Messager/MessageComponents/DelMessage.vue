@@ -31,12 +31,13 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .del-mess-text{
-  border: 1px dashed var(--text-color);
+  border: 1px dashed $border;
   font-style: italic;
   line-height: 1.1;
   padding: 16px 20px;
   color: #494d52;
+  cursor: pointer;
 }
 </style>

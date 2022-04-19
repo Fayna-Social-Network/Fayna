@@ -5,10 +5,12 @@
       v-else
     >
      <template #profile>
-        <q-avatar rounded size="50px">
-          <img :src="avatar">
-        </q-avatar>
-        <isOnlineBadge v-if="userItem.isOnline"/>
+        <div class="profile">
+          <q-avatar rounded size="50px">
+            <img :src="avatar">
+          </q-avatar>
+          <isOnlineBadge v-if="userItem.isOnline"/>
+        </div>
      </template>
      <template #details>
        <div class="nickname">{{nickName}}</div>
@@ -176,7 +178,9 @@ export default defineComponent({
   font-weight: 400;
   font-size: 18px;
 }
-
+.profile{
+  position: relative;
+}
 .username{
   font-family: 'Roboto', sans-serif;
   font-size: 14px;

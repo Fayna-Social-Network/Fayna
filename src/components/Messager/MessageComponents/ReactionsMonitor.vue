@@ -58,7 +58,7 @@ export default defineComponent({
 <style scoped>
 .reactions{
     position: absolute;
-    bottom: 2px;
+    bottom: -23px;
     right: 2px;
     padding: 3px 5px 2px 5px;
     background: grey;

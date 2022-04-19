@@ -1,35 +1,47 @@
 <template>
-    <Modal
-    @closeModal="closeModal"
-    >
-        <template #header>
-           <span>{{$translate('ContactsCheckerHeader')}}</span> 
+    <DialogModal>
+        <template #header-text>
+          {{$t('ContactsCheckerHeader')}}
         </template>
-        <template #content>
-            <Contact v-for="contact in listContacts" 
+        <template #body>
+          <q-list>
+            <q-item v-ripple v-for="contact in listContacts"
             :key="contact.contactId"
-            :user='contact'
-            @checkUser='checkUser'/>
+            >
+              <q-item-section>
+                 <Contact
+                  :user='contact'
+                  @checkUser='checkUser'/>
+              </q-item-section>
+            </q-item>
+          </q-list>
         </template>
-        <template #footer>
-         <button @click="sendHandler">{{$translate('Send')}}</button>
+        <template #actions>
+          <q-btn color="primary" :label="$t('Send')" @click="sendHandler" />
+          <q-btn color="negative" :label="$t('Cancel')" @click="closeModal" />
         </template>
-    </Modal>
+    </DialogModal>
 </template>
 
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Modal from '../ModalWindowTemplate.vue'
-import Contact from '../../ContactsComponents/ContactChecker.vue'
+import DialogModal from "../DialogModalTemplate.vue";
+import Contact from 'components/UserAndContacts/ContactChecker.vue'
 import { v4 as uuid } from 'uuid';
 import { mapState, mapActions } from "pinia";
-import { useUserContactsStore } from "@/store/UserContacts";
-import { useModalWindowStore } from "@/store/ModalWindow";
-import { useUserMessagesStore } from "@/store/UserMessages";
-import { IContact } from "@/types/contact";
-import {forwardMessage} from '@/functions/messager'
-import { Close } from "@/functions/modals";
+import { useUserContactsStore } from "stores/UserContacts";
+import { useModalWindowStore } from "stores/ModalWindow";
+import { useUserMessagesStore } from "stores/UserMessages";
+import { IContact } from "src/types/contact"
+import {forwardMessage} from 'src/functions/messager'
+import { Close } from "src/functions/modals";
+
+
+interface ICheckedUser{
+  user: IContact
+  checked: boolean
+}
 
 export default defineComponent({
     data: () =>({
@@ -39,24 +51,24 @@ export default defineComponent({
     methods:{
       ...mapActions(useUserMessagesStore, ['addMessageToCorrespondence']),
 
-        checkUser(value){
-          
-            if(value.checked){               
-                if(this.contactsChecked.find(c => c.contactId === value.user.contactId) === undefined){                   
+        checkUser(value: ICheckedUser){
+
+            if(value.checked){
+                if(this.contactsChecked.find(c => c.contactId === value.user.contactId) === undefined){
                     this.contactsChecked.push(value.user)
-                   
+
                 }
             }else{
                 if(this.contactsChecked.find(c => c.contactId === value.user.contactId)){
                     this.contactsChecked = this.contactsChecked.filter(c => c.contactId != value.user.contactId)
                 }
-                
+
             }
         },
         closeModal(){
             Close()
         },
-      async sendHandler(){  
+      async sendHandler(){
            let message = this.modalData.message
             if(this.contactsChecked.length != 0){
               for(let i = 0; i < this.contactsChecked.length; i++){
@@ -73,11 +85,11 @@ export default defineComponent({
                 this.addMessageToCorrespondence(
                      {message: mess, contactId: this.contactsChecked[i].contactId})
               }
-              this.$alert(this.$translate('MessageResend'), false)
+              this.$q.notify({message: this.$t('MessageResend')})
               this.closeModal()
             }else{
-              this.$alert(this.$translate('NoOneToSend'), true)
-            }  
+              this.$q.notify({type: 'negative', message: this.$t('NoOneToSend')})
+            }
       }
     },
     computed:{
@@ -89,19 +101,8 @@ export default defineComponent({
         },
     },
     components:{
-        Modal,
+        DialogModal,
         Contact
     }
 })
 </script>
-
-
-<style scoped>
-span{
-    font-size: 16px;
-}
-button{
-    width: 100%;
-    cursor: pointer;
-}
-</style>

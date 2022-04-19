@@ -3,7 +3,6 @@
        <div class="text-code">
           {{text}}
        </div>
-
        <div class="message">{{$t('CodeMessage')}}</div>
     </div>
 </template>
@@ -11,7 +10,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { Open } from "src/functions/modals";
-import { IContact } from "src/types/contact";
 import { IMessage } from "src/types/message";
 import { mapState } from "pinia";
 import { useUserMessagesStore } from "stores/UserMessages";
@@ -51,7 +49,7 @@ export default defineComponent({
     justify-content: center;
     align-items:center;
     width: 250px;
-
+    cursor: pointer;
 }
 .text-code{
     font-size: 28px;

@@ -25,7 +25,20 @@ const routes: RouteRecordRaw[] = [
         path: 'correspondence',
         name: 'Correspondence',
         component: () => import('pages/correspondence.vue')
-      }
+      },
+
+      {
+        path: 'profile',
+        name: 'userProfile',
+        props: true,
+        component: () => import('pages/userProfile.vue')
+      },
+
+      {
+        path: 'message_notify',
+        name: 'messageNotify',
+        component: () => import('pages/notifyView/messageNotify.vue')
+      },
     ]
   },
 

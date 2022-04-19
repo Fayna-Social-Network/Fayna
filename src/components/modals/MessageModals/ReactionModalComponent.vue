@@ -1,27 +1,27 @@
 <template>
-    <Modal
-    @closeModal="closeModal"
-    >
-        <template #header>
-            {{$translate('Reactions')}}
-        </template>
-        <template #content>
+    <DialogModal>
+      <template #header-text>
+        {{$t('Reactions')}}
+      </template>
+        <template #body>
            <VuemojiPicker
             :pickerStyle="emojiStyle"
             @emojiClick="handleEmojiClick"
            />
         </template>
-    </Modal>
+      <template #actions>
+        <q-btn color="negative" :label="$t('Cancel')" @click="closeModal"/>
+      </template>
+    </DialogModal>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Modal from '../ModalWindowTemplate.vue'
 import { VuemojiPicker, EmojiClickEventDetail} from 'vuemoji-picker'
-import Reaction from '../../../services/messages/ReactionsService'
+import Reaction from 'src/services/messages/reactions.service'
 import { useSignalR } from '@quangdao/vue-signalr';
-import { Close } from "@/functions/modals";
-
+import { Close } from "src/functions/modals";
+import DialogModal from "../DialogModalTemplate.vue";
 
 export default defineComponent({
     props: ['modalData'],
@@ -31,24 +31,23 @@ export default defineComponent({
           background: 'var(--stickers-box-bg)',
           borderColor: 'var(--stickers-box-bg)',
           inputFontColor: 'var(--text-color)'
-        } 
+        }
     }),
     methods:{
       closeModal(){
-        Close()  
+        Close()
       },
        async handleEmojiClick(reaction :EmojiClickEventDetail){
-        //   this.$store.commit('setReaction', {messageId: this.data.message.id, reactionName: reaction})
-          await Reaction.Add({MessageId: this.modalData.message.id , 
+          await Reaction.Add({MessageId: this.modalData.message.id ,
               ReactionName: reaction.unicode as string})
-          this.signalR.invoke('ReactionActivity', {messageId: this.modalData.message.id, 
+          this.signalR.invoke('ReactionActivity', {messageId: this.modalData.message.id,
             reactionName: reaction.unicode, contactId: this.modalData.contactId})
           this.closeModal()
         }
     },
     components:{
-        Modal,
-        VuemojiPicker
+       DialogModal,
+       VuemojiPicker
     }
 })
 </script>

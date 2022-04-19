@@ -1,7 +1,7 @@
 <template>
   <div class="overlay">
     <div class="window" ref="win">
-      <q-card class="my-card">
+      <q-card class="my-card card-my">
         <q-card-section class="bg-primary text-white" style="cursor: pointer;">
           <div class="text-h6"
              onselectstart="return false" onmousedown="return false"
@@ -19,6 +19,14 @@
         <q-card-actions align="right">
           <slot name="actions"></slot>
         </q-card-actions>
+        <div class="button-close" v-if="closeButton">
+          <q-btn color="negative"
+          icon="close"
+          glossy padding="1px 10px 1px 10px"
+          size="11px"
+          @click="$emit('closeModal')"
+          />
+        </div>
       </q-card>
     </div>
   </div>
@@ -28,6 +36,12 @@
 import { defineComponent } from "vue"
 
 export default defineComponent({
+    props:{
+      closeButton:{
+        type: Boolean,
+        default: false
+      }
+    },
     data: () => ({
       lastX: 0,
       lastY: 0
@@ -78,6 +92,10 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+
+.card-my{
+  position: relative;
+}
 .overlay{
   position: absolute;
   width: 100%;
@@ -92,5 +110,11 @@ export default defineComponent({
   left: 50%;
   position: absolute;
   transform: translate(-50%, -50%);
+}
+
+.button-close{
+  position: absolute;
+  top: 7px;
+  right: 7px;
 }
 </style>

@@ -5,8 +5,8 @@
 <style scoped lang="scss">
 .notify-icon {
   position: absolute;
-  top: 29px;
-  left: 39px;
+  top: 23px;
+  left: 30px;
   width:10px;
   height:10px;
   border-radius: 50%;
