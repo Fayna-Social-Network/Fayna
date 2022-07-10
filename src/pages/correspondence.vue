@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="content">
+    <div class="content" >
       <div class="content-header">
         <UserDashboard />
       </div>
@@ -16,16 +16,18 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import UserDashboard from 'components/Messager/UserDashboard.component.vue'
-import SendMessageComponent from 'components/Messager/SendMessage.component.vue'
-import Chat from 'src/components/Messager/Chat.vue';
-
+import { defineAsyncComponent } from 'vue';
+import Loader from 'src/components/UI/Loader.vue';
 
 export default defineComponent({
+
     components:{
-        UserDashboard,
-        SendMessageComponent,
-        Chat
+        UserDashboard : defineAsyncComponent({
+          loader: () => import('components/Messager/UserDashboard.component.vue'),
+          loadingComponent: Loader
+          }),
+        SendMessageComponent : defineAsyncComponent(() => import('components/Messager/SendMessage.component.vue')),
+        Chat : defineAsyncComponent(() => import('components/Messager/Chat.vue')),
     }
 })
 </script>

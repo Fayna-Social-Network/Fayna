@@ -1,19 +1,24 @@
 <template>
-  <div class="loading" v-if="loading">
-    <Loader />
-  </div>
-    <div class="images-prewiev" v-else>
-        <div class="album-header">{{albumHeader}}</div>
-        <div class="main-image" @click.stop="imageClickHandle()">
-            <div class="badge" v-if="images.length > 1"><span>+{{images.length - 1}}</span></div>
-            <q-img width="250px" :src="getImage" alt="" loading="lazy" />
+  <SuspenseVue>
+    <template #component>
+      <div class="loading" v-if="loading">
+        <Loader />
+      </div>
+        <div class="images-prewiev" v-else>
+            <div class="album-header">{{albumHeader}}</div>
+            <div class="main-image" @click.stop="imageClickHandle()">
+                <div class="badge" v-if="images.length > 1"><span>+{{images.length - 1}}</span></div>
+                <q-img width="250px" :src="getImage" alt="" loading="lazy" />
+            </div>
+            <div class="album-desc">{{albumDesc}}</div>
         </div>
-        <div class="album-desc">{{albumDesc}}</div>
-    </div>
+    </template>
+  </SuspenseVue>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
+import SuspenseVue from "src/components/Suspense.vue"
 import { IMessage } from "src/types/message"
 import ImageMessage from "src/services/messages/imageMessage.service"
 import Images from "src/types/Images"
@@ -65,7 +70,8 @@ export default defineComponent({
        this.getAlbum()
     },
     components:{
-      Loader
+      Loader,
+      SuspenseVue
     }
 
 })

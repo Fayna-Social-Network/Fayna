@@ -81,8 +81,8 @@ export default defineComponent({
 }
 .user-typing{
   position: absolute;
-  top: 33px;
-  left: 33px;
+  right: -10px;
+  bottom: -10px;
 }
 
 .profile-content{

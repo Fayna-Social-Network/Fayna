@@ -1,16 +1,21 @@
 <template>
-<div class="loading" v-if="loading">
-  <Loader />
-</div>
-  <div class="video-player" v-else>
-    <video :src="source" controls></video>
-  </div>
+  <SuspenseVue>
+    <template #component>
+      <div class="loading" v-if="loading">
+        <Loader />
+      </div>
+      <div class="video-player" v-else>
+        <video :src="source" controls></video>
+      </div>
+    </template>
+  </SuspenseVue>
 </template>
 
 <script lang="ts">
 import { IMessage } from "src/types/message"
 import { defineComponent, PropType } from "vue"
 import Loader from '../../UI/Loader.vue'
+import SuspenseVue from "src/components/Suspense.vue"
 import VideoMessage from "src/services/messages/videoMessage.service"
 
 export default defineComponent({
@@ -36,7 +41,8 @@ export default defineComponent({
     this.loading = false
   },
   components:{
-    Loader
+    Loader,
+    SuspenseVue
   }
 })
 </script>

@@ -1,14 +1,19 @@
 <template>
-    <div class="code-message" v-if="isActive" @click="clickHandle()">
-       <div class="text-code">
-          {{text}}
-       </div>
-       <div class="message">{{$t('CodeMessage')}}</div>
-    </div>
+  <SuspenseVue>
+    <template #component>
+      <div class="code-message" v-if="isActive" @click="clickHandle()">
+        <div class="text-code">
+            {{text}}
+        </div>
+        <div class="message">{{$t('CodeMessage')}}</div>
+      </div>
+    </template>
+  </SuspenseVue>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
+import SuspenseVue from "src/components/Suspense.vue";
 import { Open } from "src/functions/modals";
 import { IMessage } from "src/types/message";
 import { mapState } from "pinia";
@@ -38,6 +43,9 @@ export default defineComponent({
     },
     computed:{
       ...mapState(useUserMessagesStore, ['currentCorrespondenceId'])
+    },
+    components: {
+      SuspenseVue
     }
 })
 </script>

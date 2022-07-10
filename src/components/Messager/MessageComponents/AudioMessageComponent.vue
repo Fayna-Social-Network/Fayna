@@ -1,11 +1,16 @@
 <template>
-<div class="player" v-if="isActive">
-   <AudioPlayer :path="source" />
-</div>
+  <SuspenseVue>
+    <template #component>
+     <div class="player" v-if="isActive">
+        <AudioPlayer :path="source" />
+      </div>
+    </template>
+  </SuspenseVue>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import SuspenseVue from "src/components/Suspense.vue";
 import AudioMessage from "src/services/messages/audioMessage.service";
 import AudioPlayer from 'components/modals/MediaComponents/AudioPlayerComponent.vue'
 
@@ -22,7 +27,7 @@ export default defineComponent({
            this.source = import.meta.env.VITE_APP_BACKEND_PATH + path
         }
     },
-  
+
     mounted(){
         if(this.message.text === '[:audio_message:]'){
             this.getsource()
@@ -30,9 +35,10 @@ export default defineComponent({
         }
     },
         components:{
-           AudioPlayer     
+           AudioPlayer,
+           SuspenseVue
         }
-    
+
 
 })
 </script>

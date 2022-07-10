@@ -1,4 +1,4 @@
-import { leftSideHeaders } from '@/types/leftSideHeaders';
+import { leftSideHeaders } from 'src/types/leftSideHeaders';
 
 export const leftSideBarHeaders: leftSideHeaders[] = [
   {

@@ -1,17 +1,22 @@
 <template>
-  <div class="content" v-if="isActive">
-    <div class="title">
-      <a :href="openGraph.urlTag" target="_blank">{{openGraph.title}}</a>
-    </div>
-    <div class="image" v-if="openGraph.image != ''">
-      <q-img :src="openGraph.image" />
-    </div>
-    <div class="description" v-if="openGraph.description != ''">{{openGraph.description}}</div>
-  </div>
+  <SuspenseVue>
+    <template #component>
+      <div class="content" v-if="isActive">
+        <div class="title">
+          <a :href="openGraph.urlTag" target="_blank">{{openGraph.title}}</a>
+        </div>
+        <div class="image" v-if="openGraph.image != ''">
+          <q-img :src="openGraph.image" />
+        </div>
+        <div class="description" v-if="openGraph.description != ''">{{openGraph.description}}</div>
+      </div>
+    </template>
+  </SuspenseVue>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
+import SuspenseVue from "src/components/Suspense.vue"
 import isURL from 'validator/es/lib/isUrl'
 import { IMessage } from "src/types/message"
 import { OpenGraph } from "src/types/OpenGraph"
@@ -45,6 +50,9 @@ export default defineComponent({
     clickHandle(){
 
     }
+  },
+  components: {
+    SuspenseVue
   }
 })
 </script>

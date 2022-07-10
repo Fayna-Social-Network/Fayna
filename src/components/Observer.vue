@@ -14,7 +14,7 @@ export default defineComponent({
     rootselector:{
       required: true,
       type: String
-    } 
+    }
   },
 
   data:  (): ObserverData => ({
@@ -31,7 +31,8 @@ export default defineComponent({
     this.observer = new IntersectionObserver(([entry]) => {
       if(entry && entry.isIntersecting){
         this.$emit('handleIntersect')
-      }  
+       
+      }
 
     }, options)
 

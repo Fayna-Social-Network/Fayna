@@ -6,6 +6,7 @@ import MessageService from "src/services/messages/message.service";
 import { ICorrespondence } from "src/types/correspondence";
 import { IMessage } from "src/types/message";
 import { v4 as uuid } from "uuid";
+import _ from 'lodash'
 
 interface newMessage{
   message: IMessage,
@@ -38,6 +39,18 @@ export const useUserMessagesStore = defineStore('userMessages', {
     getCorrespondenceNoParams(state){
       const corr = state.Correspondences.find(c => c.contact === state.currentCorrespondenceId)
       return corr!.messages.correspondences
+    },
+
+    getCorrespondenceByCountAndPage: (state) => (count: number, page: number) => {
+      const corr = state.Correspondences.find(c => c.contact === state.currentCorrespondenceId)
+      const messages = corr!.messages.correspondences
+      const allItems = _.chunk(messages, count * page)
+      const pageCount = _.size(allItems)
+
+      return {
+        items: allItems[pageCount - 1],
+        pageCount
+      }
     },
 
     getAllCorrespondence(state){
