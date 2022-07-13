@@ -1,7 +1,7 @@
 <template>
    <q-chat-message
-      :name="getContactNameById(currentCorrespondenceId)"
-      :avatar="getContactAvatar(currentCorrespondenceId)"
+      :name="getContactNameById(currentCorrespondenceId!)"
+      :avatar="getContactAvatar(currentCorrespondenceId!)"
    >
       <q-spinner-dots size="2rem"/>
     </q-chat-message>
@@ -13,7 +13,7 @@ import { mapActions, mapState } from "pinia"
 import { useUserContactsStore } from "src/stores/UserContacts"
 import { useUserMessagesStore } from "src/stores/UserMessages"
 import { useMainStore } from "src/stores/Main"
-import { v4 as uuid } from "uuid"
+
 
 export default defineComponent({
   computed:{
@@ -25,7 +25,7 @@ export default defineComponent({
   },
   mounted(){
     setTimeout(() => {
-      this.setMessageTrigger(uuid())
+      this.setMessageTrigger()
     }, 500);
   }
 })

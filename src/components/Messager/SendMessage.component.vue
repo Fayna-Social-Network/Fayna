@@ -1,6 +1,4 @@
 <template>
-  <SuspenseVue>
-    <template #component>
       <div class="send-message-panel"
         :class="{'bg-dark' : $q.dark.isActive}"
       >
@@ -27,8 +25,6 @@
           />
         </div>
       </div>
-    </template>
-  </SuspenseVue>
 </template>
 
 
@@ -44,7 +40,7 @@ import { useUserMessagesStore } from "stores/UserMessages";
 import { useUserContactsStore } from "stores/UserContacts";
 import { v4 as uuid } from 'uuid';
 import { IMessage } from "src/types/message";
-import SuspenseVue from "../Suspense.vue";
+
 
 
 export default defineComponent({
@@ -121,7 +117,6 @@ export default defineComponent({
       MicButton,
       MenuMessage,
       StickerBox,
-      SuspenseVue
     }
 })
 </script>

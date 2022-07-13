@@ -1,11 +1,7 @@
 <template>
-  <SuspenseVue>
-    <template #component>
       <div class="msg-text">
         {{message.text}}
       </div>
-    </template>
-  </SuspenseVue>
 </template>
 
 <script lang="ts">
@@ -20,9 +16,6 @@ import SuspenseVue from "src/components/Suspense.vue"
        type: Object as PropType<IMessage>
      }
    },
-   components: {
-    SuspenseVue
-   }
  })
 </script>
 

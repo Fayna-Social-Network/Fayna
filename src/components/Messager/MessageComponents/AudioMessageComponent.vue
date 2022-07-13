@@ -1,16 +1,11 @@
 <template>
-  <SuspenseVue>
-    <template #component>
      <div class="player" v-if="isActive">
         <AudioPlayer :path="source" />
       </div>
-    </template>
-  </SuspenseVue>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import SuspenseVue from "src/components/Suspense.vue";
 import AudioMessage from "src/services/messages/audioMessage.service";
 import AudioPlayer from 'components/modals/MediaComponents/AudioPlayerComponent.vue'
 
@@ -36,7 +31,6 @@ export default defineComponent({
     },
         components:{
            AudioPlayer,
-           SuspenseVue
         }
 
 

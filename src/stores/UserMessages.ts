@@ -102,12 +102,17 @@ export const useUserMessagesStore = defineStore('userMessages', {
     },
 
     delMessageFromCorrespondence: function(message: any): void{
+      const main = useMainStore()
+
       let index = this.Correspondences.find(c => c.contact == message.contactId)
         ?.messages.correspondences.findIndex(i => i.id === message.message.id)
       if (index != -1) {
         this.Correspondences.find(c => c.contact == message.contactId)
               ?.messages.correspondences.splice(index!, 1)
       }
+
+      main.setMessageTrigger()
+
     },
 
     setMessageIsRead: function(message: setIsReadDto): void{
@@ -157,7 +162,7 @@ export const useUserMessagesStore = defineStore('userMessages', {
       try {
           await MessageService.Send(data.message)
           this.addMessageToCorrespondence(data)
-          main.setMessageTrigger(uuid())
+          main.setMessageTrigger()
       } catch (error) {
           console.log(error)
       }

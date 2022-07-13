@@ -2,7 +2,7 @@ import { INotification } from './../types/notification';
 import { language } from './../types/types';
 import { defineStore } from "pinia";
 import { IReaction } from '../types/Reaction';
-
+import { v4 as uuid } from "uuid";
 export interface MainLayout{
   leftNavBarActive: boolean
   appsNavBarActive: boolean
@@ -80,8 +80,8 @@ export const useMainStore = defineStore('mainStore', {
       this.reaction = value
     },
 
-    setMessageTrigger(value: any){
-      this.messageTrigger = value
+    setMessageTrigger(){
+      this.messageTrigger = uuid()
     },
 
     setMainMenuNumber(value: any){

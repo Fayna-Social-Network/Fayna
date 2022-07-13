@@ -1,6 +1,4 @@
 <template>
-  <SuspenseVue>
-    <template #component>
       <div class="chat">
         <div class="chat-content">
           <Observer :rootselector="'.chat-content'"
@@ -74,8 +72,6 @@
         :scrollToSelector="'.div-bottom'"
       />
       </div>
-    </template>
-  </SuspenseVue>
 </template>
 
 <script lang="ts">
@@ -95,7 +91,7 @@ import Message from 'components/Messager/Message.component.vue'
 import ScrollBottom from "components/UI/Buttons/ScrollBottom.vue"
 import { Menu, MenuActions} from 'src/menus/messageContext.menu'
 import { MenuItem } from "src/types/menu"
-import SuspenseVue from 'components/Suspense.vue'
+
 
 interface ChatData {
   isDisplayDate: Function
@@ -134,6 +130,15 @@ export default defineComponent({
 
     getTime(time: any){
       return timeFilter(time)
+    },
+
+    updateMessages(){
+      this.messagesCount =
+             this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay,
+              this.currentPage).messagesCount
+      this.messageItems =
+              this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay,
+               this.currentPage).items
     },
 
     scrollingToTop(){
@@ -206,8 +211,7 @@ export default defineComponent({
     currentCorrespondenceId(){
       this.currentPage = 0
       this.scrollTopFlag = false
-      this.messagesCount = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).messagesCount
-      this.messageItems = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).items
+      this.updateMessages()
 
       setTimeout(() => {
         this.corrTrigger()
@@ -217,10 +221,7 @@ export default defineComponent({
 
     messageTrigger(){
       this.currentPage = 0
-      this.messagesCount =
-        this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).messagesCount
-      this.messageItems =
-        this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).items
+      this.updateMessages()
       setTimeout(() => {
         this.scrollToEnd()
       }, 10);
@@ -228,12 +229,11 @@ export default defineComponent({
 
   },
   mounted(){
-    this.messagesCount = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).messagesCount
-    this.messageItems = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).items
+    this.updateMessages()
 
       setTimeout(() => {
         this.corrTrigger()
-      }, 500);
+      }, 1000);
 
   },
   components:{
@@ -241,7 +241,6 @@ export default defineComponent({
     Observer,
     Message,
     ScrollBottom,
-    SuspenseVue
   }
 })
 </script>

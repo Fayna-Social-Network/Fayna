@@ -90,7 +90,6 @@ import IsOnlineBadge from "components/UI/badges/IsOnline.vue"
 import { Menu, MenuActions, IActions } from 'src/menus/userDashboard.menu'
 import { MenuItem } from "src/types/menu"
 import { IContact } from "src/types/contact"
-import SuspenseVue from "../Suspense.vue"
 
 export default defineComponent({
     data:() => ({
@@ -125,7 +124,6 @@ export default defineComponent({
     },
     components:{
       IsOnlineBadge,
-      SuspenseVue
     }
 })
 </script>

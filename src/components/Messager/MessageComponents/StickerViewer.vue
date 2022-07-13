@@ -1,19 +1,14 @@
 <template>
-  <SuspenseVue>
-    <template #component>
       <div class="loader" v-if="loading">
         <Loader />
       </div>
       <div class="sticker" v-else>
         <q-img :src="getFullPath(sticker!.path)" loading="lazy"/>
       </div>
-    </template>
-  </SuspenseVue>
 </template>
 
 <script lang="ts">
 import Stickers from "src/services/messages/sticker.service"
-import SuspenseVue from "src/components/Suspense.vue"
 import { IMessage } from "src/types/message"
 import { ISticker } from "src/types/sticker"
 import Loader from "components/UI/Loader.vue"
@@ -50,7 +45,6 @@ export default defineComponent({
   },
   components:{
     Loader,
-    SuspenseVue
   }
 
 })

@@ -1,14 +1,10 @@
 <template>
-  <SuspenseVue>
-    <template #component>
       <div class="loading" v-if="loading">
         <Loader />
       </div>
       <div class="video-player" v-else>
         <video :src="source" controls></video>
       </div>
-    </template>
-  </SuspenseVue>
 </template>
 
 <script lang="ts">
@@ -42,7 +38,6 @@ export default defineComponent({
   },
   components:{
     Loader,
-    SuspenseVue
   }
 })
 </script>

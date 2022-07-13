@@ -1,6 +1,4 @@
 <template>
-  <SuspenseVue>
-    <template #component>
       <div class="loading" v-if="loading">
         <Loader />
       </div>
@@ -12,13 +10,10 @@
             </div>
             <div class="album-desc">{{albumDesc}}</div>
         </div>
-    </template>
-  </SuspenseVue>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
-import SuspenseVue from "src/components/Suspense.vue"
 import { IMessage } from "src/types/message"
 import ImageMessage from "src/services/messages/imageMessage.service"
 import Images from "src/types/Images"
@@ -71,7 +66,6 @@ export default defineComponent({
     },
     components:{
       Loader,
-      SuspenseVue
     }
 
 })
