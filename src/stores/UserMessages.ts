@@ -23,6 +23,8 @@ interface IMessagerStore{
   currentCorrespondenceId: string | null
 }
 
+
+
 export const useUserMessagesStore = defineStore('userMessages', {
   state: (): IMessagerStore => ({
     Correspondences: Array<ICorrespondence>(),
@@ -41,15 +43,18 @@ export const useUserMessagesStore = defineStore('userMessages', {
       return corr!.messages.correspondences
     },
 
+
     getCorrespondenceByCountAndPage: (state) => (count: number, page: number) => {
+
       const corr = state.Correspondences.find(c => c.contact === state.currentCorrespondenceId)
       const messages = corr!.messages.correspondences
-      const allItems = _.chunk(messages, count * page)
-      const pageCount = _.size(allItems)
+      const arrayMessages = JSON.parse(JSON.stringify(messages))
+      const reverseMessages = _.reverse(arrayMessages)
+      const allItems = _.chunk(reverseMessages, count)
 
       return {
-        items: allItems[pageCount - 1],
-        pageCount
+        items: _.reverse(allItems[page]) as Array<IMessage>,
+        messagesCount: messages.length
       }
     },
 

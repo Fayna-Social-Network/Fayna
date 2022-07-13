@@ -36,7 +36,7 @@
               >
                 <Message :message="message"/>
 
-                <Observer :rootselector="'.chat-content'"
+                <Observer :rootselector="'.chat-content'" :height="100"
                 @handleIntersect="messageHandle(message)"/>
                 <div class="menu-button"
                 :class="{'friend-menu': message.seller != user?.id}"
@@ -101,7 +101,7 @@ interface ChatData {
   isDisplayDate: Function
   fabMenu: boolean
   currentPage: number
-  pageCount: number
+  messagesCount: number
   messageItems: Array<IMessage>
   Menu: Array<MenuItem>
   NumberOfStartMessageDisplay: number
@@ -113,8 +113,8 @@ export default defineComponent({
   data: () : ChatData => ({
     isDisplayDate,
     fabMenu: false,
-    currentPage: 1,
-    pageCount: 0,
+    currentPage: 0,
+    messagesCount: 0,
     messageItems: [],
     Menu,
     NumberOfStartMessageDisplay: 10,
@@ -137,14 +137,18 @@ export default defineComponent({
     },
 
     scrollingToTop(){
+      const messages = this.$refs.messageBlock as Array<HTMLElement>
+
       if(!this.scrollTopFlag){
         this.scrollTopFlag = true
         return
       }
-      if(this.pageCount > this.currentPage ){
+      if(this.messagesCount > this.messageItems.length){
         this.currentPage++
-        this.pageCount = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).pageCount
-        this.messageItems = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).items
+        this.messagesCount = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).messagesCount
+        this.messageItems.unshift(...this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).items)
+
+        messages[messages.length - this.NumberOfStartMessageDisplay].scrollIntoView()
       }
     },
 
@@ -200,9 +204,11 @@ export default defineComponent({
   watch:{
 
     currentCorrespondenceId(){
-      this.pageCount = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, 1).pageCount
-      this.messageItems = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, 1).items
+      this.currentPage = 0
       this.scrollTopFlag = false
+      this.messagesCount = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).messagesCount
+      this.messageItems = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).items
+
       setTimeout(() => {
         this.corrTrigger()
       }, 500);
@@ -210,8 +216,9 @@ export default defineComponent({
     },
 
     messageTrigger(){
-      this.pageCount =
-        this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).pageCount
+      this.currentPage = 0
+      this.messagesCount =
+        this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).messagesCount
       this.messageItems =
         this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).items
       setTimeout(() => {
@@ -221,8 +228,8 @@ export default defineComponent({
 
   },
   mounted(){
-    this.pageCount = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, 1).pageCount
-    this.messageItems = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, 1).items
+    this.messagesCount = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).messagesCount
+    this.messageItems = this.getCorrespondenceByCountAndPage(this.NumberOfStartMessageDisplay, this.currentPage).items
 
       setTimeout(() => {
         this.corrTrigger()
