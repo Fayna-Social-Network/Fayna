@@ -27,7 +27,8 @@
       "stores/*": [
         "src/stores/*"
       ]
-    }
+    },
+    "noImplicitAny": false
   },
   "include": [
     "src/**/*.ts",

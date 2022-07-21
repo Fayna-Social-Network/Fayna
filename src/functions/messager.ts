@@ -1,6 +1,7 @@
 import ImagesToImagesPathArray from "src/mappers/ImagesToImagesPathArray"
 import AudioMessage from "src/services/messages/audioMessage.service"
 import ImageMessage from "src/services/messages/imageMessage.service"
+import VideoMessage from "src/services/messages/videoMessage.service"
 import Message from "src/services/messages/message.service"
 import { IMessage } from "src/types/message"
 import moment from "moment"
@@ -40,6 +41,14 @@ export async function forwardMessage(message: IMessage, origonalMessageId: strin
         header: imageMessage.data.header,
         description: imageMessage.data.description,
         dbImagePath: ImagesToImagesPathArray(imageMessage.data.imageMessages)
+      })
+      break;
+    case '[:video_message:]':
+      const videoMessage = await VideoMessage.Get(origonalMessageId)
+      result = await VideoMessage.Send({
+        videoPath: videoMessage.data.path,
+        title: videoMessage.data.title,
+        contactId: message.userId
       })
       break;
     default:

@@ -51,14 +51,12 @@
 
 <script lang="ts">
 import { InitializeResponseSignalRCommands, signalrRegisterUserOnline } from 'src/signalr/signalR';
-import { defineComponent } from 'vue';
+import { defineComponent, defineAsyncComponent } from 'vue';
 import { useSignalR } from '@quangdao/vue-signalr';
 import { mapState } from 'pinia';
 import { useUserContactsStore } from 'src/stores/UserContacts';
-import NavBar from 'components/MainLayout/NavBar.component.vue'
-import AppsNav from 'components/MainLayout/AppsNavBar.component.vue'
-import LeftSideBar from 'components/MainLayout/LeftSideBar.component.vue'
-import MainLayotModals from 'src/components/modals/MainLayoutModals.vue';
+import Loader from 'components/UI/Loader.vue'
+
 
 export default defineComponent({
   name: 'MainLayout',
@@ -118,10 +116,19 @@ export default defineComponent({
         this.$oidc.userProfile.name as string, useSignalR())
   },
   components:{
-    NavBar,
-    AppsNav,
-    LeftSideBar,
-    MainLayotModals
+    NavBar: defineAsyncComponent({
+      loader: () => import('components/MainLayout/NavBar.component.vue')
+    }),
+    AppsNav: defineAsyncComponent({
+      loader: () => import('components/MainLayout/AppsNavBar.component.vue'),
+    }),
+    LeftSideBar : defineAsyncComponent({
+      loader: () => import('components/MainLayout/LeftSideBar.component.vue'),
+      loadingComponent: Loader
+    }),
+    MainLayotModals : defineAsyncComponent({
+      loader: () => import('src/components/modals/MainLayoutModals.vue')
+    })
   }
 });
 </script>

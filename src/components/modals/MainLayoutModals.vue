@@ -9,33 +9,34 @@
 
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent, markRaw } from "vue";
+import { defineComponent, markRaw } from "vue";
 import { mapState } from "pinia";
 import { useModalWindowStore } from "stores/ModalWindow";
+import ContactChecker from "components/modals/UserContacts/ContactChecker.vue";
+import MessageReaction from "components/modals/MessageModals/ReactionModalComponent.vue";
+import AddImage from "components/modals/MessageModals/AddImagesToMessage.vue";
+import ImageViewer from "components/modals/MediaComponents/ImagesViewer.vue";
+import CodeEditor from "components/modals/MediaComponents/PrismCodeEditor.vue";
+import Camera from "components/modals/MessageModals/CameraComponent.vue";
+import AddContactToUser from "components/modals/UserContacts/AddContactToUser.vue";
+import CreateContactGroup from "components/modals/UserContacts/CreateGroupModal.vue";
+import addStickersToUser from "components/modals/MessageModals/addNewStickers.modal.vue";
+import EditContact from "components/modals/UserContacts/EditContact.vue";
+
 
 export default defineComponent({
   data:() => ({
     modals:{
-      ContactChecker :  markRaw(defineAsyncComponent(() =>
-          import('./UserContacts/ContactChecker.vue'))),
-      MessageReaction:  markRaw(defineAsyncComponent(() =>
-          import('./MessageModals/ReactionModalComponent.vue'))),
-      AddImage : markRaw(defineAsyncComponent(() =>
-          import('components/modals/MessageModals/AddImagesToMessage.vue'))),
-      ImageViewer: markRaw(defineAsyncComponent(() =>
-          import('components/modals/MediaComponents/ImagesViewer.vue'))),
-      CodeEditor: markRaw(defineAsyncComponent(() =>
-          import('components/modals/MediaComponents/PrismCodeEditor.vue'))),
-      Camera : markRaw(defineAsyncComponent(() =>
-          import('components/modals/MessageModals/CameraComponent.vue'))),
-      AddContactToUser: markRaw(defineAsyncComponent(() =>
-          import('components/modals/UserContacts/AddContactToUser.vue'))),
-      CreateContactGroup: markRaw(defineAsyncComponent(() =>
-          import('components/modals/UserContacts/CreateGroupModal.vue'))),
-      AddNewStickersToUser: markRaw(defineAsyncComponent(() =>
-          import('components/modals/MessageModals/addNewStickers.modal.vue'))),
-      EditContact: markRaw(defineAsyncComponent(() =>
-          import('components/modals/UserContacts/EditContact.vue'))),
+      ContactChecker: markRaw(ContactChecker),
+      MessageReaction: markRaw(MessageReaction),
+      AddImage: markRaw(AddImage),
+      ImageViewer: markRaw(ImageViewer) ,
+      CodeEditor: markRaw(CodeEditor),
+      Camera: markRaw(Camera),
+      AddContactToUser: markRaw(AddContactToUser),
+      CreateContactGroup: markRaw(CreateContactGroup),
+      AddNewStickersToUser: markRaw(addStickersToUser),
+      EditContact: markRaw(EditContact)
     }
   }),
 

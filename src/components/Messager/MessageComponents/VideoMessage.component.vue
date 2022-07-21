@@ -11,7 +11,6 @@
 import { IMessage } from "src/types/message"
 import { defineComponent, PropType } from "vue"
 import Loader from '../../UI/Loader.vue'
-import SuspenseVue from "src/components/Suspense.vue"
 import VideoMessage from "src/services/messages/videoMessage.service"
 
 export default defineComponent({
