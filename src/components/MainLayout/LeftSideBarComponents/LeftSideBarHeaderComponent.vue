@@ -27,6 +27,9 @@
       <div v-show="activeSearch" class="search-form">
         <q-input v-model="searchInputText"
          :placeholder="$t('SearchPlaceholder')" input-style="color: white;">
+          <template v-slot:prepend>
+            <q-icon name="alternate_email" />
+          </template>
           <template v-slot:append>
             <q-icon name="close" @click.stop="searchActivateHandler(false)"
              style="cursor: pointer;"/>

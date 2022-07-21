@@ -2,6 +2,14 @@ import { api }  from 'src/boot/axios'
 import { useUserContactsStore } from 'src/stores/UserContacts';
 import { useUserStore } from 'src/stores/User';
 
+
+interface updateUser {
+  id: string
+  firstName: string | null
+  lastName: string | null
+  avatar: string | null
+}
+
 export default class User{
     static async findByNickName(text: string ){
         return await api.get(`api/User/searchbyname/${text}`)
@@ -9,7 +17,7 @@ export default class User{
     static async getUsersByCountAndPage(count: number, page: number){
         return await api.get(`api/User/${count}/${page}`)
     }
-    static async updateUser(obj: any){
+    static async updateUser(obj: updateUser){
         await api.put('api/user', obj)
    }
 
@@ -34,6 +42,11 @@ export default class User{
 
     static async getUserById(userId: string){
       const user = await api.get(`api/user/byId/${userId}`)
+      return user.data
+    }
+
+    static async getUserByNickname(nickname: string){
+      const user = await api.get(`api/user/${nickname}`)
       return user.data
     }
 

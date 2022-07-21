@@ -22,6 +22,7 @@ import AddContactToUser from "components/modals/UserContacts/AddContactToUser.vu
 import CreateContactGroup from "components/modals/UserContacts/CreateGroupModal.vue";
 import addStickersToUser from "components/modals/MessageModals/addNewStickers.modal.vue";
 import EditContact from "components/modals/UserContacts/EditContact.vue";
+import UserSettings from "./UserSettings.vue";
 
 
 export default defineComponent({
@@ -36,7 +37,8 @@ export default defineComponent({
       AddContactToUser: markRaw(AddContactToUser),
       CreateContactGroup: markRaw(CreateContactGroup),
       AddNewStickersToUser: markRaw(addStickersToUser),
-      EditContact: markRaw(EditContact)
+      EditContact: markRaw(EditContact),
+      Settings: markRaw(UserSettings)
     }
   }),
 

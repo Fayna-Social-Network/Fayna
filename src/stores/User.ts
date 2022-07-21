@@ -30,7 +30,7 @@ export const useUserStore = defineStore('userStore', {
     },
 
     getUserFullName(state){
-      if(state.user!.firstName!.trim() === ''){
+      if(!state.user!.firstName){
         return state.user?.nickName
       }
       return state.user?.firstName! + ' ' + state.user?.lastName

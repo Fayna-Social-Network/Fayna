@@ -62,6 +62,7 @@ export default defineComponent({
         if (this.$oidc.isAuthenticated) {
            await loadData(this.$oidc.userProfile.name as string);
         }
+        this.$
     },
     watch:{
       isLoading(){
