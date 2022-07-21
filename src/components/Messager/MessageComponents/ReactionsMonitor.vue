@@ -5,7 +5,7 @@
  >
 
   <div class="reactions" v-if="reactions.length > 0"
-  :class="{'recip': message.seller != user.id}"
+  :class="{'recip': message.seller != user?.id}"
   >
       <span v-for="reaction in reactions"
       :key="reaction.id"

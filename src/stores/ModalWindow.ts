@@ -1,8 +1,9 @@
 import { ModalWindows } from "src/types/types";
 import { defineStore } from "pinia";
 
+
 interface ModalWindowState{
-  activeModal: ModalWindows | '',
+  activeModal: ModalWindows,
   modalData: any
 }
 
@@ -15,7 +16,7 @@ export const useModalWindowStore = defineStore('modalWindow', {
 
   actions:{
 
-    setActiveModal(modalName: ModalWindows | '', data: any){
+    setActiveModal(modalName: ModalWindows, data: any){
       this.activeModal = modalName
       this.modalData = data
     }

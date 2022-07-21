@@ -1,8 +1,8 @@
 <template>
-   <div class="del-mess-text"
-    @click="delMessageTextHandler(message, currentCorrespondenceId)">
-        {{$t('MessageDeleteByUser')}}
-    </div>
+      <div class="del-mess-text"
+      @click="delMessageTextHandler(message, currentCorrespondenceId as string)">
+          {{$t('MessageDeleteByUser')}}
+      </div>
 </template>
 
 <script lang="ts">
@@ -10,6 +10,7 @@ import { IMessage } from 'src/types/message'
 import { defineComponent, PropType } from 'vue'
 import { mapActions, mapState  } from 'pinia'
 import { useUserMessagesStore } from 'stores/UserMessages'
+
 
 export default defineComponent({
   props:{
@@ -27,7 +28,7 @@ export default defineComponent({
   },
   computed:{
     ...mapState(useUserMessagesStore, ['currentCorrespondenceId'])
-  }
+  },
 })
 </script>
 

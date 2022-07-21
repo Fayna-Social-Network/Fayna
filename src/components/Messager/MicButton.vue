@@ -10,7 +10,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { v4 as uuid } from 'uuid';
 import { IMessage } from "src/types/message";
 import AudioMessage from "src/services/messages/audioMessage.service";
 import File from 'src/services/files.service'
@@ -75,7 +74,7 @@ export default defineComponent({
 
         this.addMessageToCorrespondence({message: newMess, contactId: this.companion.contactId})
               setTimeout(() => {
-                this.setMessageTrigger(uuid())
+                this.setMessageTrigger()
               }, 200);
 
       }

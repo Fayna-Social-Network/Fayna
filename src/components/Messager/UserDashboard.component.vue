@@ -1,83 +1,83 @@
 <template>
-  <div class="main"
-    :class="{'main-dark': $q.dark.isActive}"
-  >
-    <div class="user">
-      <div class="user-avatar">
-        <q-avatar rounded size="50px">
-           <img :src="getContactAvatar(currentCorrespondenceId)">
-        </q-avatar>
-      </div>
-      <div class="details">
-        <div class="username">{{getContactNameById(currentCorrespondenceId)}}</div>
-        <div class="status" :class="{'online': status == 'Online'}">
-          <span>{{status}}</span>
+      <div class="main"
+        :class="{'main-dark': $q.dark.isActive}"
+      >
+        <div class="user">
+          <div class="user-avatar">
+            <q-avatar rounded size="50px">
+              <img :src="getContactAvatar(currentCorrespondenceId as string)">
+            </q-avatar>
+          </div>
+          <div class="details">
+            <div class="username">{{getContactNameById(currentCorrespondenceId as string)}}</div>
+            <div class="status" :class="{'online': status == 'Online'}">
+              <span>{{status}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="action-panel">
+          <ul class="option-group">
+          <li><q-btn round color="primary" icon="volume_up" :size="iconSize">
+                  <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
+                    transition-show="flip-right"
+                    transition-hide="flip-left"
+                  >
+                    {{$t('DisableNotification')}}
+                  </q-tooltip>
+              </q-btn></li>
+          <li><q-btn round color="primary" icon="search" :size="iconSize">
+              <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
+                    transition-show="flip-right"
+                    transition-hide="flip-left"
+                  >
+                    {{$t('Search')}}
+                  </q-tooltip>
+          </q-btn></li>
+          </ul>
+            <ul class="option-group">
+              <li><q-btn round color="primary" icon="call" :size="iconSize">
+                  <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
+                    transition-show="flip-right"
+                    transition-hide="flip-left"
+                  >
+                    {{$t('CallUser')}}
+                  </q-tooltip>
+              </q-btn></li>
+              <li><q-btn round color="primary" icon="video_camera_front" :size="iconSize">
+                <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
+                    transition-show="flip-right"
+                    transition-hide="flip-left"
+                  >
+                    {{$t('VideoCall')}}
+                  </q-tooltip>
+              </q-btn></li>
+              <li>
+                <q-btn round color="primary" icon="more_vert" :size="iconSize">
+                  <q-menu :offset="[-10, 10]"
+                    auto-close
+                    transition-show="flip-right"
+                    transition-hide="flip-left"
+                  >
+                    <q-list style="min-width: 100px">
+                      <q-item clickable
+                        v-for="item in menu" :key="item.id"
+                        @click="menuClickHandle(item)"
+                      >
+                        <q-item-section>
+                          <div class="row" style="gap: 15px; align-items: center;">
+                            <q-icon :name="item.icon" size="25px"
+                            :color="item.id > 2 ? 'negative' : 'secondary' "/>
+                            {{$t(item.text)}}
+                          </div>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-btn>
+              </li>
+          </ul>
         </div>
       </div>
-    </div>
-    <div class="action-panel">
-      <ul class="option-group">
-       <li><q-btn round color="primary" icon="volume_up" :size="iconSize">
-              <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
-                transition-show="flip-right"
-                transition-hide="flip-left"
-              >
-                {{$t('DisableNotification')}}
-              </q-tooltip>
-           </q-btn></li>
-       <li><q-btn round color="primary" icon="search" :size="iconSize">
-           <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
-                transition-show="flip-right"
-                transition-hide="flip-left"
-              >
-                {{$t('Search')}}
-              </q-tooltip>
-       </q-btn></li>
-      </ul>
-        <ul class="option-group">
-          <li><q-btn round color="primary" icon="call" :size="iconSize">
-               <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
-                transition-show="flip-right"
-                transition-hide="flip-left"
-              >
-                {{$t('CallUser')}}
-              </q-tooltip>
-          </q-btn></li>
-          <li><q-btn round color="primary" icon="video_camera_front" :size="iconSize">
-             <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
-                transition-show="flip-right"
-                transition-hide="flip-left"
-              >
-                {{$t('VideoCall')}}
-              </q-tooltip>
-          </q-btn></li>
-          <li>
-            <q-btn round color="primary" icon="more_vert" :size="iconSize">
-              <q-menu :offset="[-10, 10]"
-                auto-close
-                transition-show="flip-right"
-                transition-hide="flip-left"
-              >
-                <q-list style="min-width: 100px">
-                  <q-item clickable
-                    v-for="item in menu" :key="item.id"
-                    @click="menuClickHandle(item)"
-                  >
-                    <q-item-section>
-                      <div class="row" style="gap: 15px; align-items: center;">
-                        <q-icon :name="item.icon" size="25px"
-                        :color="item.id > 2 ? 'negative' : 'secondary' "/>
-                        {{$t(item.text)}}
-                      </div>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
-          </li>
-      </ul>
-    </div>
-  </div>
 </template>
 
 
@@ -90,7 +90,6 @@ import IsOnlineBadge from "components/UI/badges/IsOnline.vue"
 import { Menu, MenuActions, IActions } from 'src/menus/userDashboard.menu'
 import { MenuItem } from "src/types/menu"
 import { IContact } from "src/types/contact"
-
 
 export default defineComponent({
     data:() => ({
@@ -124,7 +123,7 @@ export default defineComponent({
       }
     },
     components:{
-      IsOnlineBadge
+      IsOnlineBadge,
     }
 })
 </script>

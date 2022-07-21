@@ -1,7 +1,7 @@
 <template>
-<div class="player" v-if="isActive">
-   <AudioPlayer :path="source" />
-</div>
+     <div class="player" v-if="isActive">
+        <AudioPlayer :path="source" />
+      </div>
 </template>
 
 <script lang="ts">
@@ -22,7 +22,7 @@ export default defineComponent({
            this.source = import.meta.env.VITE_APP_BACKEND_PATH + path
         }
     },
-  
+
     mounted(){
         if(this.message.text === '[:audio_message:]'){
             this.getsource()
@@ -30,9 +30,9 @@ export default defineComponent({
         }
     },
         components:{
-           AudioPlayer     
+           AudioPlayer,
         }
-    
+
 
 })
 </script>

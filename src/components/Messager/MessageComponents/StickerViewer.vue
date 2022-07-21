@@ -1,10 +1,10 @@
 <template>
-  <div class="loader" v-if="loading">
-    <Loader />
-  </div>
-  <div class="sticker" v-else>
-    <q-img :src="getFullPath(sticker!.path)" loading="lazy"/>
-  </div>
+      <div class="loader" v-if="loading">
+        <Loader />
+      </div>
+      <div class="sticker" v-else>
+        <q-img :src="getFullPath(sticker!.path)" loading="lazy"/>
+      </div>
 </template>
 
 <script lang="ts">
@@ -44,7 +44,7 @@ export default defineComponent({
     this.loading = false
   },
   components:{
-    Loader
+    Loader,
   }
 
 })

@@ -1,13 +1,13 @@
 <template>
-  <div class="content" v-if="isActive">
-    <div class="title">
-      <a :href="openGraph.urlTag" target="_blank">{{openGraph.title}}</a>
-    </div>
-    <div class="image" v-if="openGraph.image != ''">
-      <q-img :src="openGraph.image" />
-    </div>
-    <div class="description" v-if="openGraph.description != ''">{{openGraph.description}}</div>
-  </div>
+      <div class="content" v-if="isActive">
+        <div class="title">
+          <a :href="openGraph.urlTag" target="_blank">{{openGraph.title}}</a>
+        </div>
+        <div class="image" v-if="openGraph.image != ''">
+          <q-img :src="openGraph.image" />
+        </div>
+        <div class="description" v-if="openGraph.description != ''">{{openGraph.description}}</div>
+      </div>
 </template>
 
 <script lang="ts">
@@ -45,7 +45,7 @@ export default defineComponent({
     clickHandle(){
 
     }
-  }
+  },
 })
 </script>
 

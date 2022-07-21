@@ -1,10 +1,10 @@
 <template>
-    <div class="code-message" v-if="isActive" @click="clickHandle()">
-       <div class="text-code">
-          {{text}}
-       </div>
-       <div class="message">{{$t('CodeMessage')}}</div>
-    </div>
+      <div class="code-message" v-if="isActive" @click="clickHandle()">
+        <div class="text-code">
+            {{text}}
+        </div>
+        <div class="message">{{$t('CodeMessage')}}</div>
+      </div>
 </template>
 
 <script lang="ts">
@@ -38,7 +38,7 @@ export default defineComponent({
     },
     computed:{
       ...mapState(useUserMessagesStore, ['currentCorrespondenceId'])
-    }
+    },
 })
 </script>
 

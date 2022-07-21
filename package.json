@@ -11,7 +11,7 @@
   "dependencies": {
     "@microsoft/signalr": "6.0.3",
     "@quangdao/vue-signalr": "1.0.1",
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.14.2",
     "axios": "^0.21.1",
     "jspdf": "2.5.1",
     "lamejs": "1.2.1",
@@ -19,7 +19,7 @@
     "moment": "2.29.2",
     "pinia": "^2.0.11",
     "prismjs": "1.28.0",
-    "quasar": "^2.6.0",
+    "quasar": "^2.7.5",
     "uuid": "8.3.2",
     "validator": "13.7.0",
     "vue": "^3.0.0",
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@intlify/vite-plugin-vue-i18n": "^3.3.1",
-    "@quasar/app-vite": "^1.0.0-alpha.0",
+    "@quasar/app-vite": "^1.0.5",
     "@types/lodash": "4.14.182",
     "@types/node": "^12.20.21",
     "@types/prismjs": "1.26.0",

@@ -1,30 +1,30 @@
 <template>
-  <div class="send-message-panel"
-    :class="{'bg-dark' : $q.dark.isActive}"
-  >
-    <div class="button-contol">
-      <q-btn round color="primary" icon="mood" :size="iconSize">
-        <StickerBox
-          @onSelectSticker="onSelectSticker"
-          @selectEmoji="selectEmoji"
-        />
-      </q-btn>
-      <q-btn round color="primary" icon="add" :size="iconSize">
-        <MenuMessage :companion="companion!"/>
-      </q-btn>
-    </div>
-    <div class="message-input" @keydown.enter="sendMessageHandle">
-      <q-input filled v-model="message"
-        :placeholder="$t('SendMessageInputPlaceholder')"
-        />
-    </div>
-    <div class="button-contol">
-      <MicButton :companion="companion!" :size="iconSize"/>
-      <q-btn round color="primary" icon="send" :size="$q.platform.is.mobile ? '15px' : '17px'"
-        @click="sendMessageHandle"
-      />
-    </div>
-  </div>
+      <div class="send-message-panel"
+        :class="{'bg-dark' : $q.dark.isActive}"
+      >
+        <div class="button-contol">
+          <q-btn round color="primary" icon="mood" :size="iconSize">
+            <StickerBox
+              @onSelectSticker="onSelectSticker"
+              @selectEmoji="selectEmoji"
+            />
+          </q-btn>
+          <q-btn round color="primary" icon="add" :size="iconSize">
+            <MenuMessage :companion="companion!"/>
+          </q-btn>
+        </div>
+        <div class="message-input" @keydown.enter="sendMessageHandle">
+          <q-input filled v-model="message"
+            :placeholder="$t('SendMessageInputPlaceholder')"
+            />
+        </div>
+        <div class="button-contol">
+          <MicButton :companion="companion!" :size="iconSize"/>
+          <q-btn round color="primary" icon="send" :size="$q.platform.is.mobile ? '15px' : '17px'"
+            @click="sendMessageHandle"
+          />
+        </div>
+      </div>
 </template>
 
 
@@ -40,6 +40,7 @@ import { useUserMessagesStore } from "stores/UserMessages";
 import { useUserContactsStore } from "stores/UserContacts";
 import { v4 as uuid } from 'uuid';
 import { IMessage } from "src/types/message";
+
 
 
 export default defineComponent({
@@ -115,7 +116,7 @@ export default defineComponent({
     components:{
       MicButton,
       MenuMessage,
-      StickerBox
+      StickerBox,
     }
 })
 </script>

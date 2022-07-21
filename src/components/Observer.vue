@@ -1,5 +1,5 @@
 <template>
-  <div class="target" ref="target"></div>
+  <div class="target"  ref="target"></div>
 </template>
 
 <script lang="ts">
@@ -14,7 +14,7 @@ export default defineComponent({
     rootselector:{
       required: true,
       type: String
-    } 
+    },
   },
 
   data:  (): ObserverData => ({
@@ -31,7 +31,8 @@ export default defineComponent({
     this.observer = new IntersectionObserver(([entry]) => {
       if(entry && entry.isIntersecting){
         this.$emit('handleIntersect')
-      }  
+
+      }
 
     }, options)
 
@@ -49,7 +50,7 @@ export default defineComponent({
 <style scoped>
 .target{
   width: 100%;
-  height: 10px;
+  height: 20px;
   background: transparent;
 }
 </style>
