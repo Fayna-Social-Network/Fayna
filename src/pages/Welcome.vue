@@ -62,7 +62,9 @@ export default defineComponent({
         if (this.$oidc.isAuthenticated) {
            await loadData(this.$oidc.userProfile.name as string);
         }
-        this.$
+        if(localStorage.getItem('locale')){
+          this.$i18n.locale = localStorage.getItem('locale') as string
+        }
     },
     watch:{
       isLoading(){
