@@ -29,11 +29,11 @@
 
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, defineAsyncComponent } from "vue";
 import { useSignalR } from '@quangdao/vue-signalr';
 import MicButton from "components/Messager/MicButton.vue";
 import MenuMessage from 'components/Messager/menu/MessageComponentMenu.vue'
-import StickerBox from 'components/Stikers&Emojis/StickersBoxComponent.vue'
+import StickerBox from 'components/Stikers_Emojis/StickersBoxComponent.vue'
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "stores/User";
 import { useUserMessagesStore } from "stores/UserMessages";

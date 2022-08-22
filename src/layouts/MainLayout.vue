@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf" style="overflow: hidden;">
-    <MainLayotModals />
+      <component :is="$asyncComponents.MainLayout.MainLayotModals" />
     <q-drawer
       show-if-above
       bordered
@@ -15,11 +15,11 @@
         <div class="nav-menu" v-show="navMenuVisible"
           :class="{'bg-dark' : $q.dark.isActive}"
         >
-          <NavBar />
+          <component :is="$asyncComponents.MainLayout.NavBar" />
         </div>
       </transition>
       <div class="left-side-bar">
-        <LeftSideBar />
+        <component :is="$asyncComponents.MainLayout.LeftSideBar" />
       </div>
     </div>
       <div class="absolute" style="bottom: 80px; right: -17px" v-if="navBarToggleButtonVisible">
@@ -44,7 +44,7 @@
       :width="80"
       side="right"
     >
-    <AppsNav />
+      <component :is="$asyncComponents.MainLayout.AppsNav" />
     </q-drawer>
   </q-layout>
 </template>
@@ -55,7 +55,6 @@ import { defineComponent, defineAsyncComponent } from 'vue';
 import { useSignalR } from '@quangdao/vue-signalr';
 import { mapState } from 'pinia';
 import { useUserContactsStore } from 'src/stores/UserContacts';
-import Loader from 'components/UI/Loader.vue'
 
 
 export default defineComponent({
@@ -115,21 +114,7 @@ export default defineComponent({
     InitializeResponseSignalRCommands(this.contacts,
         this.$oidc.userProfile.name as string, useSignalR())
   },
-  components:{
-    NavBar: defineAsyncComponent({
-      loader: () => import('components/MainLayout/NavBar.component.vue')
-    }),
-    AppsNav: defineAsyncComponent({
-      loader: () => import('components/MainLayout/AppsNavBar.component.vue'),
-    }),
-    LeftSideBar : defineAsyncComponent({
-      loader: () => import('components/MainLayout/LeftSideBar.component.vue'),
-      loadingComponent: Loader
-    }),
-    MainLayotModals : defineAsyncComponent({
-      loader: () => import('src/components/modals/MainLayoutModals.vue')
-    })
-  }
+ 
 });
 </script>
 

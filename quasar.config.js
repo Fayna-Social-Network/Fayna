@@ -11,6 +11,7 @@
 
 const { configure } = require('quasar/wrappers');
 const path = require('path');
+const mkcert = require('vite-plugin-mkcert')
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -26,7 +27,8 @@ module.exports = configure(function (/* ctx */) {
       'i18n',
       'axios',
       'oidc',
-      'signalr'
+      'signalr',
+      'componentsBoot'
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
@@ -81,13 +83,18 @@ module.exports = configure(function (/* ctx */) {
 
           // you need to set i18n resource including paths !
           include: path.resolve(__dirname, './src/i18n/**')
-        }]
+        }, mkcert]
       ]
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
-      // https: true
+      port: 8080,
+      https: {
+        cert: path.resolve(__dirname, './cert/localhost.pem'),
+        key: path.resolve(__dirname, './cert/localhost-key.pem')
+      },
+      //plugins: [mkcert],
       open: true // opens browser window automatically
     },
 
