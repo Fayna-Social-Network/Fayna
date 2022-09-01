@@ -11,7 +11,7 @@
   "dependencies": {
     "@microsoft/signalr": "6.0.3",
     "@quangdao/vue-signalr": "1.0.1",
-    "@quasar/extras": "^1.14.2",
+    "@quasar/extras": "^1.15.2",
     "axios": "^0.21.1",
     "jspdf": "2.5.1",
     "lamejs": "1.2.1",

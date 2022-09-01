@@ -12,7 +12,7 @@ declare module '@vue/runtime-core' {
 
 const api = axios.create({
   withCredentials: true,
-  baseURL: import.meta.env.VITE_APP_BACKEND_PATH as string
+  baseURL: import.meta.env.VITE_APP_BACKEND_PATH
 });
 
 
