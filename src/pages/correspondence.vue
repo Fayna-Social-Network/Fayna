@@ -2,13 +2,13 @@
   <q-page>
     <div class="content" >
       <div class="content-header">
-        <component :is="$asyncComponents.chat.UserDashboard" />
+        <UserDashboard />
       </div>
       <div class="chat-messages">
-        <component :is="$asyncComponents.chat.Chat" />
+        <Chat />
       </div>
       <div class="send-message-component">
-         <component :is="$asyncComponents.chat.SendMessageComponent" />
+        <SendMessage />
       </div>
     </div>
   </q-page>
@@ -16,9 +16,16 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import UserDashboard from 'src/components/Messager/UserDashboard.component.vue';
+import Chat from 'src/components/Messager/Chat.vue';
+import SendMessage from 'src/components/Messager/SendMessage.component.vue';
 
 export default defineComponent({
-
+  components: {
+    UserDashboard,
+    Chat,
+    SendMessage
+  } 
    
 })
 </script>

@@ -1,5 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import mainOidc from 'src/oidc-client/settings';
+import { defineAsyncComponent } from 'vue';
+import Loader from "components/UI/Loader.vue"
 
 const routes: RouteRecordRaw[] = [
   {
@@ -13,7 +15,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/fayna',
     meta: {dataIsLoad: true},
-    component: () => import('layouts/MainLayout.vue'),
+    component: defineAsyncComponent({
+      loader: () => import("src/layouts/MainLayout.vue"),
+      loadingComponent: Loader
+    }),
     children: [
       {
         path: 'start',
@@ -24,7 +29,10 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'correspondence',
         name: 'Correspondence',
-        component: () => import('pages/correspondence.vue')
+        component: defineAsyncComponent({
+          loader: () => import("src/pages/correspondence.vue"),
+          loadingComponent: Loader
+        })
       },
 
       {

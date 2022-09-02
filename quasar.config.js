@@ -28,7 +28,7 @@ module.exports = configure(function (/* ctx */) {
       'axios',
       'oidc',
       'signalr',
-      'componentsBoot'
+      'modalsWindowsBoot'
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css

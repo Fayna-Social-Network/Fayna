@@ -3,7 +3,7 @@
     appear
     enter-active-class="animated backInRight"
     leave-active-class="animated backOutDown">
-      <component :is="$asyncComponents.modals[activeModal]" :modalData="modalData"/>
+      <component :is="$modalsComponents[activeModal]" :modalData="modalData"/>
   </transition>
 </template>
 

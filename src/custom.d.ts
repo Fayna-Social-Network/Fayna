@@ -1,5 +1,5 @@
 import  mainOidc from 'src/oidc-client/settings';
-import { IAsyncComponents } from 'components/AsyncComponents'
+import { IModalsComponents} from 'components/modals/ModalsComponents'
 
 declare module '@vue/runtime-core' {
 
@@ -16,6 +16,6 @@ declare module '@vue/runtime-core' {
       }
     },
     $oidc: typeof mainOidc,
-    $asyncComponents: IAsyncComponents
+    $modalsComponents: IModalsComponents
   }
 }
