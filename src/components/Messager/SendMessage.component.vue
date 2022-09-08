@@ -29,7 +29,7 @@
 
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent } from "vue";
+import { defineComponent } from "vue";
 import { useSignalR } from '@quangdao/vue-signalr';
 import MicButton from "components/Messager/MicButton.vue";
 import MenuMessage from 'components/Messager/menu/MessageComponentMenu.vue'

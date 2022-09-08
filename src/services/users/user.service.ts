@@ -10,7 +10,7 @@ interface updateUser {
   avatar: string | null
 }
 
-export default class User{
+export default class User {
     static async findByNickName(text: string ){
         return await api.get(`api/User/searchbyname/${text}`)
     }

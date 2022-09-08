@@ -71,10 +71,13 @@ export default defineComponent({
     ...mapActions(useUserStore, ['setUser']),
 
     async onSubmit(){
-      let Avatar = ''
+      let Avatar : string | null
+      
       if(this.avatarFile){
         const result = await FileService.upload(this.avatarFile as File, 'avatar')
         Avatar = result.data
+      } else{
+        Avatar = null
       }
       await UserService.updateUser({
         id: this.user?.id as string,
