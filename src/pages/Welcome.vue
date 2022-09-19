@@ -5,7 +5,11 @@
         <div class="header__wrapper">
           <div class="header__block">
             <a href="#" class="header__logo">
-              <img :src="Logo" alt="">
+              <q-img
+                :src="Logo"
+                spinner-color="white"
+                style="width: 80px"
+              />
             </a>
           </div>
           <nav class="nav">
@@ -16,17 +20,22 @@
           </nav>
           <div class="header__block">
             <div class="header__btn">
-              <button class="header-btn">Donate</button>
+              <q-btn color="white" text-color="black" label="Donate" />
             </div>
           </div>
         </div>
       </div>
     </header>
     <section class="intro">
+      <div class="container">
+        <h2>Fayna</h2>
+        <div class="intro-text">
+          Simply engaging and retaining donors is a thing of the past as we pivot in this digital age to create caring virtual communities united for a cause, expand reach and build
+        </div>
+        <q-btn @click="Login" color="white" text-color="black" label="Login\Registration" />
+      </div>
 
     </section>
-    <div>lksjgkgkldsgkds</div>
-    <button @click="Login">Login</button>
   </div>
    <div class="loadingPage" v-else-if="!isLoading">
     <Loader />
@@ -131,6 +140,8 @@ export default defineComponent({
   margin-right: 0;
 }
 
-
+.intro {
+  height: 600px;
+}
 
 </style>

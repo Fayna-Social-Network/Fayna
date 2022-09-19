@@ -70,11 +70,14 @@ module.exports = configure(function (/* ctx */) {
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
-      // polyfillModulePreload: true,
+       polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      extendViteConf (viteConf) {
+       
+      },
       // viteVuePluginOptions: {},
+
 
       vitePlugins: [
         ['@intlify/vite-plugin-vue-i18n', {

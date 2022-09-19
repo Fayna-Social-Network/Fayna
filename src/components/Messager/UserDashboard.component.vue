@@ -17,7 +17,9 @@
         </div>
         <div class="action-panel">
           <ul class="option-group">
-          <li><q-btn round color="primary" icon="volume_up" :size="iconSize">
+          <li><q-btn round :color="notification ? 'primary' : 'red'"
+              :icon="notification ? 'volume_up' : 'volume_off'"
+              :size="iconSize" @click="notification = !notification">
                   <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
                     transition-show="flip-right"
                     transition-hide="flip-left"
@@ -35,7 +37,9 @@
           </q-btn></li>
           </ul>
             <ul class="option-group">
-              <li><q-btn round color="primary" icon="call" :size="iconSize">
+              <li><q-btn round color="primary" icon="call"
+                :size="iconSize"
+                @click="audioCallHandler">
                   <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
                     transition-show="flip-right"
                     transition-hide="flip-left"
@@ -43,7 +47,10 @@
                     {{$t('CallUser')}}
                   </q-tooltip>
               </q-btn></li>
-              <li><q-btn round color="primary" icon="video_camera_front" :size="iconSize">
+              <li><q-btn round color="primary" icon="video_camera_front"
+                :size="iconSize"
+                @click="videoCallHandler"
+                >
                 <q-tooltip anchor="bottom middle" self="bottom middle" :offset="[10, 30]"
                     transition-show="flip-right"
                     transition-hide="flip-left"
@@ -83,24 +90,55 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import { mapState } from "pinia"
+import { mapState, mapActions } from "pinia"
 import { useUserContactsStore } from "stores/UserContacts"
 import { useUserMessagesStore } from "stores/UserMessages"
+import { useUserCallsStore } from "src/stores/UserCalls"
 import IsOnlineBadge from "components/UI/badges/IsOnline.vue"
 import { Menu, MenuActions, IActions } from 'src/menus/userDashboard.menu'
 import { MenuItem } from "src/types/menu"
 import { IContact } from "src/types/contact"
+import { Open } from "src/functions/modals"
+import UserService from "src/services/users/user.service"
+import { IUser } from "src/types/user"
+
+interface IUserDashboardData{
+  isMenuActive : boolean
+  menu : any
+  actions: any
+  iconSize: string
+  notification: boolean
+}
+
 
 export default defineComponent({
-    data:() => ({
+    data:(): IUserDashboardData => ({
       isMenuActive: false,
       menu: Menu,
       actions: MenuActions,
-      iconSize: '14px'
+      iconSize: '14px',
+      notification: true,
     }),
     methods:{
+      ...mapActions(useUserCallsStore, ['setCallSettigs']),
+
       menuClickHandle(item: MenuItem){
         this.actions[item.action as IActions](this.getContactById(this.currentCorrespondenceId!) as IContact)
+      },
+      async audioCallHandler(){
+        const user = await this.getUser()
+        this.setCallSettigs('audio', false, null)
+        Open('UserCall', user)
+      },
+      async videoCallHandler(){
+        const user = await this.getUser()
+        this.setCallSettigs('video', false, null)
+        Open('UserCall', user)
+      },
+
+      async getUser() {
+        return await UserService
+            .getUserByNickname(this.getContactById(this.currentCorrespondenceId!)?.nickName!)
       }
     },
     computed:{
@@ -115,9 +153,8 @@ export default defineComponent({
             }
         },
 
-
     },
-    mounted(){
+   async mounted(){
       if(this.$q.platform.is.mobile){
         this.iconSize = '12px'
       }

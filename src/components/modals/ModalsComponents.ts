@@ -8,33 +8,36 @@ import AddContactToUser from "components/modals/UserContacts/AddContactToUser.vu
 import CreateContactGroup from "components/modals/UserContacts/CreateGroupModal.vue"
 import AddNewStickersToUser from "components/modals/MessageModals/addNewStickers.modal.vue"
 import EditContact from "components/modals/UserContacts/EditContact.vue"
+import UserCall from "components/modals/UserCalling/CallToUser.vue"
 import Settings from "components/modals/UserSettings.vue"
 
 export interface IModalsComponents {
   ContactChecker
   MessageReaction
-  AddImage   
+  AddImage
   ImageViewer
   CodeEditor
-  Camera 
+  Camera
   AddContactToUser
-  CreateContactGroup 
+  CreateContactGroup
   AddNewStickersToUser
   EditContact
+  UserCall
   Settings
 }
 
 
-export const modals : IModalsComponents = { 
+export const modals : IModalsComponents = {
     ContactChecker,
     MessageReaction,
-    AddImage,   
+    AddImage,
     ImageViewer,
     CodeEditor,
-    Camera, 
+    Camera,
     AddContactToUser,
-    CreateContactGroup, 
+    CreateContactGroup,
     AddNewStickersToUser,
     EditContact,
+    UserCall,
     Settings
 }

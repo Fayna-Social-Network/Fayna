@@ -9,7 +9,7 @@
         <q-select v-model="selectedGroupName"
           transition-show="jump-up"
           transition-hide="jump-up"
-          :options="user.contactGroups.map(g => g.groupName)"
+          :options="user!.contactGroups.map(g => g.groupName)"
           :label="$t('SelectContactGroup')" />
       </div>
     </template>
