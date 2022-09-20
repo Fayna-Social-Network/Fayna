@@ -36,10 +36,13 @@ export const useUserCallsStore = defineStore("userCallsStore", {
       this.IncomeCall = false
     },
 
-    setCallSettigs: function(type: CallType, income: boolean, SignalData: string | null): void {
+    setCallSettigs: function(type: CallType,  SignalData: string | null): void {
       this.typeCall = type
-      this.IncomeCall = income
       this.SignalData = SignalData
+    },
+
+    setCallType: function(type: CallType) {
+      this.typeCall = type
     },
 
     setCallAnswer: function(answer: Answer, signal: string | null): void {
@@ -48,7 +51,7 @@ export const useUserCallsStore = defineStore("userCallsStore", {
     },
 
     setIncomeCall: function(income: boolean) {
-      this.IncomeCall = false
+      this.IncomeCall = income
     }
   }
 

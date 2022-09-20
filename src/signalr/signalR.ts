@@ -10,9 +10,8 @@ import { Open } from 'src/functions/modals';
 import { CallType } from 'stores/UserCalls'
 import { useUserCallsStore } from 'stores/UserCalls'
 
-interface IUserCalling {
+interface IAskForCall {
   userNickname : string
-  signalData : string
   callType : CallType
 }
 
@@ -61,18 +60,11 @@ export  function InitializeResponseSignalRCommands(contacts: Array<IContact>, ni
       Notify.create('You are blocked by user')
     })
 
-    signalR.on('UserCalling', async (data: IUserCalling) => {
+    signalR.on('UserAskForCall', async(data: IAskForCall) => {
       const user = await UserService.getUserByNickname(data.userNickname)
-      UserCallStore.setCallSettigs(data.callType, true, data.signalData)
+      UserCallStore.setCallType(data.callType)
+      UserCallStore.setIncomeCall(true)
       Open('UserCall', user)
-    })
-
-    signalR.on('UserAnswerToCall', (signal: string ) => {
-      UserCallStore.setCallAnswer('answer', signal)
-    })
-
-    signalR.on('CanselingCall', () => {
-      UserCallStore.setCallAnswer('noAnswer', null)
     })
 
 }
