@@ -1,8 +1,31 @@
 <template>
-  <div class="video-content">
-    <video ref="localvideo" class="video-local" playsinline autoplay muted></video>
-    <video ref="remotevideo" class="video-remote" playsinline autoplay></video>
+<Teleport to="body" :disabled="!fullscreen"  >
+  <div :class="{'video-chat' : fullscreen}">
+    <div class="video-content">
+      <video ref="localvideo" class="video-local" playsinline autoplay muted></video>
+      <video ref="remotevideo" class="video-remote" :class="{'video-remote-full' : fullscreen}" playsinline autoplay></video>
+      <div class="video-menu">
+        <div class="menu-buttons">
+          <q-icon class="nenu-button" color="red" size="35px" name="radio_button_checked"/>
+          <q-icon class="nenu-button"
+            :name="audioTrackEnabled ? 'mic' : 'mic_off'"
+            :color="audioTrackEnabled ? 'white' : 'red'"
+            size="35px"
+            @click="audioEnableToggleHandler"/>
+          <q-icon class="nenu-button"
+            :name="videoTrackEnabled ? 'videocam' : 'videocam_off'"
+            :color="videoTrackEnabled ? 'white' : 'red'"
+            size="35px"
+            @click="videoEnableToggleHandler"/>
+          <q-icon class="nenu-button"
+            :name="fullscreen ? 'fullscreen_exit' : 'fit_screen'"
+            size="35px"
+            @click="fullscreen = !fullscreen"/>
+        </div>
+      </div>
+    </div>
   </div>
+ </Teleport>
 </template>
 
 <script lang="ts">
@@ -19,6 +42,10 @@ interface IVideoCallData {
   remoteStream: MediaStream
   pc: RTCPeerConnection | null
   servers: RTCConfiguration
+  fullscreen: boolean
+  audioTrackEnabled: boolean
+  videoTrackEnabled: boolean
+  recordEnabled: boolean
 }
 
 export default defineComponent({
@@ -52,8 +79,22 @@ export default defineComponent({
       localStream: null,
       remoteStream: new MediaStream(),
       pc: null,
+      fullscreen: false,
+      audioTrackEnabled: true,
+      videoTrackEnabled: true,
+      recordEnabled: false
   }),
   methods:{
+
+    videoEnableToggleHandler(){
+      this.videoTrackEnabled = !this.videoTrackEnabled
+      this.localStream!.getVideoTracks()[0].enabled = !(this.localStream!.getVideoTracks()[0].enabled);
+    },
+
+    audioEnableToggleHandler(){
+      this.audioTrackEnabled = !this.audioTrackEnabled
+      this.localStream!.getAudioTracks()[0].enabled = !(this.localStream!.getAudioTracks()[0].enabled);
+    },
 
     startWebCam(){
        navigator.mediaDevices.getUserMedia({
@@ -174,18 +215,32 @@ export default defineComponent({
     this.localVideo = this.$refs.localvideo as HTMLVideoElement
     this.remoteVideo = this.$refs.remotevideo as HTMLVideoElement
     this.startWebCam()
-  }
+  },
+  beforeUnmount() {
+      this.pc?.close()
+      this.pc = null
+  },
 })
 </script>
 
 <style scoped>
+
+  .video-chat {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    background: rgb(36, 35, 35);
+  }
  .video-content {
     position: relative;
   }
   .video-local {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 10px;
+    right: 10px;
     width: 100px;
     border: 2px solid grey;
     border-radius: 5px;
@@ -193,5 +248,41 @@ export default defineComponent({
   .video-remote {
     width: 100%;
     height: 100%;
+  }
+
+  .video-remote-full {
+    width: 100%;
+    height: 99vh;
+  }
+
+  .video-menu {
+    position: absolute;
+    left: 0;
+    bottom: 15px;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .video-menu:hover .menu-buttons {
+    translate: 0px 0px;
+  }
+  .menu-buttons {
+    display: flex;
+    gap: 20px;
+    transition: all 0.4s ease;
+    translate: 0px 80px;
+  }
+
+  .nenu-button {
+    cursor: pointer;
+    transition: all 0.5s ease;
+  }
+
+  .nenu-button:hover {
+    scale: 1.1;
   }
 </style>

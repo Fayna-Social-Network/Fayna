@@ -4,18 +4,30 @@
       {{getCallSettings.typeCall === 'audio' ? $t('audioUserCall') : $t('videoUserCall')}}
     </template>
     <template #body>
-      <div class="calling-content">
+      <div class="calling-content" v-if="!canselCall">
         <div class="user-offline" v-if="!modalData.isOnline">
             <q-icon name="person_off" size="130px" />
             <span>{{$t('UserIsOffline')}}</span>
         </div>
         <div class="user-online" v-else>
-          <div v-if="getCallSettings.IncomeCall">
-            IncomeCall
-            <q-btn color="green" glossy label="Answer" @click="acceptCallHandler"/>
+          <div v-if="getCallSettings.IncomeCall" class="calltouser">
+            <q-img
+              :src="callImage"
+              spinner-color="white"
+              style="height: 140px; max-width: 150px"
+            />
+            <div class="calling-to">{{$t('UserCallingYou')}} @{{modalData.nickName}}</div>
+            <q-btn color="green" glossy :label="$t('AnswerToCallButton')" icon="phone" @click="acceptCallHandler"/>
+            <audio ref="audioUserCalling" :src="audioUserCallingFile" loop></audio>
           </div>
           <div v-else-if="!acceptCall" class="calltouser">
-            CallToUser
+            <q-img
+              :src="callImage"
+              spinner-color="white"
+              style="height: 140px; max-width: 150px"
+            />
+            <div class="calling-to">{{$t('UserCallingTo')}} @{{modalData.nickName}}</div>
+            <audio ref="audioCall" :src="audioCallFile" loop></audio>
           </div>
           <div v-else class="media-content">
             <div class="audio" v-if="getCallSettings.typeCall === 'audio'">
@@ -27,9 +39,14 @@
           </div>
         </div>
       </div>
+      <div v-else class="cansel-call">
+        <q-icon name="phone_disabled" color="red" size="130px" />
+        <div class="cansel-call-text">{{$t('CallCanseledByUser')}}</div>
+        <audio ref="audioEndCall" :src="audioEndCallFile" loop></audio>
+      </div>
     </template>
     <template #actions>
-      <q-btn color="red" glossy label="Cansel" @click="closeHandler"/>
+      <q-btn color="red" glossy :label="$t('CanselCall')" @click="closeHandler" icon="call_end"/>
     </template>
   </DialogModal>
 </template>
@@ -44,12 +61,23 @@ import { useUserStore } from 'src/stores/User';
 import { IUser } from 'src/types/user';
 import { Close } from 'src/functions/modals';
 import { useSignalR } from '@quangdao/vue-signalr';
-
+import callImage from 'src/assets/image/Man_on_phone.gif'
+import audioCallFile from 'src/assets/sound/gudki.mp3'
+import audioUserCallingFile from 'src/assets/sound/zvonok.mp3'
+import audioEndCallFile from 'src/assets/sound/endcall.mp3'
 
 interface ICallToUserData {
   acceptCall: boolean
   income: boolean
-  SignalR: any
+  callImage,
+  canselCall: boolean,
+  SignalR: any,
+  AudioCallSignalElement: HTMLAudioElement | null
+  audioCallFile
+  audioUserCallingFile
+  audioEndCallFile
+  AudioCallingUserElement: HTMLAudioElement | null
+  AudioEndCallElement: HTMLAudioElement | null
 }
 
   export default defineComponent({
@@ -62,7 +90,15 @@ interface ICallToUserData {
     data: (): ICallToUserData => ({
       acceptCall: false,
       income: false,
-      SignalR: useSignalR()
+      callImage,
+      canselCall: false,
+      SignalR: useSignalR(),
+      AudioCallSignalElement: null,
+      AudioCallingUserElement: null,
+      AudioEndCallElement: null,
+      audioCallFile,
+      audioUserCallingFile,
+      audioEndCallFile
     }),
     computed: {
       ...mapState(useUserCallsStore, ['getCallSettings']),
@@ -72,6 +108,7 @@ interface ICallToUserData {
       ...mapActions(useUserCallsStore, ['resetCallSettings', 'setIncomeCall', 'setCallType']),
 
       askUserForCall(){
+        this.AudioCallSignalElement?.play()
         this.SignalR.invoke('AskTheUserForCall', {
           MyNickname: this.user?.nickName,
           UserNickname: this.modalData.nickName,
@@ -79,90 +116,40 @@ interface ICallToUserData {
         })
 
         this.SignalR.on('CallConfirmed', () => {
+          this.AudioCallSignalElement?.pause()
           this.acceptCall = true
         })
 
       },
 
       acceptCallHandler(){
+        this.AudioCallingUserElement?.pause()
         this.SignalR.invoke('UserConfirmedCall', this.modalData.nickName)
         this.setIncomeCall(false)
         this.acceptCall = true
       },
 
-
-      sendAnswer(desc){
-          this.SignalR.invoke('AnswerToUserCall', {
-            Signal: desc.sdp,
-            UserNickname: this.modalData.nickName
-          })
-          this.setIncomeCall(false)
-      },
-
-
-
-
-      // CreateUserCalling(){
-      //   const answer: RTCSessionDescriptionInit = {
-      //     sdp: this.AnswerSignal as string,
-      //     type: 'answer'
-      //   }
-
-
-      //   if (!this.pc!.currentRemoteDescription) {
-      //     const answerDescription = new RTCSessionDescription(answer);
-      //     this.pc!.setRemoteDescription(answerDescription);
-      //   }
-
-      //   this.SignalR.on('AnswerIceCandidate', (data) => {
-      //     this.pc?.addIceCandidate(new RTCIceCandidate(JSON.parse(data)))
-      //     //console.log(JSON.parse(data))
-      //   })
-      // },
-
-      // async acceptCallHandler(){
-      //   this.setIncomeCall(false)
-
-      //   this.pc!.onicecandidate = (event) => {
-      //       this.SignalR.invoke('SetAnswerIceCandidate', {
-      //       UserNickname: this.modalData.nickName,
-      //       IceCandidate: JSON.stringify(event.candidate)
-      //     })
-      //   };
-
-      //   const offer : RTCSessionDescriptionInit= {
-      //     type: 'offer',
-      //     sdp: this.getCallSettings.SignalData as string
-      //   };
-      //   const offerDescription = new RTCSessionDescription(offer)
-      //   await this.pc!.setRemoteDescription(offerDescription);
-
-      //   const answerDescription = await this.pc!.createAnswer();
-      //   await this.pc!.setLocalDescription(answerDescription);
-
-      //   await this.SignalR.invoke('AnswerToUserCall', {
-      //     Signal: answerDescription.sdp,
-      //     UserNickname: this.modalData.nickName
-      //   });
-
-      //   this.SignalR.on('OfferIceCandidate', (data) => {
-      //     this.pc?.addIceCandidate(new RTCIceCandidate(JSON.parse(data)))
-      //   })
-
-      // },
-
       closeHandler() {
+        this.SignalR.invoke('UserCancelCall', this.modalData.nickName)
         this.resetCallSettings()
+        this.AudioEndCallElement?.pause()
         Close()
       }
     },
     mounted(){
+      this.AudioCallSignalElement = this.$refs.audioCall as HTMLAudioElement
+      this.AudioCallingUserElement = this.$refs.audioUserCalling as HTMLAudioElement
+      this.AudioEndCallElement = this.$refs.audioEndCall as HTMLAudioElement
+
       this.income = this.getCallSettings.IncomeCall
       if(!this.getCallSettings.IncomeCall){
         this.askUserForCall()
+      }else {
+        this.AudioCallingUserElement.play()
       }
-      this.SignalR.on('UserCalling', (data) => {
-        console.log(data)
+      this.SignalR.on('CanselingCall', () => {
+        this.AudioEndCallElement?.play()
+        this.canselCall = true
       })
     },
 
@@ -186,5 +173,30 @@ interface ICallToUserData {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .calltouser {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .calling-to {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+
+  .cansel-call {
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cansel-call-text {
+    margin: 10px 0px 10px 0px;
+    font-size: 17px;
   }
 </style>

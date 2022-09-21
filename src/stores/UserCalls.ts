@@ -5,10 +5,7 @@ export type Answer = 'answer' | 'noAnswer' | null
 
 interface ICallStore {
   typeCall: CallType,
-  IncomeCall: boolean,
-  SignalData: string | null
-  UserAnswer: Answer
-  AnswerSignal: string | null
+  IncomeCall: boolean
 }
 
 export const useUserCallsStore = defineStore("userCallsStore", {
@@ -16,15 +13,12 @@ export const useUserCallsStore = defineStore("userCallsStore", {
   state: () : ICallStore => ({
     typeCall: null,
     IncomeCall: false,
-    SignalData: null,
-    UserAnswer: null,
-    AnswerSignal: null
   }),
 
   getters: {
 
     getCallSettings: function(state) {
-      return {typeCall: state.typeCall, IncomeCall: state.IncomeCall, SignalData: state.SignalData}
+      return {typeCall: state.typeCall, IncomeCall: state.IncomeCall}
     }
 
   },
@@ -36,18 +30,13 @@ export const useUserCallsStore = defineStore("userCallsStore", {
       this.IncomeCall = false
     },
 
-    setCallSettigs: function(type: CallType,  SignalData: string | null): void {
+    setCallSettigs: function(type: CallType,  income: boolean): void {
       this.typeCall = type
-      this.SignalData = SignalData
+      this.IncomeCall = income
     },
 
     setCallType: function(type: CallType) {
       this.typeCall = type
-    },
-
-    setCallAnswer: function(answer: Answer, signal: string | null): void {
-      this.UserAnswer = answer
-      this.AnswerSignal = signal
     },
 
     setIncomeCall: function(income: boolean) {
