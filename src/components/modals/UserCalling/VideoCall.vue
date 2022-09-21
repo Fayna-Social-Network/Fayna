@@ -1,9 +1,10 @@
 <template>
 <Teleport to="body" :disabled="!fullscreen"  >
   <div :class="{'video-chat' : fullscreen}">
-    <div class="video-content">
-      <video ref="localvideo" class="video-local" playsinline autoplay muted></video>
-      <video ref="remotevideo" class="video-remote" :class="{'video-remote-full' : fullscreen}" playsinline autoplay></video>
+    <div class="video-content" v-show="videoEnabled">
+      <video ref="localvideo"  class="video-local" playsinline autoplay muted></video>
+      <video ref="remotevideo"  class="video-remote" :class="{'video-remote-full' : fullscreen}" playsinline autoplay></video>
+      <CallTimer :running="runningTimer" :resetWhenStart="true" class="call-timer"/>
       <div class="video-menu">
         <div class="menu-buttons">
           <q-icon class="nenu-button" color="red" size="35px" name="radio_button_checked"/>
@@ -24,6 +25,15 @@
         </div>
       </div>
     </div>
+    <div class="audio-call" v-if="!videoEnabled">
+      <q-icon class="nenu-button" color="red" size="35px" name="radio_button_checked"/>
+      <q-icon class="nenu-button"
+        :name="audioTrackEnabled ? 'mic' : 'mic_off'"
+        :color="audioTrackEnabled ? 'white' : 'red'"
+        size="50px"
+        @click="audioEnableToggleHandler"/>
+        <CallTimer :running="runningTimer" :resetWhenStart="true" class="call-timer"/>
+    </div>
   </div>
  </Teleport>
 </template>
@@ -34,6 +44,7 @@ import { defineComponent, PropType } from 'vue';
 import { useSignalR } from '@quangdao/vue-signalr';
 import { useUserStore } from 'stores/User'
 import { mapState } from 'pinia'
+import CallTimer from 'components/modals/UserCalling/CallTimer.vue'
 
 interface IVideoCallData {
   localVideo: HTMLVideoElement | null
@@ -46,6 +57,7 @@ interface IVideoCallData {
   audioTrackEnabled: boolean
   videoTrackEnabled: boolean
   recordEnabled: boolean
+  runningTimer: boolean
 }
 
 export default defineComponent({
@@ -61,6 +73,10 @@ export default defineComponent({
     incomeCall: {
       required: true,
       type: Boolean
+    },
+    videoEnabled: {
+      type: Boolean,
+      default: true
     }
   },
   data: (): IVideoCallData => ({
@@ -82,7 +98,8 @@ export default defineComponent({
       fullscreen: false,
       audioTrackEnabled: true,
       videoTrackEnabled: true,
-      recordEnabled: false
+      recordEnabled: false,
+      runningTimer: true
   }),
   methods:{
 
@@ -97,10 +114,11 @@ export default defineComponent({
     },
 
     startWebCam(){
-       navigator.mediaDevices.getUserMedia({
-         video: true,
-         audio: true,
-       }).then((stream) => {
+      let mediaSettings
+      if(this.videoEnabled){
+        mediaSettings = {video: true, audio: true}
+      }else {mediaSettings= {video: false, audio: true}}
+       navigator.mediaDevices.getUserMedia(mediaSettings).then((stream) => {
          this.localStream = stream
 
          this.remoteStream = new MediaStream();
@@ -117,6 +135,8 @@ export default defineComponent({
 
          this.localVideo!.srcObject = this.localStream;
          this.remoteVideo!.srcObject = this.remoteStream;
+
+
 
          if(!this.incomeCall) {
             this.CreateVideoCall()
@@ -196,7 +216,6 @@ export default defineComponent({
 
         this.signalR.on('AnswerIceCandidate', (data) => {
           this.pc?.addIceCandidate(new RTCIceCandidate(JSON.parse(data as string)))
-          //console.log(JSON.parse(data))
         })
 
       },
@@ -220,6 +239,9 @@ export default defineComponent({
       this.pc?.close()
       this.pc = null
   },
+  components: {
+    CallTimer
+  }
 })
 </script>
 
@@ -284,5 +306,19 @@ export default defineComponent({
 
   .nenu-button:hover {
     scale: 1.1;
+  }
+
+  .audio-call {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .call-timer {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
   }
 </style>

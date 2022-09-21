@@ -31,10 +31,10 @@
           </div>
           <div v-else class="media-content">
             <div class="audio" v-if="getCallSettings.typeCall === 'audio'">
-              AUdio
+              <VideoCall :userCall="modalData" :signalR="SignalR" :incomeCall="income" :videoEnabled="false"/>
             </div>
             <div class="video" v-else>
-              <VideoCall :userCall="modalData" :signalR="SignalR" :incomeCall="income"/>
+              <VideoCall :userCall="modalData" :signalR="SignalR" :incomeCall="income" />
           </div>
           </div>
         </div>
