@@ -26,6 +26,13 @@ export const Menu: Array<MenuItem> = [
         action: 'openCodeEditor'
     },
 
+    {
+        id: 3,
+        icon: 'description',
+        text:  'MessageComponentMenu_File',
+        action: 'openSendFile'
+    }
+
     // {
     //     id: 3,
     //     icon: 'contact_mail',
@@ -41,12 +48,7 @@ export const Menu: Array<MenuItem> = [
     // },
 
 
-    // {
-    //     id: 5,
-    //     icon: 'description',
-    //     text:  'MessageComponentMenu_File',
-    //     action: ''
-    // }
+
 
 ]
 
@@ -62,6 +64,10 @@ export const MenuActions = {
 
   openCodeEditor(contact: IContact){
     Open('CodeEditor', contact)
+  },
+
+  openSendFile(contact: IContact){
+    Open('FileSend', contact)
   }
 
 }

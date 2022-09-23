@@ -13,8 +13,8 @@
         multiple
         hide-upload-btn
         :no-thumbnails="$q.platform.is.mobile"
-        @added="addedImagesHandle"
-        @removed="removedImagesHandle"
+        @added="addedImagesHandle(files)"
+        @removed="removedImagesHandle(files)"
         style="max-width: 300px"
       />
       <div class="album-addition">
@@ -57,7 +57,6 @@ import { useUserStore } from "src/stores/User"
 import { useUserMessagesStore } from "src/stores/UserMessages"
 import { IMessage } from "src/types/message"
 import { useMainStore } from "src/stores/Main"
-import { v4 as uuid } from "uuid"
 import Loader from "src/components/UI/Loader.vue"
 
 export default defineComponent({
@@ -121,7 +120,7 @@ export default defineComponent({
 
         this.addMessageToCorrespondence({message: newMess,
            contactId: this.modalData.contactId})
-        this.setMessageTrigger(uuid())
+        this.setMessageTrigger()
 
         Close()
     }

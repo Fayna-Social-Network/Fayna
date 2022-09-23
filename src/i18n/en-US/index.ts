@@ -10,6 +10,10 @@ import contactGroupsModal from './createContactGroupModal'
 import common from './common';
 import modalEditContact from './modalEditContact';
 import modalAddNewStickers from './modalAddNewStickers';
+import notifications from './notifications'
+import modalsCommon from './modalsCommon';
+import settingsModal from './settingsModal';
+import userCallsModal from './userCallsModal';
 
 export default {
   ...MainNavBar,
@@ -23,5 +27,9 @@ export default {
   ...contactGroupsModal,
   ...modalEditContact,
   ...modalAddNewStickers,
-  ...chat
+  ...chat,
+  ...notifications,
+  ...modalsCommon,
+  ...settingsModal,
+  ...userCallsModal
 };

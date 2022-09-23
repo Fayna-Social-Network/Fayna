@@ -7,7 +7,9 @@
       <CallTimer :running="runningTimer" :resetWhenStart="true" class="call-timer"/>
       <div class="video-menu">
         <div class="menu-buttons">
-          <q-icon class="nenu-button" color="red" size="35px" name="radio_button_checked"/>
+          <q-icon class="nenu-button" color="red" size="35px"
+          name="radio_button_checked"
+          @click="recordHendler"/>
           <q-icon class="nenu-button"
             :name="audioTrackEnabled ? 'mic' : 'mic_off'"
             :color="audioTrackEnabled ? 'white' : 'red'"
@@ -26,7 +28,9 @@
       </div>
     </div>
     <div class="audio-call" v-if="!videoEnabled">
-      <q-icon class="nenu-button" color="red" size="35px" name="radio_button_checked"/>
+      <q-icon class="nenu-button" color="red" size="35px"
+      name="radio_button_checked"
+      @click="recordHendler"/>
       <q-icon class="nenu-button"
         :name="audioTrackEnabled ? 'mic' : 'mic_off'"
         :color="audioTrackEnabled ? 'white' : 'red'"
@@ -102,6 +106,10 @@ export default defineComponent({
       runningTimer: true
   }),
   methods:{
+
+    recordHendler(){
+      this.$q.notify({message: 'Sorry, recording of video and audio calls will be available later'})
+    },
 
     videoEnableToggleHandler(){
       this.videoTrackEnabled = !this.videoTrackEnabled

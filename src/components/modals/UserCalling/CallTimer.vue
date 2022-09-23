@@ -1,13 +1,19 @@
 <template>
   <div>
-    <p>{{ secondsInMinutes(time)}}</p>
+    <p>{{secondsInMinutes(time)}}</p>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import moment from "moment";
+import { defineComponent } from 'vue'
 
-export default {
+interface ICallTimerData {
+  time: number
+  timer: NodeJS.Timeout | null
+}
+
+export default defineComponent({
   name: "stopwatch",
   props: {
     running: {
@@ -32,12 +38,13 @@ export default {
   mounted() {
     if (this.running) this.startT();
   },
-  data() {
-    return { time: 0, timer: null };
-  },
+  data: (): ICallTimerData => ({
+    time: 0,
+    timer: null
+  }),
   methods: {
     stopT: function() {
-      clearInterval(this.timer);
+      clearInterval(this.timer!);
       if (this.restWhenStop) this.resetT();
     },
     startT: function() {
@@ -58,7 +65,7 @@ export default {
         .format("HH:mm:ss")
     }
   },
-};
+});
 </script>
 
 <style scoped>

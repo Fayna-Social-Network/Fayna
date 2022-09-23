@@ -9,6 +9,7 @@ import CreateContactGroup from "components/modals/UserContacts/CreateGroupModal.
 import AddNewStickersToUser from "components/modals/MessageModals/addNewStickers.modal.vue"
 import EditContact from "components/modals/UserContacts/EditContact.vue"
 import UserCall from "components/modals/UserCalling/CallToUser.vue"
+import FileSend from "components/modals/FilesSend/FileSend.vue"
 import Settings from "components/modals/UserSettings.vue"
 
 export interface IModalsComponents {
@@ -23,6 +24,7 @@ export interface IModalsComponents {
   AddNewStickersToUser
   EditContact
   UserCall
+  FileSend
   Settings
 }
 
@@ -39,5 +41,6 @@ export const modals : IModalsComponents = {
     AddNewStickersToUser,
     EditContact,
     UserCall,
+    FileSend,
     Settings
 }
