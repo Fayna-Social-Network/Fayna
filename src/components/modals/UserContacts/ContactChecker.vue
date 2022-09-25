@@ -33,6 +33,7 @@ import { mapState, mapActions } from "pinia";
 import { useUserContactsStore } from "stores/UserContacts";
 import { useModalWindowStore } from "stores/ModalWindow";
 import { useUserMessagesStore } from "stores/UserMessages";
+import { useUserStore } from "src/stores/User";
 import { IContact } from "src/types/contact"
 import {forwardMessage} from 'src/functions/messager'
 import { Close } from "src/functions/modals";
@@ -75,7 +76,7 @@ export default defineComponent({
                  const mess ={
                     id: uuid(),
                     isRead: false,
-                    seller: message.seller,
+                    seller: this.user?.id as string,
                     text: message.text,
                     timestamp: new Date(),
                     userId: this.contactsChecked[i].userId
@@ -95,6 +96,7 @@ export default defineComponent({
     computed:{
         ...mapState(useUserContactsStore, ['contacts']),
         ...mapState(useModalWindowStore, ['modalData']),
+        ...mapState(useUserStore, ['user'] ),
 
         listContacts(){
             return this.contacts.filter(c => c.contactId != this.modalData.contactId)

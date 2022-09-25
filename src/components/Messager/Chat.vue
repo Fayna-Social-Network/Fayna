@@ -36,29 +36,9 @@
 
                 <Observer :rootselector="'.chat-content'" :height="100"
                 @handleIntersect="messageHandle(message)"/>
-                <div class="menu-button"
-                :class="{'friend-menu': message.seller != user?.id}"
-                >
-                  <q-fab
-                    v-model="fabMenu"
-                    :label="$t('MessageContextMenu')"
-                    label-position="top"
-                    external-label
-                    color="positive"
-                    :icon="message.seller != user?.id ? 'keyboard_arrow_left' : 'keyboard_arrow_right'"
-                    :direction="message.seller != user?.id ? 'left' : 'right'"
-                    padding="2px"
-                  >
-                    <q-fab-action v-for="(menuItem, i) in Menu"
-                    :key="menuItem.id"
-                    padding="5px"
-                    :color="`blue-${9 - i}`"
-                    :icon="menuItem.icon"
-                    @click.stop="menuItemClickHandle(menuItem, message!)"
-                    />
 
-                  </q-fab>
-                </div>
+                <MessageMenu :message="message" :correspondenseId="currentCorrespondenceId!" :user="user!"/>
+
               </div>
 
           </q-chat-message>
@@ -88,33 +68,27 @@ import { IMessage } from "src/types/message"
 import MessageService from "src/services/messages/message.service"
 import Observer from 'components/Observer.vue'
 import Message from 'components/Messager/Message.component.vue'
+import MessageMenu from "./MessageMenu.vue"
 import ScrollBottom from "components/UI/Buttons/ScrollBottom.vue"
-import { Menu, MenuActions} from 'src/menus/messageContext.menu'
-import { MenuItem } from "src/types/menu"
+
 
 
 interface ChatData {
   isDisplayDate: Function
-  fabMenu: boolean
   currentPage: number
   messagesCount: number
   messageItems: Array<IMessage>
-  Menu: Array<MenuItem>
   NumberOfStartMessageDisplay: number
-  MenuActions: any
   scrollTopFlag: boolean
 }
 
 export default defineComponent({
   data: () : ChatData => ({
     isDisplayDate,
-    fabMenu: false,
     currentPage: 0,
     messagesCount: 0,
     messageItems: [],
-    Menu,
     NumberOfStartMessageDisplay: 10,
-    MenuActions,
     scrollTopFlag: false
   }),
   computed:{
@@ -159,13 +133,6 @@ export default defineComponent({
 
     getDate(time : any){
       return dateFilter(time)
-    },
-
-    menuItemClickHandle(item : MenuItem, message: IMessage){
-      this.MenuActions[item.action]({
-        message,
-        contactId: this.currentCorrespondenceId!
-      })
     },
 
     getSize(text: string){
@@ -240,6 +207,7 @@ export default defineComponent({
     UserTyping,
     Observer,
     Message,
+    MessageMenu,
     ScrollBottom,
   }
 })
@@ -288,18 +256,7 @@ export default defineComponent({
 #message-block:hover .menu-button{
   opacity: 1;
 }
-.menu-button{
-  position: absolute;
-  top: -42px;
-  left: -15px;
-  opacity: 0;
-  transition: all 400ms ease;
-}
 
-.friend-menu{
-  left: unset;
-  right: -15px;
-}
 .list-item {
   display: inline-block;
   margin-right: 10px;
