@@ -127,12 +127,12 @@ export default defineComponent({
       },
       async audioCallHandler(){
         const user = await this.getUser()
-        this.setCallSettigs('audio', false, null)
+        this.setCallSettigs('audio', false)
         Open('UserCall', user)
       },
       async videoCallHandler(){
         const user = await this.getUser()
-        this.setCallSettigs('video', false, null)
+        this.setCallSettigs('video', false)
         Open('UserCall', user)
       },
 

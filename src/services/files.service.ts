@@ -20,20 +20,22 @@ export default class Files{
             }
           })
     }
-    static async uploadFiles(files: File[], type: string){
+
+    static async uploadFilesAndAddToArchive(files: File[]){
 
       const fd = new FormData()
-      for (var i = 0; i < files.length ; i++) {
-        fd.append(files[i].name, files[i]);
-     }
+      const arrayFiles = Array.from(files)
 
-
-     return await api.post(`api/uploadfiles/many/${type}`, fd, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      for(let i = 0; i < arrayFiles.length; i++ ) {
+        fd.append("files[]", arrayFiles[i])
       }
-    })
+
+     return await api.post(`api/uploadfiles/archive`, fd, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
     }
 
 }

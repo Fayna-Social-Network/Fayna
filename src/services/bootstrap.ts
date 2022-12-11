@@ -28,7 +28,7 @@ export default async function loadData(nickname: string){
     useUserContactsStore().setContacts(userContactsResult.data.userContacts)
 
     const contacts = userContactsResult.data.userContacts
-    for(let contact of contacts){
+    for (let contact of contacts){
         const messages = await  api.post('api/message/correspondence', {
             owner: userResult.data.id,
             withWho: contact.userId
@@ -43,7 +43,7 @@ export default async function loadData(nickname: string){
 
     const unknownUserMessage = await Message.getUnknownUserMessage(userResult.data.id)
     if(unknownUserMessage){
-      for(let message of unknownUserMessage.correspondences) {
+      for (let message of unknownUserMessage.correspondences) {
         if(!message.isRead){
           let notification : INotification = {
             type: 'message',

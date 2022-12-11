@@ -7,7 +7,7 @@
             v-for="item in menu.menuItems"
             :key="item.id"
             @click="menuItemClickHandler(item)"
-            ><span class="material-icons-outlined">{{item.icon}}</span>{{$translate(item.text)}}</li>
+            ><span class="material-icons-outlined">{{item.icon}}</span>{{$t(item.text)}}</li>
         </ul>
     </div>
 </template>
@@ -15,9 +15,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState } from "pinia";
-import { useUserStore } from "@/store/User";
-import { useUserMessagesStore } from "@/store/UserMessages"; 
-import {Menu, MenuActions} from '@/menus/messageContext.menu'
+import { useUserStore } from "src/stores/User"
+import { useUserMessagesStore } from "src/stores/UserMessages";
+import {Menu, MenuActions} from 'src/menus/messageComponent.menu'
 
 
 export default defineComponent({
@@ -31,7 +31,7 @@ export default defineComponent({
     }),
     methods:{
         menuItemClickHandler(item){
-          this.menu.menuFunctions[item.action]({message: this.mess, 
+          this.menu.menuFunctions[item.action]({message: this.mess,
               contactId: this.currentCorrespondenceId})
         }
     },

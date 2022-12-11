@@ -8,10 +8,13 @@
         :label="$t('AddFilesToSend')"
         color="primary"
         hide-upload-btn
+        no-thumbnails
         multiple
         square
         flat
         bordered
+        @added="(addFilesHandler as any)"
+        @removed="(removedFilesHandler as any)"
         style="max-width: 300px"
       />
     </template>
@@ -32,6 +35,7 @@
 import { Close } from 'src/functions/modals';
 import { defineComponent } from 'vue'
 import DialogModal from "../DialogModalTemplate.vue"
+import FileService from 'src/services/files.service'
 
 interface ISendFilesData {
   files: Array<File>
@@ -44,8 +48,19 @@ export default defineComponent({
     inprocces: false
   }),
   methods:{
-    SendFilesHandle(){
+    addFilesHandler(files: Array<File>){
+      this.files = Array.from(files)
+    },
 
+    removedFilesHandler(files: Array<File>){
+      files.forEach(file => {
+        this.files = this.files.filter(f => f.name != file.name)
+      })
+    },
+
+    async SendFilesHandle(){
+      const path = await FileService.uploadFilesAndAddToArchive(this.files)
+      console.log(path)
     },
 
     closeHandle(){

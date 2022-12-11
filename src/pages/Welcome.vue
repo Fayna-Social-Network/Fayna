@@ -37,7 +37,7 @@
 
     </section>
   </div>
-   <div class="loadingPage" v-else-if="!isLoading">
+   <div class="loadingPage" v-else-if="!isReady">
     <Loader />
   </div>
 </template>
@@ -58,9 +58,6 @@ export default defineComponent({
   }),
   computed: {
    ...mapState(useMainStore, ["isReady"]),
-    isLoading(): boolean {
-      return this.isReady;
-    },
   },
     methods:{
       Login(){
@@ -76,8 +73,8 @@ export default defineComponent({
         }
     },
     watch:{
-      isLoading(){
-        if(this.isLoading){
+      isReady(){
+        if(this.isReady){
           this.$router.push({name: 'Start'})
         }
       }

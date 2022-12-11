@@ -3,7 +3,8 @@
 </template>
 
 <script lang="ts">
-  window.global ||= window;
+(window as any).global ||= window;
+
 import { defineComponent } from 'vue';
 
 export default defineComponent({

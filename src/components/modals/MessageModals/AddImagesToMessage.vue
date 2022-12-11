@@ -12,9 +12,11 @@
         :label="$t('UploadImages')"
         multiple
         hide-upload-btn
+        :filter="checkFileType"
         :no-thumbnails="$q.platform.is.mobile"
-        @added="addedImagesHandle(files)"
-        @removed="removedImagesHandle(files)"
+        @added="(addedImagesHandle as any)"
+        @removed="(removedImagesHandle as any)"
+        @rejected="onRejected"
         style="max-width: 300px"
       />
       <div class="album-addition">
@@ -85,6 +87,19 @@ export default defineComponent({
     removedImagesHandle(files: Array<File>){
       files.forEach(file => {
         this.files = this.files.filter(f => f.name != file.name)
+      })
+    },
+
+    checkFileType(files){
+      return files.filter(file => file.type === 'image/png' ||
+        file.type === 'image/jpeg' || file.type === 'image/gif' ||
+        file.type === 'image/webp' || file.type === 'image/svg+xml')
+    },
+
+    onRejected(entitys){
+      this.$q.notify({
+        type: 'negative',
+        message: `${entitys.length} ${this.$t('AddImagesToMessageError')}`
       })
     },
 

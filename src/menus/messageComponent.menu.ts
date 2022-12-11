@@ -31,14 +31,14 @@ export const Menu: Array<MenuItem> = [
         icon: 'description',
         text:  'MessageComponentMenu_File',
         action: 'openSendFile'
-    }
+    },
 
-    // {
-    //     id: 3,
-    //     icon: 'contact_mail',
-    //     text: 'MessageComponentMenu_Contact',
-    //     action: ''
-    // },
+    {
+        id: 4,
+        icon: 'theaters',
+        text: 'MessageComponentMenu_Multimedia',
+        action: ''
+    },
 
     // {
     //     id: 4,

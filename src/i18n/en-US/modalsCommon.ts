@@ -7,5 +7,8 @@ export default {
   Screenshot: "Screenshot",
   Record: "Record",
   Play: "Play",
-  Download: "Download"
+  Download: "Download",
+  ContactsCheckerHeader: "Resend Message",
+  fileSendHeaderModal: 'Send File(s)',
+  AddFilesToSend: 'Add files to send'
 }

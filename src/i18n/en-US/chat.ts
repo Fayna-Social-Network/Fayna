@@ -10,5 +10,6 @@ export default {
   MessageContextMenu: "Menu",
   DeleteMessage: "Delete",
   ForwardMessage: 'Forward',
-  ReactionMessage: 'Reaction'
+  ReactionMessage: 'Reaction',
+  AddImagesToMessageError: 'selected file(s) do not match the supported image format'
 }

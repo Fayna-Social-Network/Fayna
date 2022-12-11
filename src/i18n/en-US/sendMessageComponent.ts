@@ -3,5 +3,7 @@ export default {
   SendMessageInputPlaceholder: "Write your message here...",
   MessageComponentMenu_Image: 'Add Image(s)',
   MessageComponentMenu_Camera: 'Open Camera',
-  MessageComponentMenu_CodeSnippets: 'Code Snippets'
+  MessageComponentMenu_CodeSnippets: 'Code Snippets',
+  MessageComponentMenu_File: 'Add File(s)',
+  MessageComponentMenu_Multimedia: 'Add Video/Audio Message',
 }

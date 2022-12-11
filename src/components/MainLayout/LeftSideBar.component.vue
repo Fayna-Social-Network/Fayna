@@ -6,7 +6,7 @@
         <transition
           appear
           enter-active-class="animated fadeInLeft">
-          <component :is="componentList[mainMenuNumber]" />
+          <component :is="componentList[mainMenuNumber as any]" />
         </transition>
         </div>
     </div>

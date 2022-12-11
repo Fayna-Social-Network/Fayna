@@ -190,7 +190,7 @@ export default defineComponent({
            this.addMessageToCorrespondence({message: newMess,
            contactId: this.modalData.contactId})
 
-            this.setMessageTrigger(uuid())
+            this.setMessageTrigger()
 
             Close()
 
@@ -222,7 +222,7 @@ export default defineComponent({
       this.addMessageToCorrespondence({message: newMess,
            contactId: this.modalData.contactId})
 
-      this.setMessageTrigger(uuid())
+      this.setMessageTrigger()
 
         Close()
     },
@@ -332,7 +332,7 @@ export default defineComponent({
       const options = {mimeType}
 
       try {
-        this.mediaRecorder = new MediaRecorder(window.stream, options)
+        this.mediaRecorder = new MediaRecorder((window as any).stream, options)
       } catch (e) {
          console.error('Exception while creating MediaRecorder:', e);
           return;
@@ -361,7 +361,7 @@ export default defineComponent({
       this.recordDisabled = false;
       this.snapDisabled = false;
       console.log('getUserMedia() got stream:', stream);
-      window.stream = stream;
+      (window as any).stream = stream;
 
       this.$refs.gumVideo.srcObject = stream;
 

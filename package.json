@@ -11,7 +11,7 @@
   "dependencies": {
     "@microsoft/signalr": "6.0.3",
     "@quangdao/vue-signalr": "1.0.1",
-    "@quasar/extras": "^1.15.2",
+    "@quasar/extras": "^1.15.4",
     "axios": "^0.21.1",
     "jspdf": "2.5.1",
     "lamejs": "1.2.1",
@@ -19,7 +19,7 @@
     "moment": "2.29.2",
     "pinia": "^2.0.11",
     "prismjs": "1.28.0",
-    "quasar": "^2.8.4",
+    "quasar": "^2.9.2",
     "uuid": "8.3.2",
     "validator": "13.7.0",
     "vue": "^3.0.0",

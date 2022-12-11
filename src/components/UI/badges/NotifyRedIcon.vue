@@ -21,7 +21,6 @@
   position: absolute;
   inset:0;
   border-radius: inherit;
-  // box-shadow: 0 0 0 0 rgb(141, 2, 2);
   animation: inherit;
   animation-delay: -0.5s;
 }
