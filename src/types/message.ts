@@ -4,5 +4,5 @@ export interface IMessage{
     seller: string,
     isRead: boolean,
     timestamp: Date,
-    userId: string
+    chatId: string
 }

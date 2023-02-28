@@ -9,6 +9,8 @@ import UserService from 'src/services/users/user.service'
 import { Open } from 'src/functions/modals';
 import { CallType } from 'stores/UserCalls'
 import { useUserCallsStore } from 'stores/UserCalls'
+import { INotification } from 'src/types/notification';
+import { useUserNotificationsStore  } from 'stores/UserNotification'
 
 interface IAskForCall {
   userNickname : string
@@ -65,6 +67,12 @@ export  function InitializeResponseSignalRCommands(contacts: Array<IContact>, ni
       UserCallStore.setCallType(data.callType)
       UserCallStore.setIncomeCall(true)
       Open('UserCall', user)
+    })
+
+    signalR.on('Notification', (data : INotification) => {
+      const notifications = useUserNotificationsStore()
+
+      notifications.addNotification(data)
     })
 
 }

@@ -7,7 +7,7 @@ import { ICorrespondence } from 'src/types/correspondence';
 import { GetCorrespondenceDto } from 'src/dtos/GetCorrespondence.dto';
 import { INotification } from 'src/types/notification';
 
-export default class Message{
+export default class Message {
 
     static async Send(message: IMessage): Promise<void>{
         await api.post('/api/Message', message)

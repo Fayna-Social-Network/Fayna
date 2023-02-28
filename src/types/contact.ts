@@ -1,8 +1,19 @@
-export interface IContact{
+import { IMessage } from "./message"
+
+export interface IChat {
+  id: string
+  chatMessages: Array<IMessage>
+}
+
+export interface IContact {
     contactId: string | any,
     userId: string,
     name: string,
     groupId: string,
+    chatId: string,
+    isMuted: boolean,
+    favorite: boolean,
+    contactBackGroundImage: string,
     groupName: string,
     nickName: string,
     firstName: string | null,
@@ -11,5 +22,6 @@ export interface IContact{
     email: string,
     isOnline: boolean,
     hubConnectionId: string | null,
-    userRegistrationDate: string
+    userRegistrationDate: string,
+    chat: IChat
 }

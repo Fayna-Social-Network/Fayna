@@ -14,21 +14,18 @@ interface newMessage{
 }
 
 interface setIsReadDto{
-contact: string,
-messageId: string
+  contact: string,
+  messageId: string
 }
 
 interface IMessagerStore{
-  Correspondences: Array<ICorrespondence>
-  currentCorrespondenceId: string | null
+  currentChatId: string | null
 }
-
 
 
 export const useUserMessagesStore = defineStore('userMessages', {
   state: (): IMessagerStore => ({
-    Correspondences: Array<ICorrespondence>(),
-    currentCorrespondenceId: null,
+    currentChatId: null,
   }),
 
   getters:{
@@ -144,8 +141,8 @@ export const useUserMessagesStore = defineStore('userMessages', {
       })
     },
 
-    setCurrentCorrespondenceId: function(Id: string | null): void{
-      this.currentCorrespondenceId = Id
+    setCurrentChatId: function(Id: string | null): void{
+      this.currentChatId = Id
     },
 
     async deleteMessage (message: DeleteMessageDto){

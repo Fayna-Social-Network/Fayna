@@ -17,7 +17,7 @@ export default class Contacts{
     static async addContactToUser(dto: AddUserToContactDto){
         return await api.post('api/UserContacts', dto)
           .catch(function (error: AxiosError){
-            Notify.create('Add contact to user')
+            Notify.create('Error add contact to user')
           })
 
     }

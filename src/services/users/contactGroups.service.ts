@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios'
 import { api } from 'src/boot/axios'
 
 
@@ -8,8 +9,8 @@ interface UpdateGroupName{
 
 export default class ContactGroups{
 
-  static async CreateContactGroup(name: string){
-    return await api.post(`api/ContactGroups/${name}`)
+  static async CreateContactGroup(name: string): Promise<AxiosResponse<string>> {
+    return await api.post<string>(`api/ContactGroups/${name}`)
   }
 
   static async DeleteContactGroup(id: string){

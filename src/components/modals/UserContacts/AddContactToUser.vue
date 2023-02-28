@@ -39,13 +39,11 @@ import { IUser } from "src/types/user"
 import { defineComponent, PropType } from "vue"
 import { mapState, mapActions } from "pinia"
 import { useUserContactsStore } from "stores/UserContacts"
-import { useUserMessagesStore } from "stores/UserMessages"
 import { useUserStore } from "stores/User"
 import DialogModal from "components/modals/DialogModalTemplate.vue"
 import { Close } from "src/functions/modals"
 import { AddUserToContactDto } from "src/dtos/addUserToContact.dto"
 import UserMapWithContact from "src/mappers/UserMapWithContact"
-import Message from "src/services/messages/message.service"
 import Contacts from "src/services/users/contacts.service"
 
 export default defineComponent({
@@ -65,7 +63,6 @@ export default defineComponent({
   },
   methods:{
     ...mapActions(useUserContactsStore, ['addContactToUser']),
-    ...mapActions(useUserMessagesStore, ['setCorrespondence']),
 
    async addContactHandle(){
       if(this.contactName.trim() == ''){
@@ -85,10 +82,7 @@ export default defineComponent({
         if(res != undefined){
           const contact = UserMapWithContact(res.data, this.modalData,
                   this.contactName, group)
-          const correspondence = await Message.getCorrespondence(this.user!.id,
-                          this.modalData.id, res.data)
           this.addContactToUser(contact)
-          this.setCorrespondence(correspondence)
           this.$q.notify({message: `${contact.nickName} ${this.$t('UserSuccessAdd')}`})
         }
         Close()

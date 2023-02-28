@@ -8,11 +8,19 @@ interface updateContact {
   name: string
 }
 
+interface IUserContactStore {
+  mainGroupId: string,
+  contacts: Array<IContact>,
+  sortedContacts: Array<IContact>,
+  activeContact: null | string
+}
+
 export const useUserContactsStore = defineStore('userContacts', {
-  state: () => ({
+  state: () : IUserContactStore => ({
     mainGroupId: '',
     contacts: Array<IContact>(),
-    sortedContacts: Array<IContact>()
+    sortedContacts: Array<IContact>(),
+    activeContact: null
   }),
 
   getters:{

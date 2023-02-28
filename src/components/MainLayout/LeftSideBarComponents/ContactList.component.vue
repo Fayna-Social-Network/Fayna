@@ -77,8 +77,8 @@ export default defineComponent({
 
     contactClick(id: string){
       const message = useUserMessagesStore()
-      message.setCurrentCorrespondenceId(id)
-      this.$router.push({name: 'Correspondence'})
+      message.setCurrentChatId(id)
+      this.$router.push({name: 'chat'})
     }
   },
 

@@ -92,8 +92,6 @@ export default defineComponent({
     scrollTopFlag: false
   }),
   computed:{
-    ...mapState(useUserMessagesStore, ['getCorrespondenceByCountAndPage',
-          'currentCorrespondenceId']),
     ...mapState(useUserStore, ['user', 'getUserAvatar', 'getUserFullName']),
     ...mapState(useUserContactsStore, ['getContactAvatar' , 'getContactNameById', 'getContactById']),
     ...mapState(useMainStore, ['typingMessage', 'messageTrigger']),
