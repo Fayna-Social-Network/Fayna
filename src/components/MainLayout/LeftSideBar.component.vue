@@ -6,7 +6,7 @@
         <transition
           appear
           enter-active-class="animated fadeInLeft">
-          <component :is="componentList[mainMenuNumber as any]" />
+          <component :is="activeList" />
         </transition>
         </div>
     </div>
@@ -15,30 +15,52 @@
 
 
 <script lang="ts">
-import LeftSideHeader from './LeftSideBarComponents/LeftSideBarHeaderComponent.vue'
-
 import { defineComponent } from 'vue'
 import { mapState } from 'pinia'
 import { useMainStore } from 'stores/Main'
-import { defineAsyncComponent, markRaw } from "vue";
+
+import LeftSideHeader from './LeftSideBarComponents/LeftSideBarHeaderComponent.vue'
+
+import ContactList from './LeftSideBarComponents/ContactList.component.vue'
+import GroupsList from './LeftSideBarComponents/GroupsList.component.vue'
+import ChannelList from './LeftSideBarComponents/ChannelList.component.vue'
+import UserFilesList from './LeftSideBarComponents/FileList.component.vue'
+import NotificationList from './LeftSideBarComponents/NotificationList.component.vue'
+
 
 export default defineComponent({
-   data: () => ({
-     componentList: [
-       markRaw(defineAsyncComponent(() => import('./LeftSideBarComponents/ContactList.component.vue'))),
-       markRaw(defineAsyncComponent(() => import('./LeftSideBarComponents/GroupsList.component.vue'))),
-       markRaw(defineAsyncComponent(() => import('./LeftSideBarComponents/ChannelList.component.vue'))),
-       markRaw(defineAsyncComponent(() => import('./LeftSideBarComponents/FileList.component.vue'))),
-       markRaw(defineAsyncComponent(() => import('./LeftSideBarComponents/NotificationList.component.vue'))),
-     ]
-   }),
-    computed:{
-      ...mapState(useMainStore, ['mainMenuNumber'])
-    },
-
-    components:{
+  components:{
         LeftSideHeader,
-    }
+        ContactList,
+        GroupsList,
+        ChannelList,
+        UserFilesList,
+        NotificationList
+  },
+
+  computed:{
+      ...mapState(useMainStore, ['mainMenuNumber']),
+
+      activeList() {
+        switch (this.mainMenuNumber) {
+          case 0:
+            return ContactList
+          case 1:
+            return GroupsList
+          case 2:
+            return ChannelList
+          case 3:
+            return UserFilesList
+          case 4:
+            return NotificationList
+
+          default:
+            return ContactList
+        }
+      }
+  },
+
+
 })
 </script>
 

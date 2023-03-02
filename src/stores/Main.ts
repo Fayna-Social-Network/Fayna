@@ -1,7 +1,7 @@
-import { INotification } from './../types/notification';
+import { INotification } from '../modules/Notifications/types/notification';
 import { language } from './../types/types';
 import { defineStore } from "pinia";
-import { IReaction } from '../types/Reaction';
+import { IReaction } from '../modules/Message/types/Reaction';
 import { v4 as uuid } from "uuid";
 export interface MainLayout{
   leftNavBarActive: boolean

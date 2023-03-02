@@ -16,17 +16,17 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import UserDashboard from 'src/components/Messager/UserDashboard.component.vue';
-import Chat from 'src/components/Messager/Chat.vue';
-import SendMessage from 'src/components/Messager/SendMessage.component.vue';
+import UserDashboard from 'src/modules/Header/components/PageHeader.vue';
+import Chat from 'src/modules/Chat/components/Chat.vue';
+import SendMessage from 'src/modules/MessageSender/components/SendMessage.component.vue';
 
 export default defineComponent({
   components: {
     UserDashboard,
     Chat,
     SendMessage
-  } 
-   
+  }
+
 })
 </script>
 

@@ -28,7 +28,6 @@ module.exports = configure(function (/* ctx */) {
       'axios',
       'oidc',
       'signalr',
-      'modalsWindowsBoot'
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
@@ -74,7 +73,7 @@ module.exports = configure(function (/* ctx */) {
       // distDir
 
       extendViteConf (viteConf) {
-       
+
       },
       // viteVuePluginOptions: {},
 

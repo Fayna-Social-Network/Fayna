@@ -1,4 +1,4 @@
-import { IMessage } from "../types/message";
+import { IMessage } from "../modules/Chat/types/message";
 
 
 export class DeleteMessageDto{

@@ -17,10 +17,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import NotificationItem from "components/Notifications/NotificationItem.component.vue";
+import NotificationItem from "src/modules/Notifications/components/NotificationItem.component.vue";
 import { mapState } from "pinia";
-import { useUserNotificationsStore } from "stores/UserNotification";
-import { redirectToViewNotification, deleteNotification } from "src/functions/notification.functions";
+import { useUserNotificationsStore } from "src/modules/Notifications/store/UserNotification";
+import { redirectToViewNotification, deleteNotification } from "src/modules/Notifications/services/notification.functions";
 
 export default defineComponent({
   data:() => ({

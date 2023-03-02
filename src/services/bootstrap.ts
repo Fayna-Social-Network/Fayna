@@ -1,11 +1,11 @@
-import { useUserStore } from 'src/stores/User';
+import { useUserStore } from 'src/modules/Users/store/User';
 import { useMainStore } from 'src/stores/Main';
 import { api } from 'src/boot/axios'
-import { IUser } from 'src/types/user';
-import ContactGroupService from './users/contactGroups.service'
-import { ContactGroup } from 'src/types/ContactGroup';
-import { IContact } from 'src/types/contact';
-import { useUserContactsStore } from 'src/stores/UserContacts';
+import { IUser } from 'src/modules/Users/types/user';
+import ContactGroupService from '../modules/Users/services/contactGroups.service'
+import { ContactGroup } from 'src/modules/Users/types/ContactGroup';
+import { IContact } from 'src/modules/Users/types/contact';
+import { useUserContactsStore } from 'src/modules/Users/store/UserContacts';
 
 export default async function loadData(nickname: string){
 

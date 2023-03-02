@@ -10,8 +10,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions } from "pinia";
-import { useUserMessagesStore } from "stores/UserMessages";
 import logo from 'src/assets/image/logo.png'
 
 export default defineComponent ({
@@ -19,11 +17,11 @@ export default defineComponent ({
     logo
   }),
   methods:{
-    ...mapActions(useUserMessagesStore, ['setCurrentCorrespondenceId'])
+
   },
 
   mounted(){
-    this.setCurrentCorrespondenceId(null)
+
   }
 })
 

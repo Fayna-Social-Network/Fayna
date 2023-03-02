@@ -85,14 +85,13 @@
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core"
 import { mapState, mapActions } from "pinia"
-import { useUserStore } from "stores/User"
-import { useUserMessagesStore } from "stores/UserMessages"
-import { useUserNotificationsStore } from "stores/UserNotification"
+import { useUserStore } from "src/modules/Users/store/User"
+import { useUserNotificationsStore } from "src/modules/Notifications/store/UserNotification"
 import { useMainStore } from "stores/Main"
-import { Menu } from 'src/menus/leftNavBar.menu'
+import { Menu } from 'components/MainLayout/leftNavBar.menu'
 import logo from 'src/assets/image/logo-icon.png'
 import NotifyRedIcon from "components/UI/badges/NotifyRedIcon.vue"
-import { Open } from 'src/functions/modals'
+import { Open } from 'src/modules/modalWindows/services'
 
 export default defineComponent({
     data:()=>{
@@ -107,19 +106,12 @@ export default defineComponent({
 
    computed:{
        ...mapState(useUserStore, ['user', 'getUserAvatar']),
-       ...mapState(useUserMessagesStore, ['Correspondences']),
        ...mapState(useUserNotificationsStore, ['Notifications']),
 
         checkUnreadMessage(){
-          let unread = 0
-          this.Correspondences.forEach(corr => {
-            corr.messages.correspondences.forEach(mess =>{
-             if(!mess.isRead && mess.seller != this.user!.id){
-                unread++
-             }
-            })
-          })
-         return unread
+          let unread = 1
+
+          return unread
         },
 
         checkNotifications(){
